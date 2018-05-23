@@ -37,6 +37,13 @@ module.exports = env => {
     path: buildDir
   };
 
+  var resolve = {
+    alias: {
+      Components: path.resolve(__dirname, 'src/components'),
+      Scss: path.resolve(__dirname, 'assets/scss') 
+    }
+  };
+
   if (!env || !env.mode)
     env = {mode: 'development'};
 
@@ -45,6 +52,7 @@ module.exports = env => {
       entry: path.resolve(srcDir, 'index.js'),
       module: { rules },
       output,
+      resolve,
       mode: 'production',
       devtool: 'eval',
       plugins: [
@@ -59,6 +67,7 @@ module.exports = env => {
       entry: path.resolve(srcDir, 'index.js'),
       module: { rules },
       output,
+      resolve,
       mode: 'development',
       devtool: 'inline-source-map',
       devServer: {

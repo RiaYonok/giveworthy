@@ -12,6 +12,8 @@
   "rules": {
     "semi": "error",
     "brace-style": "warn",
-    "indent": ["warn", 2]
+    "indent": ["warn", 2],
+    "quotes": ["warn", "single"],
+    "jsx-quotes": ["warn", "double"]
   }
 }

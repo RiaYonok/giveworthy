@@ -1,4 +1,10 @@
 {
-  "presets": ["react", "stage-2"],
-  "plugins": ["transform-async-to-generator", "react-hot-loader/babel", "transform-decorators"]
+  "presets": ["es2015", "react", "stage-2"],
+  "plugins": [
+    "transform-async-to-generator", 
+    "react-hot-loader/babel", 
+    "transform-decorators", 
+    "dynamic-import-node",
+    ["babel-plugin-webpack-aliases", { "config": "./webpack.config.js" }]
+  ]
 }
