@@ -1,10 +1,10 @@
 {
-  "name": "react-boilerplate",
+  "name": "giveworthy",
   "version": "1.0.0",
-  "description": "React Boilerplate",
+  "description": "Giveworthy App",
   "main": "src/index.js",
   "author": "Austin Benesh (BitBuild)",
-  "license": "MIT",
+  "license": "Proprietary",
   "private": true,
   "scripts": {
     "test": "/usr/bin/node ./node_modules/mocha/bin/mocha --require ignore-styles --compilers js:babel-register \"test/**/*.test.js\"",
