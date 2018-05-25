@@ -1,3 +1,4 @@
+import 'jsdom-global/register';
 import React from 'react';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';

@@ -1,6 +1,17 @@
 import { createStore } from 'redux';
+import reducer from './reducers/index';
 
-const reducer = function(){};
-const store = createStore(reducer);
+export default function configureStore(initialState) {
+  const store = createStore(reducer, initialState);
 
-export default store;
+  /* istanbul ignore if */
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      window.localStorage.setItem('giveworthy_dev_key', store.getState());
+      const nextReducer = require('./reducers/index');
+      store.replaceReducer(nextReducer);
+    });
+  }
+
+  return store;
+}

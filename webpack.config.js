@@ -41,6 +41,7 @@ module.exports = env => {
     alias: {
       Components: path.resolve(__dirname, 'src/components'),
       Redux: path.resolve(__dirname, 'src/redux'),
+      Lib: path.resolve(__dirname, 'src/lib'),
       Scss: path.resolve(__dirname, 'assets/scss') 
     }
   };

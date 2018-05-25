@@ -14,7 +14,7 @@ module.exports = function(config) {
     mochaOptions: {
       files: [ 'test/**/*.test.js' ],
       ui: 'bdd',
-      require: [ 'ignore-styles' ]
+      require: [ 'ignore-styles', 'jsdom-global/register' ]
     }
   });
 };
