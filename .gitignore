@@ -2,3 +2,4 @@
 /build
 /reports
 /.stryker-tmp
+/.nyc_output
