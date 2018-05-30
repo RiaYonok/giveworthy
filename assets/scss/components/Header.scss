@@ -48,20 +48,22 @@
 
         > p {
           padding-top: 37px;
-          height: 40%;
+          height: 100%;
           width: 100%;
           border-bottom: 1px hidden;
-          transition: padding-top .2s;
+          transition: padding .3s;
+          transition: height .3s;
 
           @media only screen and (min-width: $medium-break) {
-            padding: 18px 15px 7px 15px;
+            padding: 45px 15px 0 15px;
           }
 
           &:hover {
             border-bottom: 1px solid $shadow-gray;
+            height: 70%;
 
             @media only screen and (min-width: $medium-break) {
-              padding-top: 50px;
+              padding: 50px 15px 5px 15px;
             }
           }
         }
