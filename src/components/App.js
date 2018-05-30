@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import { hot } from 'react-hot-loader';
 
 import 'Scss/components/App.scss';
-import configureStore from 'Redux/store';
+import configureStore, {history} from 'Redux/store';
 import Main from './Main';
 
 let initialState = {};
@@ -19,9 +19,9 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <Main />
-        </BrowserRouter>
+        </ConnectedRouter>
       </Provider>
     );
   }

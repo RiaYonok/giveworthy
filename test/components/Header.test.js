@@ -44,4 +44,16 @@ describe('<Header/>', () => {
 
     expect(wrapper.find('div.header nav.main-navbar div.standard-option p')).to.have.length(3);
   });
+
+  it('should render an avatar menu', () => {
+    const wrapper = shallow(<Header />);
+
+    expect(wrapper.find('div.header div.avatar-menu-container div.avatar-menu')).to.have.length(1);
+  });
+
+  it('should render an img in the avatar menu', () => {
+    const wrapper = shallow(<Header />);
+
+    expect(wrapper.find('div.header div.avatar-menu-container div.avatar-menu img')).to.have.length(1);
+  });
 });

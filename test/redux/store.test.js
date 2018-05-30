@@ -1,7 +1,7 @@
 import 'jsdom-global/register';
 import { expect } from 'chai';
 import * as redux from 'redux';
-import configureStore from 'Redux/store';
+import configureStore, {middleware} from 'Redux/store';
 import sinon from 'sinon';
 import reducer from 'Redux/reducers/index';
 
@@ -14,7 +14,7 @@ describe('redux store', () => {
     sinon.spy(redux, 'createStore');
 
     const store = configureStore({});
-    expect(redux.createStore.calledOnceWithExactly(reducer, {})).to.be.true;
+    expect(redux.createStore.calledOnceWithExactly(reducer, middleware)).to.be.true;
 
     redux.createStore.restore();
   });

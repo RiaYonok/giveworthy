@@ -86,6 +86,7 @@ module.exports = env => {
       devtool: 'inline-source-map',
       devServer: {
         contentBase: buildDir,
+        historyApiFallback: true,
         hot: true
       },
       plugins: [

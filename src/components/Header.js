@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import logo from 'Images/Test-Logo.svg';
+import logo from 'Images/giveworthy-logo.png';
+import avatar from 'Images/if_male_628288.svg';
  
 class Header extends PureComponent {
   render() {
@@ -11,15 +12,20 @@ class Header extends PureComponent {
           </div>
           <nav className="main-navbar">
             <div className="standard-option">
-            <p>About</p>
+              <p>Admin</p>
             </div>
             <div className="standard-option">
-              <p>Other</p>
+              <p>Dashboard</p>
             </div>
             <div className="standard-option">
-              <p>Login</p>
+              <p>About</p>
             </div>
           </nav>
+          <div className="avatar-menu-container">
+            <div className="avatar-menu">
+              <img src={avatar} />
+            </div>
+          </div>
         </div>
       </div>
     );

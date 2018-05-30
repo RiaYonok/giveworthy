@@ -10,7 +10,8 @@ import {
   FETCH_USERS_FAILURE,
   FETCH_USERS_SUCCESS,
   ADD_USERS,
-  CHANGE_USER_ROLE
+  CHANGE_USER_ROLE,
+  SET_CURRENT_USER
 } from 'Redux/actions/users';
 import { ADD_USER_AFFILIATED_ORG } from '../../../src/redux/actions/users';
 
@@ -205,6 +206,44 @@ describe('users reducer', () => {
       type: ADD_USER_AFFILIATED_ORG,
       id: '123',
       affiliatedOrgId: '234'
+    })).to.deep.equal(expectedResult);
+  });
+
+  it('should handle SET_CURRENT_USER', () => {
+    const newUser =  User.fromJS({
+      id: '123',
+      givenName: 'Austin', 
+      familyName: 'Benesh',
+      email: 'austin.d.benesh@gmail.com',
+      gender: 'male',
+      dob: 11111,
+      role: 2,
+      jwt: '234',
+      affiliatedOrgs: ['345', '456'],
+      createdAt: 22222,
+      updatedAt: 22222
+    });
+    
+    const preState = initialState.set('users', Map({
+      '123': newUser
+    }));
+
+    const expectedResult = preState.set('current', newUser);
+
+    expect(UsersReducer(preState, {
+      type: SET_CURRENT_USER,
+      id: '123'
+    })).to.deep.equal(expectedResult);
+  });
+
+  it('should handle SET_CURRENT_USER if user does not exist', () => {
+    const preState = initialState;
+
+    const expectedResult = preState;
+
+    expect(UsersReducer(preState, {
+      type: SET_CURRENT_USER,
+      id: '123'
     })).to.deep.equal(expectedResult);
   });
 });

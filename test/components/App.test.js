@@ -1,7 +1,7 @@
 import 'jsdom-global/register';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -17,10 +17,10 @@ describe('<App />', () => {
     expect(wrapper.find(Provider)).to.have.length(1);
   });
 
-  it('should have BrowserRouter', () => {
+  it('should have ConnectedRouter', () => {
     const wrapper = shallow(<App />);
 
-    expect(wrapper.find(BrowserRouter)).to.have.length(1);
+    expect(wrapper.find(ConnectedRouter)).to.have.length(1);
   });
 
   it('should render Main', () => {

@@ -8,6 +8,7 @@ import {
   CHANGE_USER_ROLE,
   ADD_USER_AFFILIATED_ORG
 } from 'Redux/actions/users';
+import { SET_CURRENT_USER } from '../actions/users';
 
 export const initialState = Map({
   users: Map(),
@@ -48,6 +49,9 @@ export default function(state = initialState, action) {
 
         return state;
       }
+
+    case SET_CURRENT_USER:
+      return state.set('current', state.getIn(['users', action.id], new User));
 
     default:
       return state;

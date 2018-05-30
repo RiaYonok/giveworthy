@@ -12,12 +12,14 @@ describe('User immutablejs record', () => {
   const myUser = new User;
   it('should have the right keys', () => {
     expect(myUser).to.have.keys([
+      'id',
       'givenName', 
       'familyName', 
       'email',
       'gender', 
       'dob', 
       'role',
+      'jwt',
       'affiliatedOrgs',
       'createdAt',
       'updatedAt'
@@ -48,6 +50,10 @@ describe('User immutablejs record', () => {
     expect(myUser.role).to.equal(0);
   });
 
+  it('should set jwt to null', () => {
+    expect(myUser.jwt).to.be.null;
+  });
+
   it('should set affiliatedOrgs to be empty List', () => {
     expect(Immutable.is(List(), myUser.affiliatedOrgs)).to.be.true;
   });
@@ -64,20 +70,24 @@ describe('User immutablejs record', () => {
 describe('User immutable record fromJS method', () => {
   it('should set basic strings correctly', () => {
     const _myUser = {
+      id: '123',
       givenName: 'Austin', 
       familyName: 'Benesh',
       email: 'austin.d.benesh@gmail.com',
-      gender: 'male'
+      gender: 'male',
+      jwt: 'abcd'
     };
 
     const myUser = User.fromJS(_myUser);
 
     expect(Immutable.is(myUser,
       new User({
+        id: '123',
         givenName: 'Austin', 
         familyName: 'Benesh',
         email: 'austin.d.benesh@gmail.com',
-        gender: 'male'
+        gender: 'male',
+        jwt: 'abcd'
       })
     )).to.be.true;
   });
