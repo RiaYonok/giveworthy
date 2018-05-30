@@ -1,5 +1,8 @@
-div {
-  .app {
-    font-weight: 600;
-  }
-}
+$medium-break: 640px;
+
+$light-gray: #f2f2f2;
+$medium-gray: #cccccc;
+$shadow-gray: #a6a6a6;
+
+@import './Main';
+@import './Header';

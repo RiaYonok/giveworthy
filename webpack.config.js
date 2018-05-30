@@ -30,6 +30,16 @@ module.exports = env => {
         "sass-loader"
       ],
     },
+    {
+      test: /.(svg|png|jp[e]?g)$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {}
+        }
+      ]
+    }
   ];
 
   var output = {
@@ -42,7 +52,9 @@ module.exports = env => {
       Components: path.resolve(__dirname, 'src/components'),
       Redux: path.resolve(__dirname, 'src/redux'),
       Lib: path.resolve(__dirname, 'src/lib'),
-      Scss: path.resolve(__dirname, 'assets/scss') 
+      Routes: path.resolve(__dirname, 'src/routes'),
+      Scss: path.resolve(__dirname, 'assets/scss'),
+      Images: path.resolve(__dirname, 'assets/images') 
     }
   };
 

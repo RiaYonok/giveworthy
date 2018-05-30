@@ -1,15 +1,31 @@
 import 'jsdom-global/register';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 
 import App from 'Components/App';
+import Main from 'Components/Main';
 
 describe('<App />', () => {
-  it('should render a div', () => {
-    const wrapper = shallow(<App/>);
-    expect(wrapper.find('div.app')).to.have.length(1);
+  it('should have Provider', () => {
+    const wrapper = shallow(<App />);
+
+    expect(wrapper.find(Provider)).to.have.length(1);
+  });
+
+  it('should have BrowserRouter', () => {
+    const wrapper = shallow(<App />);
+
+    expect(wrapper.find(BrowserRouter)).to.have.length(1);
+  });
+
+  it('should render Main', () => {
+    const wrapper = shallow(<App />);
+
+    expect(wrapper.find(Main)).to.have.length(1);
   });
 });

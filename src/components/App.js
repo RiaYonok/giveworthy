@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
 import 'Scss/components/App.scss';
 import configureStore from 'Redux/store';
+import Main from './Main';
 
 let initialState = {};
 /* istanbul ignore if */
@@ -17,7 +19,9 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="app">Hello, world!</div>
+        <BrowserRouter>
+          <Main />
+        </BrowserRouter>
       </Provider>
     );
   }
