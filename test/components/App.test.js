@@ -5,27 +5,16 @@ import { ConnectedRouter } from 'react-router-redux';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import snapshot from 'snap-shot-it';
+import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
 import App from 'Components/App';
 import Main from 'Components/Main';
 
 describe('<App />', () => {
-  it('should have Provider', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<App />);
-
-    expect(wrapper.find(Provider)).to.have.length(1);
-  });
-
-  it('should have ConnectedRouter', () => {
-    const wrapper = shallow(<App />);
-
-    expect(wrapper.find(ConnectedRouter)).to.have.length(1);
-  });
-
-  it('should render Main', () => {
-    const wrapper = shallow(<App />);
-
-    expect(wrapper.find(Main)).to.have.length(1);
+    snapshot(toJson(wrapper));
   });
 });

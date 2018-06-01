@@ -5,14 +5,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import snapshot from 'snap-shot-it';
+import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
 import Home from 'Components/Home';
 
 describe('<Home/>', () => {
-  it('should render a top-level div', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<Home />);
-
-    expect(wrapper.find('div.home-container')).to.have.length(1);
+    
+    snapshot(toJson(wrapper));
   });
 });

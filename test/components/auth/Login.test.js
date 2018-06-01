@@ -5,33 +5,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import snapshot from 'snap-shot-it';
+import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
 import Login from 'Components/auth/Login';
 
 describe('<Login />', () => {
-  it('should have a top-level div', () => {
-    const wrapper = shallow(<Login/>);
 
-    expect(wrapper.find('div.login-container')).to.have.length(1);
-  });
-
-  it('should have a logins section', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<Login />);
 
-    expect(wrapper.find('div.login-container div.login-buttons')).to.have.length(1);
-  });
-
-  it('should contain google login', () => {
-    const wrapper = shallow(<Login />);
-
-    expect(wrapper.find('div.login-container div.login-buttons .login-button.login-google div.login-icon')).to.have.length(1);
-  });
-
-  it('should render google login image in google login button', () => {
-    const wrapper = shallow(<Login />);
-
-    expect(wrapper.find('div.login-container div.login-buttons .login-button.login-google img')).to.have.length(1);
+    snapshot(toJson(wrapper));
   });
 
   it('should contain a onGoogleSignIn function', () => {
