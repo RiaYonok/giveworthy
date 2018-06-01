@@ -8,7 +8,9 @@ class Main extends Component {
     return (
       <div className="main-container">
         <Header />
-        <Routes />
+        <div className="content-container">
+          <Routes />
+        </div>
       </div>
     );
   }

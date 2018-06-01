@@ -2,3 +2,18 @@ body {
   margin: 0;
   font-family: $brand-font-primary;
 }
+
+.main-container {
+
+  @media screen and (min-width: $medium-break) {
+    margin: 0 40px 0 40px;
+  }
+
+  @media screen and (min-width: $large-break) {
+    margin: 0 100px 0 100px;
+  }
+}
+
+.content-container {
+  padding: 10px;
+}

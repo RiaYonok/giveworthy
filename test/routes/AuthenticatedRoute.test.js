@@ -30,11 +30,7 @@ describe('<AuthenticatedRoute />', () => {
       </MemoryRouter>
     );
 
-    expect(wrapper.find(Home).first().props()).to.deep.include({
-      path:'/',
-      exact: true,
-      strict: false,
-    })
+    expect(wrapper.find(Home)).to.have.length(1);
   });
 });
 

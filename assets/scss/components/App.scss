@@ -1,4 +1,5 @@
 $medium-break: 640px;
+$large-break: 1024px;
 
 $light-gray: #f2f2f2;
 $medium-gray: #cccccc;
@@ -10,7 +11,11 @@ $brand-color-ternary: #b9e982;
 $dark-yellow: #dfd7ba;
 $medium-yellow:#efe9d1;
 
+$google-blue: #337bf2;
+
 $brand-font-primary: snippet, sans-serif;
+$font-google: 'Roboto', sans-serif;
 
 @import './Main';
 @import './Header';
+@import './auth/Login';

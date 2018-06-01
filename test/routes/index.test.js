@@ -37,8 +37,7 @@ describe('<Routes />', () => {
 
     expect(wrapper.find(Route).first().props()).to.deep.equal({
       path:'/login',
-      component:Login,
-      exact: true
+      component:Login
     });
   });
 
@@ -47,7 +46,8 @@ describe('<Routes />', () => {
 
     expect(wrapper.find(AuthenticatedRoute).first().props()).to.deep.equal({
       path:'/',
-      component:Home
+      component:Home,
+      exact: true
     });
   });
 });
