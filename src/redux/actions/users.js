@@ -9,6 +9,7 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const CHANGE_USER_ROLE = 'CHANGE_USER_ROLE';
 export const ADD_USER_AFFILIATED_ORG = 'ADD_USER_AFFILIATED_ORG';
 export const REMOVE_USER_AFFILIATED_ORG = 'REMOVE_USER_AFFILIATED_ORG';
+export const LOGIN_USER = 'LOGIN_USER';
 
 export const addUsers = payload => ({
   type: ADD_USERS,
@@ -65,4 +66,10 @@ export const updateUserSuccess = () => ({
 export const updateUserFailure = error => ({
   type: UPDATE_USER_FAILURE,
   error
+});
+
+export const loginUser = (email, token) => ({
+  type: LOGIN_USER,
+  email,
+  token
 });

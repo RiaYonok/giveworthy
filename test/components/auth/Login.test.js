@@ -9,7 +9,7 @@ import snapshot from 'snap-shot-it';
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
-import Login from 'Components/auth/Login';
+import { Login } from 'Components/auth/Login';
 
 describe('<Login />', () => {
 

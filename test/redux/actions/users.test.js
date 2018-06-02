@@ -13,6 +13,7 @@ import {
   UPDATE_USER,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  LOGIN_USER,
 
   addUsers,
   setCurrentUser,
@@ -24,7 +25,8 @@ import {
   removeUserAffiliatedOrg,
   updateUser,
   updateUserSuccess,
-  updateUserFailure
+  updateUserFailure,
+  loginUser
 } from 'Redux/actions/users';
 
 describe('user actions', () => {
@@ -122,6 +124,17 @@ describe('user actions', () => {
     expect(updateUserFailure(error)).to.deep.equal({
       type: 'UPDATE_USER_FAILURE',
       error
+    });
+  });
+
+  it('should do loginUser correctly', () => {
+    const email = 'austin@bitbuild.com';
+    const token = '123';
+
+    expect(loginUser(email, token)).to.deep.equal({
+      type: 'LOGIN_USER',
+      email,
+      token
     });
   });
 });

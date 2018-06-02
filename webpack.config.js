@@ -54,7 +54,8 @@ module.exports = env => {
       Lib: path.resolve(__dirname, 'src/lib'),
       Routes: path.resolve(__dirname, 'src/routes'),
       Scss: path.resolve(__dirname, 'assets/scss'),
-      Images: path.resolve(__dirname, 'assets/images') 
+      Images: path.resolve(__dirname, 'assets/images'),
+      Api: path.resolve(__dirname, 'src/api') 
     }
   };
 

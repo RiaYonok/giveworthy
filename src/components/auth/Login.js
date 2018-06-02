@@ -1,11 +1,25 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import googleLogo from 'Images/g-logo.png';
 import { GoogleLogin } from 'react-google-login';
+import { loginUser } from 'Redux/actions/users';
 
-class Login extends PureComponent {
+export class Login extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.onGoogleSignIn = this.onGoogleSignIn.bind(this);
+  }
+
   onGoogleSignIn(googleUser) {
+    const { loginUser } = this.props;
     console.log(googleUser.getBasicProfile());
     console.log(googleUser.getAuthResponse());
+
+    const profile = googleUser.getBasicProfile();
+    const authResponse = googleUser.getAuthResponse();
+
+    loginUser(profile.U3, authResponse.id_token);
   }
 
   render() {
@@ -28,4 +42,9 @@ class Login extends PureComponent {
   }
 }
 
-export default Login;
+const mapStateToProps = () => ({});
+
+
+export default connect(mapStateToProps, {
+  loginUser 
+})(Login);

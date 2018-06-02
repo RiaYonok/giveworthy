@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import * as redux from 'redux';
 import configureStore, {middleware} from 'Redux/store';
 import sinon from 'sinon';
+import * as reactRouterRedux from 'react-router-redux';
+
 import reducer from 'Redux/reducers/index';
 
 describe('redux store', () => {
@@ -15,8 +17,6 @@ describe('redux store', () => {
 
     const store = configureStore({});
     expect(redux.createStore.calledOnceWithExactly(reducer, middleware)).to.be.true;
-
-    redux.createStore.restore();
   });
 
   const store = configureStore();
@@ -37,5 +37,13 @@ describe('redux store', () => {
   });
 
   it('should call replaceReducer if module.hot', () => {
+  });
+
+  afterEach(() => {
+    if (reactRouterRedux.routerMiddleware.restore)
+      reactRouterRedux.routerMiddleware.restore();
+
+    if (redux.createStore.restore)
+      redux.createStore.restore();
   });
 });
