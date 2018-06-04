@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 
-import Home from 'Components/Home';
+import Dashboard from 'Components/Dashboard';
 import Login from 'Components/auth/Login';
 import AuthenticatedRoute from 'Routes/AuthenticatedRoute';
 
@@ -9,8 +9,11 @@ class Routes extends Component {
   render() {
     return (
       <div>
-        <Route path='/login' component={Login} />
-        <AuthenticatedRoute exact path='/' component={Home} />
+        <Route exact path='/login' component={Login} />
+        <Switch>
+          <Redirect from='/' to='/dashboard' exact />
+          <AuthenticatedRoute exact path='/dashboard' component={Dashboard} />
+        </Switch>
       </div>
     );
   }

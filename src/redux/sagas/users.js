@@ -5,7 +5,7 @@ import { Map } from 'immutable';
 import { get } from 'lodash';
 
 import { login } from 'Api/index';
-import User from 'Redux/records/User';
+import User from 'Models/User';
 import {
   LOGIN_USER,
 
@@ -14,13 +14,13 @@ import {
 } from '../actions/users';
 
 import {
-  setError
+  setError,
+  dismissError
 } from '../actions/errors';
 
 import getLocation from '../selectors/getLocation';
 
 function* sagaLogin(action) {
-  console.log('uihuihgoiuhiuoghiuohguiohg')
   try {
     const user = yield call(login, action.email, action.token);
 
@@ -39,7 +39,9 @@ function* sagaLogin(action) {
     if (get(location, ['state', 'from', 'pathname']))
       yield put(push(get(location, ['state', 'from', 'pathname'])));
     else
-      yield put(push('/'));
+      yield put(push('/dashboard'));
+
+    yield put(dismissError());
 
   } catch (err) {
     console.error(err);
@@ -50,7 +52,6 @@ function* sagaLogin(action) {
 }
 
 export default function* usersSaga() {
-  console.log('made it here');
   yield takeLatest(LOGIN_USER, sagaLogin);
 }
 

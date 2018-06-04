@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-class Home extends PureComponent {
+class Dashboard extends PureComponent {
   render() {
     return (
       <div className="home-container">Home</div>
@@ -8,4 +8,4 @@ class Home extends PureComponent {
   }
 }
 
-export default Home;
+export default Dashboard;

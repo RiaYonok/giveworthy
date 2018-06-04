@@ -1,6 +1,8 @@
 import { List, Record, fromJS } from 'immutable';
 import moment from 'moment';
 
+import DonationProfile from './DonationProfile';
+
 const shape = {
   id: null,
   givenName: null,
@@ -11,8 +13,10 @@ const shape = {
   role: 0,
   jwt: null,
   affiliatedOrgs: List(),
+  donationProfile: new DonationProfile,
+  imageURL: null,
   createdAt: null,
-  updatedAt: null
+  updatedAt: null,
 };
 
 class UserRecord extends Record(shape) {
@@ -27,6 +31,7 @@ class UserRecord extends Record(shape) {
       role: pojo.role ? +pojo.role : 0,
       jwt: pojo.jwt || null,
       affiliatedOrgs: pojo.affiliatedOrgs ? fromJS(pojo.affiliatedOrgs) : List(),
+      donationProfile: pojo.donationProfile || new DonationProfile,
       createdAt: pojo.createdAt ? moment.unix(+pojo.createdAt) : null,
       updatedAt: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null
     });

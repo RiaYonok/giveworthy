@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable';
-import User from 'Redux/records/User';
+import User from 'Models/User';
 import {
   FETCH_USERS,
   FETCH_USERS_FAILURE,

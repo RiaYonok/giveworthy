@@ -13,12 +13,11 @@ export class Login extends PureComponent {
 
   onGoogleSignIn(googleUser) {
     const { loginUser } = this.props;
-    console.log(googleUser.getBasicProfile());
-    console.log(googleUser.getAuthResponse());
 
     const profile = googleUser.getBasicProfile();
     const authResponse = googleUser.getAuthResponse();
 
+    console.log(googleUser);
     loginUser(profile.U3, authResponse.id_token);
   }
 

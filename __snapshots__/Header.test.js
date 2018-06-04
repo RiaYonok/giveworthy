@@ -38,26 +38,7 @@ exports['<Header/> should match snapshot 1'] = {
               "props": {
                 "className": "main-navbar",
                 "children": [
-                  {
-                    "type": "div",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "className": "standard-option",
-                      "children": {
-                        "type": "p",
-                        "key": null,
-                        "ref": null,
-                        "props": {
-                          "children": "Admin"
-                        },
-                        "_owner": null,
-                        "_store": {}
-                      }
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  },
+                  false,
                   {
                     "type": "div",
                     "key": null,
@@ -89,7 +70,27 @@ exports['<Header/> should match snapshot 1'] = {
                         "key": null,
                         "ref": null,
                         "props": {
-                          "children": "About"
+                          "children": "Discover"
+                        },
+                        "_owner": null,
+                        "_store": {}
+                      }
+                    },
+                    "_owner": null,
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "key": null,
+                    "ref": null,
+                    "props": {
+                      "className": "standard-option",
+                      "children": {
+                        "type": "p",
+                        "key": null,
+                        "ref": null,
+                        "props": {
+                          "children": "FAQs"
                         },
                         "_owner": null,
                         "_store": {}
@@ -174,26 +175,7 @@ exports['<Header/> should match snapshot 1'] = {
             "props": {
               "className": "main-navbar",
               "children": [
-                {
-                  "type": "div",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "className": "standard-option",
-                    "children": {
-                      "type": "p",
-                      "key": null,
-                      "ref": null,
-                      "props": {
-                        "children": "Admin"
-                      },
-                      "_owner": null,
-                      "_store": {}
-                    }
-                  },
-                  "_owner": null,
-                  "_store": {}
-                },
+                false,
                 {
                   "type": "div",
                   "key": null,
@@ -225,7 +207,27 @@ exports['<Header/> should match snapshot 1'] = {
                       "key": null,
                       "ref": null,
                       "props": {
-                        "children": "About"
+                        "children": "Discover"
+                      },
+                      "_owner": null,
+                      "_store": {}
+                    }
+                  },
+                  "_owner": null,
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "key": null,
+                  "ref": null,
+                  "props": {
+                    "className": "standard-option",
+                    "children": {
+                      "type": "p",
+                      "key": null,
+                      "ref": null,
+                      "props": {
+                        "children": "FAQs"
                       },
                       "_owner": null,
                       "_store": {}
@@ -309,26 +311,7 @@ exports['<Header/> should match snapshot 1'] = {
           "props": {
             "className": "main-navbar",
             "children": [
-              {
-                "type": "div",
-                "key": null,
-                "ref": null,
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "Admin"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "_owner": null,
-                "_store": {}
-              },
+              false,
               {
                 "type": "div",
                 "key": null,
@@ -360,7 +343,27 @@ exports['<Header/> should match snapshot 1'] = {
                     "key": null,
                     "ref": null,
                     "props": {
-                      "children": "About"
+                      "children": "Discover"
+                    },
+                    "_owner": null,
+                    "_store": {}
+                  }
+                },
+                "_owner": null,
+                "_store": {}
+              },
+              {
+                "type": "div",
+                "key": null,
+                "ref": null,
+                "props": {
+                  "className": "standard-option",
+                  "children": {
+                    "type": "p",
+                    "key": null,
+                    "ref": null,
+                    "props": {
+                      "children": "FAQs"
                     },
                     "_owner": null,
                     "_store": {}
@@ -374,35 +377,7 @@ exports['<Header/> should match snapshot 1'] = {
           "ref": null,
           "instance": null,
           "rendered": [
-            {
-              "nodeType": "host",
-              "type": "div",
-              "props": {
-                "className": "standard-option",
-                "children": {
-                  "type": "p",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "children": "Admin"
-                  },
-                  "_owner": null,
-                  "_store": {}
-                }
-              },
-              "ref": null,
-              "instance": null,
-              "rendered": {
-                "nodeType": "host",
-                "type": "p",
-                "props": {
-                  "children": "Admin"
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": "Admin"
-              }
-            },
+            false,
             {
               "nodeType": "host",
               "type": "div",
@@ -442,7 +417,7 @@ exports['<Header/> should match snapshot 1'] = {
                   "key": null,
                   "ref": null,
                   "props": {
-                    "children": "About"
+                    "children": "Discover"
                   },
                   "_owner": null,
                   "_store": {}
@@ -454,11 +429,40 @@ exports['<Header/> should match snapshot 1'] = {
                 "nodeType": "host",
                 "type": "p",
                 "props": {
-                  "children": "About"
+                  "children": "Discover"
                 },
                 "ref": null,
                 "instance": null,
-                "rendered": "About"
+                "rendered": "Discover"
+              }
+            },
+            {
+              "nodeType": "host",
+              "type": "div",
+              "props": {
+                "className": "standard-option",
+                "children": {
+                  "type": "p",
+                  "key": null,
+                  "ref": null,
+                  "props": {
+                    "children": "FAQs"
+                  },
+                  "_owner": null,
+                  "_store": {}
+                }
+              },
+              "ref": null,
+              "instance": null,
+              "rendered": {
+                "nodeType": "host",
+                "type": "p",
+                "props": {
+                  "children": "FAQs"
+                },
+                "ref": null,
+                "instance": null,
+                "rendered": "FAQs"
               }
             }
           ]
@@ -563,26 +567,7 @@ exports['<Header/> should match snapshot 1'] = {
               "props": {
                 "className": "main-navbar",
                 "children": [
-                  {
-                    "type": "div",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "className": "standard-option",
-                      "children": {
-                        "type": "p",
-                        "key": null,
-                        "ref": null,
-                        "props": {
-                          "children": "Admin"
-                        },
-                        "_owner": null,
-                        "_store": {}
-                      }
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  },
+                  false,
                   {
                     "type": "div",
                     "key": null,
@@ -614,7 +599,27 @@ exports['<Header/> should match snapshot 1'] = {
                         "key": null,
                         "ref": null,
                         "props": {
-                          "children": "About"
+                          "children": "Discover"
+                        },
+                        "_owner": null,
+                        "_store": {}
+                      }
+                    },
+                    "_owner": null,
+                    "_store": {}
+                  },
+                  {
+                    "type": "div",
+                    "key": null,
+                    "ref": null,
+                    "props": {
+                      "className": "standard-option",
+                      "children": {
+                        "type": "p",
+                        "key": null,
+                        "ref": null,
+                        "props": {
+                          "children": "FAQs"
                         },
                         "_owner": null,
                         "_store": {}
@@ -698,26 +703,7 @@ exports['<Header/> should match snapshot 1'] = {
             "props": {
               "className": "main-navbar",
               "children": [
-                {
-                  "type": "div",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "className": "standard-option",
-                    "children": {
-                      "type": "p",
-                      "key": null,
-                      "ref": null,
-                      "props": {
-                        "children": "Admin"
-                      },
-                      "_owner": null,
-                      "_store": {}
-                    }
-                  },
-                  "_owner": null,
-                  "_store": {}
-                },
+                false,
                 {
                   "type": "div",
                   "key": null,
@@ -749,7 +735,27 @@ exports['<Header/> should match snapshot 1'] = {
                       "key": null,
                       "ref": null,
                       "props": {
-                        "children": "About"
+                        "children": "Discover"
+                      },
+                      "_owner": null,
+                      "_store": {}
+                    }
+                  },
+                  "_owner": null,
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "key": null,
+                  "ref": null,
+                  "props": {
+                    "className": "standard-option",
+                    "children": {
+                      "type": "p",
+                      "key": null,
+                      "ref": null,
+                      "props": {
+                        "children": "FAQs"
                       },
                       "_owner": null,
                       "_store": {}
@@ -763,35 +769,7 @@ exports['<Header/> should match snapshot 1'] = {
             "ref": null,
             "instance": null,
             "rendered": [
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "Admin"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "Admin"
-                  },
-                  "ref": null,
-                  "instance": null,
-                  "rendered": "Admin"
-                }
-              },
+              false,
               {
                 "nodeType": "host",
                 "type": "div",
@@ -831,7 +809,7 @@ exports['<Header/> should match snapshot 1'] = {
                     "key": null,
                     "ref": null,
                     "props": {
-                      "children": "About"
+                      "children": "Discover"
                     },
                     "_owner": null,
                     "_store": {}
@@ -843,11 +821,40 @@ exports['<Header/> should match snapshot 1'] = {
                   "nodeType": "host",
                   "type": "p",
                   "props": {
-                    "children": "About"
+                    "children": "Discover"
                   },
                   "ref": null,
                   "instance": null,
-                  "rendered": "About"
+                  "rendered": "Discover"
+                }
+              },
+              {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "standard-option",
+                  "children": {
+                    "type": "p",
+                    "key": null,
+                    "ref": null,
+                    "props": {
+                      "children": "FAQs"
+                    },
+                    "_owner": null,
+                    "_store": {}
+                  }
+                },
+                "ref": null,
+                "instance": null,
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "p",
+                  "props": {
+                    "children": "FAQs"
+                  },
+                  "ref": null,
+                  "instance": null,
+                  "rendered": "FAQs"
                 }
               }
             ]
@@ -978,26 +985,7 @@ exports['<Header/> should match snapshot 1'] = {
             "props": {
               "className": "main-navbar",
               "children": [
-                {
-                  "type": "div",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "className": "standard-option",
-                    "children": {
-                      "type": "p",
-                      "key": null,
-                      "ref": null,
-                      "props": {
-                        "children": "Admin"
-                      },
-                      "_owner": null,
-                      "_store": {}
-                    }
-                  },
-                  "_owner": null,
-                  "_store": {}
-                },
+                false,
                 {
                   "type": "div",
                   "key": null,
@@ -1029,7 +1017,27 @@ exports['<Header/> should match snapshot 1'] = {
                       "key": null,
                       "ref": null,
                       "props": {
-                        "children": "About"
+                        "children": "Discover"
+                      },
+                      "_owner": null,
+                      "_store": {}
+                    }
+                  },
+                  "_owner": null,
+                  "_store": {}
+                },
+                {
+                  "type": "div",
+                  "key": null,
+                  "ref": null,
+                  "props": {
+                    "className": "standard-option",
+                    "children": {
+                      "type": "p",
+                      "key": null,
+                      "ref": null,
+                      "props": {
+                        "children": "FAQs"
                       },
                       "_owner": null,
                       "_store": {}
@@ -1043,35 +1051,7 @@ exports['<Header/> should match snapshot 1'] = {
             "ref": null,
             "instance": null,
             "rendered": [
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "Admin"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "Admin"
-                  },
-                  "ref": null,
-                  "instance": null,
-                  "rendered": "Admin"
-                }
-              },
+              false,
               {
                 "nodeType": "host",
                 "type": "div",
@@ -1111,7 +1091,7 @@ exports['<Header/> should match snapshot 1'] = {
                     "key": null,
                     "ref": null,
                     "props": {
-                      "children": "About"
+                      "children": "Discover"
                     },
                     "_owner": null,
                     "_store": {}
@@ -1123,22 +1103,14 @@ exports['<Header/> should match snapshot 1'] = {
                   "nodeType": "host",
                   "type": "p",
                   "props": {
-                    "children": "About"
+                    "children": "Discover"
                   },
                   "ref": null,
                   "instance": null,
-                  "rendered": "About"
+                  "rendered": "Discover"
                 }
-              }
-            ]
-          },
-          "type": "nav",
-          "props": {
-            "className": "main-navbar"
-          },
-          "children": [
-            {
-              "node": {
+              },
+              {
                 "nodeType": "host",
                 "type": "div",
                 "props": {
@@ -1148,7 +1120,7 @@ exports['<Header/> should match snapshot 1'] = {
                     "key": null,
                     "ref": null,
                     "props": {
-                      "children": "Admin"
+                      "children": "FAQs"
                     },
                     "_owner": null,
                     "_store": {}
@@ -1160,37 +1132,20 @@ exports['<Header/> should match snapshot 1'] = {
                   "nodeType": "host",
                   "type": "p",
                   "props": {
-                    "children": "Admin"
+                    "children": "FAQs"
                   },
                   "ref": null,
                   "instance": null,
-                  "rendered": "Admin"
+                  "rendered": "FAQs"
                 }
-              },
-              "type": "div",
-              "props": {
-                "className": "standard-option"
-              },
-              "children": [
-                {
-                  "node": {
-                    "nodeType": "host",
-                    "type": "p",
-                    "props": {
-                      "children": "Admin"
-                    },
-                    "ref": null,
-                    "instance": null,
-                    "rendered": "Admin"
-                  },
-                  "type": "p",
-                  "props": {},
-                  "children": [
-                    "Admin"
-                  ]
-                }
-              ]
-            },
+              }
+            ]
+          },
+          "type": "nav",
+          "props": {
+            "className": "main-navbar"
+          },
+          "children": [
             {
               "node": {
                 "nodeType": "host",
@@ -1256,7 +1211,7 @@ exports['<Header/> should match snapshot 1'] = {
                     "key": null,
                     "ref": null,
                     "props": {
-                      "children": "About"
+                      "children": "Discover"
                     },
                     "_owner": null,
                     "_store": {}
@@ -1268,11 +1223,11 @@ exports['<Header/> should match snapshot 1'] = {
                   "nodeType": "host",
                   "type": "p",
                   "props": {
-                    "children": "About"
+                    "children": "Discover"
                   },
                   "ref": null,
                   "instance": null,
-                  "rendered": "About"
+                  "rendered": "Discover"
                 }
               },
               "type": "div",
@@ -1285,16 +1240,70 @@ exports['<Header/> should match snapshot 1'] = {
                     "nodeType": "host",
                     "type": "p",
                     "props": {
-                      "children": "About"
+                      "children": "Discover"
                     },
                     "ref": null,
                     "instance": null,
-                    "rendered": "About"
+                    "rendered": "Discover"
                   },
                   "type": "p",
                   "props": {},
                   "children": [
-                    "About"
+                    "Discover"
+                  ]
+                }
+              ]
+            },
+            {
+              "node": {
+                "nodeType": "host",
+                "type": "div",
+                "props": {
+                  "className": "standard-option",
+                  "children": {
+                    "type": "p",
+                    "key": null,
+                    "ref": null,
+                    "props": {
+                      "children": "FAQs"
+                    },
+                    "_owner": null,
+                    "_store": {}
+                  }
+                },
+                "ref": null,
+                "instance": null,
+                "rendered": {
+                  "nodeType": "host",
+                  "type": "p",
+                  "props": {
+                    "children": "FAQs"
+                  },
+                  "ref": null,
+                  "instance": null,
+                  "rendered": "FAQs"
+                }
+              },
+              "type": "div",
+              "props": {
+                "className": "standard-option"
+              },
+              "children": [
+                {
+                  "node": {
+                    "nodeType": "host",
+                    "type": "p",
+                    "props": {
+                      "children": "FAQs"
+                    },
+                    "ref": null,
+                    "instance": null,
+                    "rendered": "FAQs"
+                  },
+                  "type": "p",
+                  "props": {},
+                  "children": [
+                    "FAQs"
                   ]
                 }
               ]

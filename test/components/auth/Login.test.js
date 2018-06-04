@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import snapshot from 'snap-shot-it';
+import sinon from 'sinon';
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -34,5 +35,19 @@ describe('<Login />', () => {
       onSuccess: func,
       onFailure: func
     });
+  });
+
+  it('should issue dispatch(loginUser) on onGoogleSignIn', () => {
+    const loginUser = sinon.spy();
+    const wrapper = shallow(<Login loginUser={loginUser} />);
+
+    const googleUser = {
+      getBasicProfile: () => ({U3: '123'}),
+      getAuthResponse: () => ({id_token: '234'})
+    };
+
+    wrapper.instance().onGoogleSignIn(googleUser);
+
+    expect( loginUser.calledOnceWith('123', '234') ).to.be.true;
   });
 });

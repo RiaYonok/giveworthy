@@ -4,7 +4,8 @@ import Immutable, { List } from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import moment from 'moment';
 
-import User from 'Redux/records/User';
+import User from 'Models/User';
+import DonationProfile from 'Models/DonationProfile';
 
 use(chaiImmutable);
 
@@ -22,7 +23,9 @@ describe('User immutablejs record', () => {
       'jwt',
       'affiliatedOrgs',
       'createdAt',
-      'updatedAt'
+      'updatedAt',
+      'donationProfile',
+      'imageURL'
     ]);
   });
 
@@ -64,6 +67,14 @@ describe('User immutablejs record', () => {
 
   it('should set updatedAt to be null', () => {
     expect(myUser.updatedAt).to.be.null;
+  });
+
+  it('should set donationProfile to be new DonationProfile', () => {
+    expect(myUser.donationProfile).to.deep.equal(new DonationProfile);
+  });
+
+  it('should set imageURL to null', () => {
+    expect(myUser.imageURL).to.be.null;
   });
 });
 
@@ -189,6 +200,14 @@ describe('User immutable record fromJS method', () => {
       })
     )).to.be.true;
   });
+
+  it('should set donationProfile correctly', () => {
+    const myUser = User.fromJS({
+      donationProfile: new DonationProfile
+    });
+
+    expect(myUser).to.deep.equal(new User({
+      donationProfile: new DonationProfile
+    }));
+  });
 });
-
-

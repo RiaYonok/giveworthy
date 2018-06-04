@@ -10,13 +10,13 @@ import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 
 import {AuthenticatedRoute, mapStateToProps} from 'Routes/AuthenticatedRoute';
-import Home from 'Components/Home';
+import Dashboard from 'Components/Dashboard';
 
 describe('<AuthenticatedRoute />', () => {
   it('should return redirect if isAuthenticated is false', () => {
     const wrapper = mount(
       <MemoryRouter>
-        <AuthenticatedRoute path='/' exact={true} strict={false} component={Home} isAuthenticated={false} />
+        <AuthenticatedRoute path='/' exact={true} strict={false} component={Dashboard} isAuthenticated={false} />
       </MemoryRouter>
     );
 
@@ -26,11 +26,11 @@ describe('<AuthenticatedRoute />', () => {
   it('should return component if isAuthenticated is true', () => {
     const wrapper = mount(
       <MemoryRouter>
-        <AuthenticatedRoute path='/' exact={true} strict={false} component={Home} isAuthenticated={true} />
+        <AuthenticatedRoute path='/' exact={true} strict={false} component={Dashboard} isAuthenticated={true} />
       </MemoryRouter>
     );
 
-    expect(wrapper.find(Home)).to.have.length(1);
+    expect(wrapper.find(Dashboard)).to.have.length(1);
   });
 });
 

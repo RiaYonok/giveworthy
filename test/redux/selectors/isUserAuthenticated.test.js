@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Map } from 'immutable';
-import User from 'Redux/records/User';
+import User from 'Models/User';
 
 import isUserAuthenticated from 'Redux/selectors/isUserAuthenticated';
 

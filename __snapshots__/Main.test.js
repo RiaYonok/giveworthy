@@ -79,7 +79,7 @@ exports['<Main /> should match snapshot 1'] = {
         "instance": null,
         "rendered": null
       },
-      "type": "Header",
+      "type": "Connect(Header)",
       "props": {},
       "children": null
     },

@@ -9,11 +9,11 @@ import snapshot from 'snap-shot-it';
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
-import Home from 'Components/Home';
+import Dashboard from 'Components/Dashboard';
 
-describe('<Home/>', () => {
+describe('<Dashboard/>', () => {
   it('should match snapshot', () => {
-    const wrapper = shallow(<Home />);
+    const wrapper = shallow(<Dashboard />);
     
     snapshot(toJson(wrapper));
   });

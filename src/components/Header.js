@@ -1,9 +1,14 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import logo from 'Images/giveworthy-logo.png';
 import avatar from 'Images/if_male_628288.svg';
+import getCurrentUser from 'Redux/selectors/getCurrentUser';
  
-class Header extends PureComponent {
+export class Header extends PureComponent {
   render() {
+    const { currentUser } = this.props;
+
     return (
       <div className="header-container">
         <div className="header">
@@ -11,14 +16,19 @@ class Header extends PureComponent {
             <img src={logo} />
           </div>
           <nav className="main-navbar">
-            <div className="standard-option">
+          {currentUser.role > 0 &&
+            <div className="standard-option admin">
               <p>Admin</p>
             </div>
+          }
             <div className="standard-option">
               <p>Dashboard</p>
             </div>
             <div className="standard-option">
-              <p>About</p>
+              <p>Discover</p>
+            </div>
+            <div className="standard-option">
+              <p>FAQs</p>
             </div>
           </nav>
           <div className="avatar-menu-container">
@@ -32,4 +42,11 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+export const mapStateToProps = createSelector(
+  getCurrentUser,
+  (currentUser) => ({
+    currentUser
+  })
+);
+
+export default connect(mapStateToProps)(Header);

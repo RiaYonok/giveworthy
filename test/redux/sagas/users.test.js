@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import usersSaga, { sagaLogin } from 'Redux/sagas/users';
 import { login } from 'Api/index';
-import User from 'Redux/records/User';
+import User from 'Models/User';
 import {
   LOGIN_USER,
 
@@ -15,7 +15,8 @@ import {
 } from 'Redux/actions/users';
 
 import {
-  setError
+  setError,
+  dismissError
 } from 'Redux/actions/errors';
 
 import getLocation from 'Redux/selectors/getLocation';
@@ -145,7 +146,7 @@ describe('sagaLogin', () => {
     saga.next().value;
     saga.next().value;
 
-    expect(saga.next({}).value).to.deep.equal(put(push('/')));
+    expect(saga.next({}).value).to.deep.equal(put(push('/dashboard')));
   });
 
   it('should yield put(push) with correct params (prev state) is state exists', () => {
@@ -183,6 +184,34 @@ describe('sagaLogin', () => {
     expect(saga.next(location).value).to.deep.equal(put(push('/home')));
   });
 
+  it('should yield put(dismissError)', () => {
+    const saga = sagaLogin(action);
+
+    const id = "449f555d-372a-46b5-9e35-db9c3dbe6f0c";
+
+    const _user = {
+      id,
+      gender: "male",
+      affiliatedOrgs: [],
+      jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5kZXIiOiJtYWxlIiwiYWZmaWxpYXRlZE9yZ3MiOltdLCJnaXZlbk5hbWUiOiJBdXN0aW4iLCJ1cGRhdGVkQXQiOjE1Mjc3ODg3NzAsImZhbWlseU5hbWUiOiJCZW5lc2giLCJyb2xlIjoyLCJkb2IiOjYyNDQ5OTIwMCwiaWQiOiI0NDlmNTU1ZC0zNzJhLTQ2YjUtOWUzNS1kYjljM2RiZTZmMGMiLCJjcmVhdGVkQXQiOjE1Mjc3ODg3NzAsImVtYWlsIjoiYXVzdGluLmQuYmVuZXNoQGdtYWlsLmNvbSIsImlhdCI6MTUyNzg3MjU4Mn0.VFg3kUMKvrCjTYZEdE-wG-EtngFmIIpfbaLodwkIwFY",
+      givenName: "Austin",
+      updatedAt: 1527788770,
+      familyName: "Benesh",
+      role: 2,
+      dob: 624499200,
+      createdAt: 1527788770,
+      email: "austin.d.benesh@gmail.com"
+    };
+
+    saga.next().value;
+    saga.next(_user);
+    saga.next().value;
+    saga.next().value;
+    saga.next().value;
+
+    expect(saga.next().value).to.deep.equal(put(dismissError()));
+  });
+  
   it('should yield effect put(setError) when error is thrown', () => {
     const saga = sagaLogin(action);
 

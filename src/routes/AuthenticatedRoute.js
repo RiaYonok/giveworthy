@@ -28,5 +28,4 @@ export const mapStateToProps = createSelector(
   (isAuthenticated) => ({isAuthenticated})
 );
 
-//export default connect(mapStateToProps)(AuthenticatedRoute);
-export default AuthenticatedRoute;
+export default connect(mapStateToProps)(AuthenticatedRoute);

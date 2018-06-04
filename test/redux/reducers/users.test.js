@@ -4,7 +4,7 @@ import Immutable, {Map, List} from 'immutable';
 import sinon from 'sinon';
 import chaiImmutable from 'chai-immutable';
 import UsersReducer, {initialState} from 'Redux/reducers/users';
-import User from 'Redux/records/User';
+import User from 'Models/User';
 import {
   FETCH_USERS,
   FETCH_USERS_FAILURE,
