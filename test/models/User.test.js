@@ -86,7 +86,8 @@ describe('User immutable record fromJS method', () => {
       familyName: 'Benesh',
       email: 'austin.d.benesh@gmail.com',
       gender: 'male',
-      jwt: 'abcd'
+      jwt: 'abcd',
+      imageURL: 'vava'
     };
 
     const myUser = User.fromJS(_myUser);
@@ -98,7 +99,8 @@ describe('User immutable record fromJS method', () => {
         familyName: 'Benesh',
         email: 'austin.d.benesh@gmail.com',
         gender: 'male',
-        jwt: 'abcd'
+        jwt: 'abcd',
+        imageURL: 'vava'
       })
     )).to.be.true;
   });

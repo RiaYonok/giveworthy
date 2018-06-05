@@ -19,9 +19,9 @@ const shape = {
   updatedAt: null,
 };
 
-class UserRecord extends Record(shape) {
+class User extends Record(shape) {
   static fromJS(pojo) {
-    return new UserRecord({
+    return new User({
       id: pojo.id || null,
       givenName: pojo.givenName || null,
       familyName: pojo.familyName || null,
@@ -32,10 +32,11 @@ class UserRecord extends Record(shape) {
       jwt: pojo.jwt || null,
       affiliatedOrgs: pojo.affiliatedOrgs ? fromJS(pojo.affiliatedOrgs) : List(),
       donationProfile: pojo.donationProfile || new DonationProfile,
+      imageURL: pojo.imageURL || null,
       createdAt: pojo.createdAt ? moment.unix(+pojo.createdAt) : null,
       updatedAt: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null
     });
   }
 }
 
-export default UserRecord;
+export default User;

@@ -11,7 +11,8 @@ describe('DonationProfile model', () => {
       'id',
       'userId',
       'amountTotal',
-      'donations'
+      'donations',
+      'percentile'
     ]);
   });
 
@@ -30,6 +31,10 @@ describe('DonationProfile model', () => {
   it('should set donations to be empty List', () => {
     expect(myDonationProfile.donations).to.deep.equal(List());
   });
+
+  it('should set percentile to be 0', () => {
+    expect(myDonationProfile.percentile).to.equal(0);
+  })
 });
 
 describe('DonationProfile.fromJS', () => {
@@ -72,6 +77,15 @@ describe('DonationProfile.fromJS', () => {
 
     expect(donationProfile).to.deep.equal(new DonationProfile({
       donations: List(['1', '2', '3'])
+    }));
+  });
+
+  it('should set percentile correctly', () => {
+    const donationProfile = DonationProfile.fromJS({
+      percentile: '0.111'
+    });
+    expect(donationProfile).to.deep.equal(new DonationProfile({
+      percentile: 0.111
     }));
   });
 });

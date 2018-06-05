@@ -78,26 +78,6 @@ exports['<Header/> should match snapshot 1'] = {
                     },
                     "_owner": null,
                     "_store": {}
-                  },
-                  {
-                    "type": "div",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "className": "standard-option",
-                      "children": {
-                        "type": "p",
-                        "key": null,
-                        "ref": null,
-                        "props": {
-                          "children": "FAQs"
-                        },
-                        "_owner": null,
-                        "_store": {}
-                      }
-                    },
-                    "_owner": null,
-                    "_store": {}
                   }
                 ]
               },
@@ -208,26 +188,6 @@ exports['<Header/> should match snapshot 1'] = {
                       "ref": null,
                       "props": {
                         "children": "Discover"
-                      },
-                      "_owner": null,
-                      "_store": {}
-                    }
-                  },
-                  "_owner": null,
-                  "_store": {}
-                },
-                {
-                  "type": "div",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "className": "standard-option",
-                    "children": {
-                      "type": "p",
-                      "key": null,
-                      "ref": null,
-                      "props": {
-                        "children": "FAQs"
                       },
                       "_owner": null,
                       "_store": {}
@@ -351,26 +311,6 @@ exports['<Header/> should match snapshot 1'] = {
                 },
                 "_owner": null,
                 "_store": {}
-              },
-              {
-                "type": "div",
-                "key": null,
-                "ref": null,
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "FAQs"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "_owner": null,
-                "_store": {}
               }
             ]
           },
@@ -434,35 +374,6 @@ exports['<Header/> should match snapshot 1'] = {
                 "ref": null,
                 "instance": null,
                 "rendered": "Discover"
-              }
-            },
-            {
-              "nodeType": "host",
-              "type": "div",
-              "props": {
-                "className": "standard-option",
-                "children": {
-                  "type": "p",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "children": "FAQs"
-                  },
-                  "_owner": null,
-                  "_store": {}
-                }
-              },
-              "ref": null,
-              "instance": null,
-              "rendered": {
-                "nodeType": "host",
-                "type": "p",
-                "props": {
-                  "children": "FAQs"
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": "FAQs"
               }
             }
           ]
@@ -607,26 +518,6 @@ exports['<Header/> should match snapshot 1'] = {
                     },
                     "_owner": null,
                     "_store": {}
-                  },
-                  {
-                    "type": "div",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "className": "standard-option",
-                      "children": {
-                        "type": "p",
-                        "key": null,
-                        "ref": null,
-                        "props": {
-                          "children": "FAQs"
-                        },
-                        "_owner": null,
-                        "_store": {}
-                      }
-                    },
-                    "_owner": null,
-                    "_store": {}
                   }
                 ]
               },
@@ -743,26 +634,6 @@ exports['<Header/> should match snapshot 1'] = {
                   },
                   "_owner": null,
                   "_store": {}
-                },
-                {
-                  "type": "div",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "className": "standard-option",
-                    "children": {
-                      "type": "p",
-                      "key": null,
-                      "ref": null,
-                      "props": {
-                        "children": "FAQs"
-                      },
-                      "_owner": null,
-                      "_store": {}
-                    }
-                  },
-                  "_owner": null,
-                  "_store": {}
                 }
               ]
             },
@@ -826,35 +697,6 @@ exports['<Header/> should match snapshot 1'] = {
                   "ref": null,
                   "instance": null,
                   "rendered": "Discover"
-                }
-              },
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "FAQs"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "FAQs"
-                  },
-                  "ref": null,
-                  "instance": null,
-                  "rendered": "FAQs"
                 }
               }
             ]
@@ -1025,26 +867,6 @@ exports['<Header/> should match snapshot 1'] = {
                   },
                   "_owner": null,
                   "_store": {}
-                },
-                {
-                  "type": "div",
-                  "key": null,
-                  "ref": null,
-                  "props": {
-                    "className": "standard-option",
-                    "children": {
-                      "type": "p",
-                      "key": null,
-                      "ref": null,
-                      "props": {
-                        "children": "FAQs"
-                      },
-                      "_owner": null,
-                      "_store": {}
-                    }
-                  },
-                  "_owner": null,
-                  "_store": {}
                 }
               ]
             },
@@ -1108,35 +930,6 @@ exports['<Header/> should match snapshot 1'] = {
                   "ref": null,
                   "instance": null,
                   "rendered": "Discover"
-                }
-              },
-              {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "FAQs"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "FAQs"
-                  },
-                  "ref": null,
-                  "instance": null,
-                  "rendered": "FAQs"
                 }
               }
             ]
@@ -1250,60 +1043,6 @@ exports['<Header/> should match snapshot 1'] = {
                   "props": {},
                   "children": [
                     "Discover"
-                  ]
-                }
-              ]
-            },
-            {
-              "node": {
-                "nodeType": "host",
-                "type": "div",
-                "props": {
-                  "className": "standard-option",
-                  "children": {
-                    "type": "p",
-                    "key": null,
-                    "ref": null,
-                    "props": {
-                      "children": "FAQs"
-                    },
-                    "_owner": null,
-                    "_store": {}
-                  }
-                },
-                "ref": null,
-                "instance": null,
-                "rendered": {
-                  "nodeType": "host",
-                  "type": "p",
-                  "props": {
-                    "children": "FAQs"
-                  },
-                  "ref": null,
-                  "instance": null,
-                  "rendered": "FAQs"
-                }
-              },
-              "type": "div",
-              "props": {
-                "className": "standard-option"
-              },
-              "children": [
-                {
-                  "node": {
-                    "nodeType": "host",
-                    "type": "p",
-                    "props": {
-                      "children": "FAQs"
-                    },
-                    "ref": null,
-                    "instance": null,
-                    "rendered": "FAQs"
-                  },
-                  "type": "p",
-                  "props": {},
-                  "children": [
-                    "FAQs"
                   ]
                 }
               ]

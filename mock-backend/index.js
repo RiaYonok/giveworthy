@@ -12,7 +12,8 @@ const users = Immutable.fromJS([
     role: 2,
     affiliatedOrgs: [],
     createdAt: 1527788770,
-    updatedAt: 1527788770
+    updatedAt: 1527788770,
+    imageURL: "https://lh6.googleusercontent.com/-DjHsPoS-B20/AAAAAAAAAAI/AAAAAAAAAAA/AB6qoq1PeT8qI5GULdezKgsFYoOqIbbAeQ/s96-c/photo.jpg"
   }
 ]);
 

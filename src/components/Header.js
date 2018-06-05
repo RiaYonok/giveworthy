@@ -27,9 +27,6 @@ export class Header extends PureComponent {
             <div className="standard-option">
               <p>Discover</p>
             </div>
-            <div className="standard-option">
-              <p>FAQs</p>
-            </div>
           </nav>
           <div className="avatar-menu-container">
             <div className="avatar-menu">

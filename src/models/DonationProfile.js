@@ -4,7 +4,8 @@ const shape = {
   id: null,
   userId: null,
   amountTotal: 0,
-  donations: List()
+  donations: List(),
+  percentile: 0
 };
 
 class DonationProfile extends Record(shape) {
@@ -13,7 +14,8 @@ class DonationProfile extends Record(shape) {
       id: pojo.id || null,
       userId: pojo.userId || null,
       amountTotal: +pojo.amountTotal || 0,
-      donations: pojo.donations ? fromJS(pojo.donations) : List()
+      donations: pojo.donations ? fromJS(pojo.donations) : List(),
+      percentile: pojo.percentile ? +pojo.percentile : 0
     })
   }
 };
