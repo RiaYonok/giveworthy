@@ -1,24 +1,24 @@
 import 'babel-polyfill';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 
-import { login } from 'Api/index';
-import User from 'Models/User';
+import { login } from '@api';
+import User from '@models/User';
 import {
   LOGIN_USER,
 
   addUsers,
   setCurrentUser
-} from '../actions/users';
+} from '@actions/users';
 
 import {
   setError,
   dismissError
-} from '../actions/errors';
+} from '@actions/errors';
 
-import getLocation from '../selectors/getLocation';
+import getLocation from '@selectors/getLocation';
 
 function* sagaLogin(action) {
   try {

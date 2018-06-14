@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import getLocation from 'Redux/selectors/getLocation';
+import getLocation from '@selectors/getLocation';
 
 describe('getLocation', () => {
   it('should get location from state', () => {

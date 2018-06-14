@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   setError,
   dismissError
-} from 'Redux/actions/errors';
+} from '@actions/errors';
 
 describe('errors actions', () => {
   it('should generate SET_ERROR', () => {

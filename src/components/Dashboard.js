@@ -2,10 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import User from 'Models/User';
-import getCurrentUser from 'Redux/selectors/getCurrentUser';
-import {formatCurrency, formatCount, formatPercentage} from 'Lib/formatter';
-import test_logo from 'Images/if_male_628288.svg';
+import getCurrentUser from '@selectors/getCurrentUser';
+import {formatCurrency, formatCount, formatPercentage} from '@lib/formatter';
+import test_logo from '@assets/images/if_male_628288.svg';
 
 export class Dashboard extends PureComponent {
   render() {

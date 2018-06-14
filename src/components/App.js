@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { hot } from 'react-hot-loader';
 
-import 'Scss/components/App.scss';
-import configureStore, {history} from 'Redux/store';
-import Main from './Main';
+import '@assets/scss/components/App.scss';
+import configureStore, {history} from '@store';
+import Main from '@components/Main';
 
 let initialState = {};
 /* istanbul ignore if */

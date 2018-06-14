@@ -14,6 +14,6 @@
     "brace-style": "warn",
     "indent": ["warn", 2],
     "quotes": ["warn", "single"],
-    "jsx-quotes": ["warn", "double"]
+    "jsx-quotes": ["warn", "prefer-double"]
   }
 }

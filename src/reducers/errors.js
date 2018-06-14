@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import {
   SET_ERROR, DISMISS_ERROR
-} from '../actions/errors';
+} from '@actions/errors';
 
 export const initialState = Map({
   error: null,

@@ -3,7 +3,7 @@ import { expect, use } from 'chai';
 import Immutable, { List } from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
-import DonationProfile from 'Models/DonationProfile';
+import DonationProfile from '@models/DonationProfile';
 describe('DonationProfile model', () => {
   const myDonationProfile = new DonationProfile;
   it('should have the correct keys', () => {

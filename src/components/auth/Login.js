@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import googleLogo from 'Images/g-logo.png';
+import googleLogo from '@assets/images/g-logo.png';
 import { GoogleLogin } from 'react-google-login';
-import { loginUser } from 'Redux/actions/users';
+import { loginUser } from '@actions/users';
 
 export class Login extends PureComponent {
   constructor(props) {

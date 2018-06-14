@@ -49,14 +49,17 @@ module.exports = env => {
 
   var resolve = {
     alias: {
-      Components: path.resolve(__dirname, 'src/components'),
-      Redux: path.resolve(__dirname, 'src/redux'),
-      Models: path.resolve(__dirname, 'src/models'),
-      Lib: path.resolve(__dirname, 'src/lib'),
-      Routes: path.resolve(__dirname, 'src/routes'),
-      Scss: path.resolve(__dirname, 'assets/scss'),
-      Images: path.resolve(__dirname, 'assets/images'),
-      Api: path.resolve(__dirname, 'src/api') 
+      '@actions': path.resolve(__dirname, 'src/actions'),
+      '@api': path.resolve(__dirname, 'src/api'),
+      '@assets': path.resolve(__dirname, 'assets'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@lib': path.resolve(__dirname, 'src/lib'),
+      '@models': path.resolve(__dirname, 'src/models'),
+      '@reducers': path.resolve(__dirname, 'src/reducers'),
+      '@routes': path.resolve(__dirname, 'src/routes'),
+      '@sagas': path.resolve(__dirname, 'src/sagas'),
+      '@selectors': path.resolve(__dirname, 'src/selectors'),
+      '@store': path.resolve(__dirname, 'src/store.js')
     }
   };
 

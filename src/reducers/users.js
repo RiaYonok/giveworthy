@@ -1,14 +1,14 @@
 import { Map, List } from 'immutable';
-import User from 'Models/User';
+import User from '@models/User';
 import {
+  SET_CURRENT_USER,
   FETCH_USERS,
   FETCH_USERS_FAILURE,
   FETCH_USERS_SUCCESS,
   ADD_USERS,
   CHANGE_USER_ROLE,
   ADD_USER_AFFILIATED_ORG
-} from 'Redux/actions/users';
-import { SET_CURRENT_USER } from '../actions/users';
+} from '@actions/users';
 
 export const initialState = Map({
   users: Map(),

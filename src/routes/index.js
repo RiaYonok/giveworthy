@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router';
 
-import Dashboard from 'Components/Dashboard';
-import Login from 'Components/auth/Login';
-import AuthenticatedRoute from 'Routes/AuthenticatedRoute';
+import Dashboard from '@components/Dashboard';
+import Login from '@components/auth/Login';
+import AuthenticatedRoute from '@routes/AuthenticatedRoute';
 
 class Routes extends Component {
   render() {

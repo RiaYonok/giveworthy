@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import createHistory from 'history/createBrowserHistory';
 
-import reducer from './reducers/index';
+import reducer from '@reducers';
 
-import usersSaga from './sagas/users';
+import usersSaga from '@sagas/users';
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -16,7 +16,7 @@ export const middleware = applyMiddleware(
 );
 
 export default function configureStore(initialState) {
-  const store = createStore(reducer, middleware);
+  const store = createStore(connectRouter(history)(reducer), middleware);
 
   /* istanbul ignore if */
   if (module.hot) {

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { Map } from 'immutable';
-import User from 'Models/User';
+import User from '@models/User';
 
-import getCurrentUser from 'Redux/selectors/getCurrentUser';
+import getCurrentUser from '@selectors/getCurrentUser';
 
 describe('getCurrentUser', () => {
   it('should return current user from state', () => {

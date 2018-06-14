@@ -1,19 +1,18 @@
 import 'jsdom-global/register';
 import { expect, use } from 'chai';
 import Immutable, {Map, List} from 'immutable';
-import sinon from 'sinon';
 import chaiImmutable from 'chai-immutable';
-import UsersReducer, {initialState} from 'Redux/reducers/users';
-import User from 'Models/User';
+import UsersReducer, {initialState} from '@reducers/users';
+import User from '@models/User';
 import {
+  ADD_USER_AFFILIATED_ORG,
   FETCH_USERS,
   FETCH_USERS_FAILURE,
   FETCH_USERS_SUCCESS,
   ADD_USERS,
   CHANGE_USER_ROLE,
   SET_CURRENT_USER
-} from 'Redux/actions/users';
-import { ADD_USER_AFFILIATED_ORG } from '../../../src/redux/actions/users';
+} from '@actions/users';
 
 use(chaiImmutable);
 

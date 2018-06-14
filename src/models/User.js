@@ -1,7 +1,7 @@
 import { List, Record, fromJS } from 'immutable';
 import moment from 'moment';
 
-import DonationProfile from './DonationProfile';
+import DonationProfile from '@models/DonationProfile';
 
 const shape = {
   id: null,

@@ -5,7 +5,7 @@ import chaiImmutable from 'chai-immutable';
 import moment from 'moment';
 use(chaiImmutable);
 
-import Donation from 'Models/Donation';
+import Donation from '@models/Donation';
 
 describe('Donation model', () => {
   const myDonation = new Donation;

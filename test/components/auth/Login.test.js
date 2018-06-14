@@ -1,7 +1,5 @@
 import 'jsdom-global/register';
 import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -10,7 +8,7 @@ import sinon from 'sinon';
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
-import { Login } from 'Components/auth/Login';
+import { Login } from '@components/auth/Login';
 
 describe('<Login />', () => {
 

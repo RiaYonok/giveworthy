@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Header from './Header';
-import Routes from 'Routes/index';
+import Header from '@components/Header';
+import Routes from '@routes';
 
 class Main extends Component {
   render() {

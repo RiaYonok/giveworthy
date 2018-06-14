@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 use(chaiAsPromised);
 
-import { url, login } from 'Api/index';
+import { url, login } from '@api';
 
 const params = [
   'austin.d.benesh@gmail.com',

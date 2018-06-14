@@ -4,8 +4,8 @@ import Immutable, { List } from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import moment from 'moment';
 
-import User from 'Models/User';
-import DonationProfile from 'Models/DonationProfile';
+import User from '@models/User';
+import DonationProfile from '@models/DonationProfile';
 
 use(chaiImmutable);
 

@@ -9,7 +9,7 @@ import toJson from 'enzyme-to-json';
 import snapshot from 'snap-shot-it';
 Enzyme.configure({ adapter: new Adapter() });
 
-import Routes from 'Routes/index';
+import Routes from '@routes';
 
 describe('<Routes />', () => {
   it('should match snapshot', () => {

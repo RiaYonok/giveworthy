@@ -27,7 +27,7 @@ import {
   updateUserSuccess,
   updateUserFailure,
   loginUser
-} from 'Redux/actions/users';
+} from '@actions/users';
 
 describe('user actions', () => {
   it('should do addUsers correctly', () => {

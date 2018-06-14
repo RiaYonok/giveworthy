@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import getCurrentUser from './getCurrentUser';
+import getCurrentUser from '@selectors/getCurrentUser';
 
 export default createSelector(
   getCurrentUser,

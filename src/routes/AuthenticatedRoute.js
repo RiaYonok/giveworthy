@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router';
 
-import isUserAuthenticated from 'Redux/selectors/isUserAuthenticated';
+import isUserAuthenticated from '@selectors/isUserAuthenticated';
 
 export class AuthenticatedRoute extends PureComponent {
   render() {

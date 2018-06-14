@@ -9,7 +9,7 @@ import Enzyme, { shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 
-import {AuthenticatedRoute, mapStateToProps} from 'Routes/AuthenticatedRoute';
+import {AuthenticatedRoute, mapStateToProps} from '@routes/AuthenticatedRoute';
 
 const MyComponent = (props) => (
   <div></div>

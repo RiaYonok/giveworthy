@@ -1,7 +1,7 @@
 import 'jsdom-global/register';
 import { expect } from 'chai';
 
-import { formatCurrency, formatCount, formatPercentage } from 'Lib/formatter';
+import { formatCurrency, formatCount, formatPercentage } from '@lib/formatter';
 
 describe('formatter.formatCurrency', () => {
  it('should return $11.28 when given 1128', () => {

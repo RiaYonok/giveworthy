@@ -5,7 +5,7 @@ import chaiImmutable from 'chai-immutable';
 import moment from 'moment';
 use(chaiImmutable);
 
-import Cause from 'Models/Cause';
+import Cause from '@models/Cause';
 
 describe('Cause model', () => {
   const myCause = new Cause;

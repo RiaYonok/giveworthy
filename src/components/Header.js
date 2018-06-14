@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import logo from 'Images/giveworthy-logo.png';
-import avatar from 'Images/if_male_628288.svg';
-import getCurrentUser from 'Redux/selectors/getCurrentUser';
+import logo from '@assets/images/giveworthy-logo.png';
+import avatar from '@assets/images/if_male_628288.svg';
+import getCurrentUser from '@selectors/getCurrentUser';
  
 export class Header extends PureComponent {
   render() {

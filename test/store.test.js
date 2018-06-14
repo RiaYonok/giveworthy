@@ -1,22 +1,14 @@
 import 'jsdom-global/register';
 import { expect } from 'chai';
 import * as redux from 'redux';
-import configureStore, {middleware} from 'Redux/store';
+import configureStore, {middleware} from '@store';
 import sinon from 'sinon';
-import * as reactRouterRedux from 'react-router-redux';
 
-import reducer from 'Redux/reducers/index';
+import reducer from '@reducers';
 
 describe('redux store', () => {
   it('should be a function', () => {
     expect(typeof configureStore).to.equal('function');
-  })
-
-  it('should configure a store', () => {
-    sinon.spy(redux, 'createStore');
-
-    const store = configureStore({});
-    expect(redux.createStore.calledOnceWithExactly(reducer, middleware)).to.be.true;
   });
 
   const store = configureStore();
@@ -40,9 +32,6 @@ describe('redux store', () => {
   });
 
   afterEach(() => {
-    if (reactRouterRedux.routerMiddleware.restore)
-      reactRouterRedux.routerMiddleware.restore();
-
     if (redux.createStore.restore)
       redux.createStore.restore();
   });

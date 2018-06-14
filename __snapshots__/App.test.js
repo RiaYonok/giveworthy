@@ -97,7 +97,7 @@ exports['<App /> should match snapshot 1'] = {
           "rendered": null
         }
       },
-      "type": "ConnectedRouter",
+      "type": "Connect(ConnectedRouter)",
       "props": {
         "history": {
           "length": 1,

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { Map } from 'immutable';
-import User from 'Models/User';
+import User from '@models/User';
 
-import isUserAuthenticated from 'Redux/selectors/isUserAuthenticated';
+import isUserAuthenticated from '@selectors/isUserAuthenticated';
 
 describe('isUserAuthenticated', () => {
   it('should return true if user and user.jwt is set', () => {

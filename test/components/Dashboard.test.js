@@ -10,8 +10,8 @@ import snapshot from 'snap-shot-it';
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
-import User from 'Models/User';
-import {Dashboard, mapStateToProps} from 'Components/Dashboard';
+import User from '@models/User';
+import {Dashboard, mapStateToProps} from '@components/Dashboard';
 
 describe('<Dashboard/>', () => {
   it('should match snapshot', () => {

@@ -5,8 +5,8 @@ use(chaiImmutable);
 import {
   SET_ERROR,
   DISMISS_ERROR
-} from 'Redux/actions/errors';
-import errorsReducer, { initialState } from 'Redux/reducers/errors';
+} from '@actions/errors';
+import errorsReducer, { initialState } from '@reducers/errors';
 
 describe('errors reducer initialState', () => {
   it('should have the correct keys', () => {

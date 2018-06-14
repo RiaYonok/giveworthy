@@ -1,25 +1,24 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { expect } from 'chai';
 import { Map } from 'immutable';
-import { push } from 'react-router-redux';
-import sinon from 'sinon';
+import { push } from 'connected-react-router';
 
-import usersSaga, { sagaLogin } from 'Redux/sagas/users';
-import { login } from 'Api/index';
-import User from 'Models/User';
+import usersSaga, { sagaLogin } from '@sagas/users';
+import { login } from '@api';
+import User from '@models/User';
 import {
   LOGIN_USER,
 
   addUsers,
   setCurrentUser
-} from 'Redux/actions/users';
+} from '@actions/users';
 
 import {
   setError,
   dismissError
-} from 'Redux/actions/errors';
+} from '@actions/errors';
 
-import getLocation from 'Redux/selectors/getLocation';
+import getLocation from '@selectors/getLocation';
 import { get } from 'http';
 
 describe('usersSaga', () => {
