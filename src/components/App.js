@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader';
 
 import '@assets/scss/components/App.scss';
@@ -20,7 +21,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Main />
+          <MuiThemeProvider>
+            <Main />
+          </MuiThemeProvider>
         </ConnectedRouter>
       </Provider>
     );

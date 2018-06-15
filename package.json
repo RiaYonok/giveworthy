@@ -75,6 +75,8 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
+    "@material-ui/core": "^1.2.1",
+    "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
     "connected-react-router": "^4.3.0",
     "googleapis": "^31.0.2",

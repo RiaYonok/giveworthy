@@ -19,7 +19,15 @@ exports['<App /> should match snapshot 1'] = {
           "children": {
             "key": null,
             "ref": null,
-            "props": {},
+            "props": {
+              "children": {
+                "key": null,
+                "ref": null,
+                "props": {},
+                "_owner": null,
+                "_store": {}
+              }
+            },
             "_owner": null,
             "_store": {}
           }
@@ -45,7 +53,15 @@ exports['<App /> should match snapshot 1'] = {
         "children": {
           "key": null,
           "ref": null,
-          "props": {},
+          "props": {
+            "children": {
+              "key": null,
+              "ref": null,
+              "props": {},
+              "_owner": null,
+              "_store": {}
+            }
+          },
           "_owner": null,
           "_store": {}
         }
@@ -54,10 +70,24 @@ exports['<App /> should match snapshot 1'] = {
       "instance": null,
       "rendered": {
         "nodeType": "class",
-        "props": {},
+        "props": {
+          "children": {
+            "key": null,
+            "ref": null,
+            "props": {},
+            "_owner": null,
+            "_store": {}
+          }
+        },
         "ref": null,
         "instance": null,
-        "rendered": null
+        "rendered": {
+          "nodeType": "class",
+          "props": {},
+          "ref": null,
+          "instance": null,
+          "rendered": null
+        }
       }
     }
   },
@@ -82,7 +112,15 @@ exports['<App /> should match snapshot 1'] = {
           "children": {
             "key": null,
             "ref": null,
-            "props": {},
+            "props": {
+              "children": {
+                "key": null,
+                "ref": null,
+                "props": {},
+                "_owner": null,
+                "_store": {}
+              }
+            },
             "_owner": null,
             "_store": {}
           }
@@ -91,10 +129,24 @@ exports['<App /> should match snapshot 1'] = {
         "instance": null,
         "rendered": {
           "nodeType": "class",
-          "props": {},
+          "props": {
+            "children": {
+              "key": null,
+              "ref": null,
+              "props": {},
+              "_owner": null,
+              "_store": {}
+            }
+          },
           "ref": null,
           "instance": null,
-          "rendered": null
+          "rendered": {
+            "nodeType": "class",
+            "props": {},
+            "ref": null,
+            "instance": null,
+            "rendered": null
+          }
         }
       },
       "type": "Connect(ConnectedRouter)",
@@ -113,14 +165,41 @@ exports['<App /> should match snapshot 1'] = {
         {
           "node": {
             "nodeType": "class",
-            "props": {},
+            "props": {
+              "children": {
+                "key": null,
+                "ref": null,
+                "props": {},
+                "_owner": null,
+                "_store": {}
+              }
+            },
             "ref": null,
             "instance": null,
-            "rendered": null
+            "rendered": {
+              "nodeType": "class",
+              "props": {},
+              "ref": null,
+              "instance": null,
+              "rendered": null
+            }
           },
-          "type": "Main",
+          "type": "MuiThemeProvider",
           "props": {},
-          "children": null
+          "children": [
+            {
+              "node": {
+                "nodeType": "class",
+                "props": {},
+                "ref": null,
+                "instance": null,
+                "rendered": null
+              },
+              "type": "Main",
+              "props": {},
+              "children": null
+            }
+          ]
         }
       ]
     }
