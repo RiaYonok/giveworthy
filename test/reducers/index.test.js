@@ -9,6 +9,6 @@ describe('combined reducers', () => {
   });
 
   it('should have the correct keys', () => {
-    expect(reducers).to.have.keys(['users', 'errors']);
+    expect(reducers).to.have.keys(['users', 'errors', 'questionnaires']);
   });
 });

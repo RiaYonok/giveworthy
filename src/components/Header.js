@@ -4,7 +4,28 @@ import { createSelector } from 'reselect';
 import logo from '@assets/images/giveworthy-logo.png';
 import avatar from '@assets/images/if_male_628288.svg';
 import getCurrentUser from '@selectors/getCurrentUser';
+import { hot } from 'react-hot-loader';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
  
+export class Header extends PureComponent {
+  render() {
+    const { currentUser } = this.props;
+
+    return (
+      <AppBar>
+        <Toolbar>
+          <IconButton color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    );
+  }
+}
+/*
 export class Header extends PureComponent {
   render() {
     const { currentUser } = this.props;
@@ -38,6 +59,7 @@ export class Header extends PureComponent {
     );
   }
 }
+*/
 
 export const mapStateToProps = createSelector(
   getCurrentUser,
@@ -46,4 +68,4 @@ export const mapStateToProps = createSelector(
   })
 );
 
-export default connect(mapStateToProps)(Header);
+export default hot(module)(connect(mapStateToProps)(Header));

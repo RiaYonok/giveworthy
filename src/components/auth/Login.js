@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import googleLogo from '@assets/images/g-logo.png';
 import { GoogleLogin } from 'react-google-login';
 import { loginUser } from '@actions/users';
+import { hot } from 'react-hot-loader';
 
 export class Login extends PureComponent {
   constructor(props) {
@@ -44,6 +45,6 @@ export class Login extends PureComponent {
 const mapStateToProps = () => ({});
 
 
-export default connect(mapStateToProps, {
+export default hot(module)(connect(mapStateToProps, {
   loginUser 
-})(Login);
+})(Login));

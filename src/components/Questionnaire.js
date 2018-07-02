@@ -1,20 +1,50 @@
 import React, {PureComponent} from 'react';
-import Modal from '@material-ui/core/Modal';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+import { hot } from 'react-hot-loader';
 
-export const mapStateToProps = state => ({
-  activeQuestionnaire: state.questionnaires.get('activeQuestionnaire')
-});
+import { getActiveQuestionnaire, getActivePageNumber } from '@selectors/questionnaires';
+import { setActiveQuestionnaire } from '@actions/questionnaires';
+
+import Dialog from '@material-ui/core/Dialog';
+import Stepper from '@material-ui/core/Stepper';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
+
+export const mapStateToProps = createSelector(
+  getActiveQuestionnaire,
+  getActivePageNumber,
+  (activeQuestionnaire, activePageNumber) => ({
+    activeQuestionnaire,
+    activePageNumber
+  })
+);
 
 export class Questionnaire extends PureComponent {
   render() {
-    const { activeQuestionnaire, questionnaireName, children } = this.props;
+    const { 
+      activeQuestionnaire, 
+      activePageNumber, 
+      questionnaireName, 
+      children,
+      dispatch
+    } = this.props;
 
+    // testing only!
+    window.openQ = (name) => dispatch(setActiveQuestionnaire(name));
+    //
     return (
-      <Modal open={activeQuestionnaire == questionnaireName}>
-        {children}
-      </Modal>
+      <Dialog 
+        open={activeQuestionnaire == questionnaireName}
+        fullscreen={true}
+        aria-labelledby="questionnaire"
+        aria-describedby="fill out the questionnaire"
+        className="questionnaire">
+        <Stepper activeStep={activePageNumber} alternativeLabel>
+          {children}
+        </Stepper>
+      </Dialog>
     );
   }
 }
 
-export default Questionnaire;
+export default hot(module)(connect(mapStateToProps)(withMobileDialog()(Questionnaire)));

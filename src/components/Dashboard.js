@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { hot } from 'react-hot-loader';
 
 import getCurrentUser from '@selectors/getCurrentUser';
 import {formatCurrency, formatCount, formatPercentage} from '@lib/formatter';
@@ -62,4 +63,4 @@ export const mapStateToProps = createSelector(
   })
 );
 
-export default connect(mapStateToProps)(Dashboard);
+export default hot(module)(connect(mapStateToProps)(Dashboard));
