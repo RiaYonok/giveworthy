@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Giveworthy App",
   "main": "src/index.js",
-  "author": "Austin Benesh (BitBuild)",
+  "author": "Austin Benesh (BitBuild) ",
   "license": "Proprietary",
   "private": true,
   "scripts": {
