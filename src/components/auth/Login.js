@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import googleLogo from '@assets/images/g-logo.png';
 import { GoogleLogin } from 'react-google-login';
+import  FacebookLogin  from 'react-facebook-login';
 import { loginUser } from '@actions/users';
 
 export class Login extends PureComponent {
@@ -9,6 +10,7 @@ export class Login extends PureComponent {
     super(props);
 
     this.onGoogleSignIn = this.onGoogleSignIn.bind(this);
+    this.onFacebookLogin = this.onFacebookLogin.bind(this);
   }
 
   onGoogleSignIn(googleUser) {
@@ -20,7 +22,9 @@ export class Login extends PureComponent {
     console.log(googleUser);
     loginUser(profile.U3, authResponse.id_token);
   }
-
+  onFacebookLogin(facebookUser){
+    console.log(facebookUser);
+  } 
   render() {
     return (
       <div className="login-container">
@@ -35,6 +39,16 @@ export class Login extends PureComponent {
             </div>
             Sign in with Google
           </GoogleLogin>
+          <FacebookLogin
+            appId="194728387860007"
+            autoLoad={true}
+            fields="name,email,picture"
+            textButton = "Sign in with Facebook"
+            callback={this.onFacebookLogin}>
+          </FacebookLogin>
+        </div>
+        <div className="login-buttons">
+          
         </div>
       </div>
     );
