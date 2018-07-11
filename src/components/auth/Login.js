@@ -24,7 +24,7 @@ export class Login extends PureComponent {
     loginUser(profile.U3, authResponse.id_token);
   }
   onFacebookLogin(facebookUser){
-    //console.log(facebookUser);
+    console.log(facebookUser);
   } 
   render() {
     return (
@@ -32,7 +32,8 @@ export class Login extends PureComponent {
         <div className="login-buttons">
           <GoogleLogin 
             className="login-button login-google"
-            clientId="1051526831495-k97buaru1epuj4h12s1h1pet8rqutirr.apps.googleusercontent.com"
+            /*clientId="1051526831495-k97buaru1epuj4h12s1h1pet8rqutirr.apps.googleusercontent.com"*/
+            clientId="285836376834-pot80j3ep4anfu110ghvn1tgre9j86c3.apps.googleusercontent.com"
             onSuccess={this.onGoogleSignIn}
             onFailure={this.onGoogleSignIn}>
             <div className="login-icon">
@@ -42,7 +43,7 @@ export class Login extends PureComponent {
           </GoogleLogin>
           <FacebookLogin
             appId="194728387860007"
-            autoLoad={true}
+            autoLoad={false}
             fields="name,email,picture"
             textButton = "Sign in with Facebook"
             callback={this.onFacebookLogin}>
