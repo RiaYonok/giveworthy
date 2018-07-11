@@ -24,7 +24,7 @@ export class Login extends PureComponent {
     loginUser(profile.U3, authResponse.id_token);
   }
   onFacebookLogin(facebookUser){
-    console.log(facebookUser);
+    //console.log(facebookUser);
   } 
   render() {
     return (
