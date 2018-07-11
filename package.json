@@ -13,7 +13,8 @@
     "test-mutation": "/usr/local/in/node ./node_modules/stryker/bin/stryker run",
     "json-server": "/usr/local/bin/node ./node_modules/json-server/bin/index --routes mock-backend/routes.json  mock-backend/index.js",
     "build": "/usr/local/bin/node ./node_modules/webpack/bin/webpack.js --env.mode=production --progress",
-    "start": "/usr/local/bin/node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=development --open"
+    "start": "/usr/local/bin/node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=development --open",
+    "start-prod": "/usr/local/bin/node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=production"
   },
   "devDependencies": {
     "autoprefixer": "^8.5.0",
