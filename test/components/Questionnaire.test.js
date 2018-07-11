@@ -8,6 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import snapshot from 'snap-shot-it';
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
+import Stepper from '@material-ui/core/Stepper';
 
 import {Questionnaire, mapStateToProps} from '@components/Questionnaire';
 
@@ -31,6 +32,16 @@ describe('<Questionnaire />', () => {
 
     expect(wrapper.find(Modal).first().prop('open')).to.be.false;
   });
+
+  it('should set Stepper.activeStep to activePageNumber', () => {
+    const wrapper = shallow(
+      <Questionnaire questionnaireName='test2' activeQuestionnaire='test2' activePageNumber={4}>
+        <div className="test"></div>
+      </Questionnaire>
+    );
+
+    expect(wrapper.find(Stepper).first().prop('activeStep')).to.equal(4);
+  });
 });
 
 describe('mapStateToProps', () => {
@@ -49,7 +60,8 @@ describe('mapStateToProps', () => {
     };
 
     expect(mapStateToProps(state)).to.deep.equal({
-      activeQuestionnaire: 'test1'
+      activeQuestionnaire: 'test1',
+      activePageNumber: 3
     });
   });
 });

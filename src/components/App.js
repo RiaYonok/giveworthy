@@ -4,9 +4,10 @@ import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader';
 
-import '@assets/scss/components/App.scss';
+//import '@assets/scss/components/App.scss';
 import configureStore, {history} from '@store';
 import Main from '@components/Main';
+import Header from '@components/Header';
 
 let initialState = {};
 /* istanbul ignore if */
@@ -22,6 +23,7 @@ class App extends Component {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <MuiThemeProvider>
+            <Header />
             <Main />
           </MuiThemeProvider>
         </ConnectedRouter>
