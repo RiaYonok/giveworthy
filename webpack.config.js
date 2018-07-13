@@ -75,9 +75,6 @@ module.exports = env => {
       mode: 'production',
       devtool: 'eval',
       devServer: {
-        contentBase: buildDir,
-        historyApiFallback: true,
-        hot: true,
         disableHostCheck: true
       },
       plugins: [
