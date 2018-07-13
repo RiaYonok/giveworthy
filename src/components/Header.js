@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import  {Link}  from  'react-router-dom';
 import { createSelector } from 'reselect';
 import logo from '@assets/images/giveworthy-logo.png';
 import avatar from '@assets/images/if_male_628288.svg';
@@ -7,21 +9,48 @@ import getCurrentUser from '@selectors/getCurrentUser';
 import { hot } from 'react-hot-loader';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
- 
+
+
 export class Header extends PureComponent {
+  
   render() {
     const { currentUser } = this.props;
-
+    
     return (
-      <AppBar>
-        <Toolbar>
-          <IconButton color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <div className="root">
+        <AppBar position="static" color="default">
+          <Toolbar >
+
+            <Typography variant="title" color="primary" className="flex" >
+              <Link to="/" className="link-button"><img src={logo} /></Link>
+            </Typography>
+            {currentUser&&!currentUser.id&&(<div>
+              <Link to="/about" className="link-button">
+                <Button
+                  color="primary"
+                >About
+                </Button>
+              </Link>
+              <Link to="/other"  className="link-button">
+                <Button
+                  color="primary"
+                >Other...
+                </Button>
+              </Link>
+              <Link to="/login"  className="link-button">
+                <Button
+                  color="primary"
+                >Login
+                </Button>
+              </Link>
+            </div>)}
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }

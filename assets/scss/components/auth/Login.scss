@@ -48,3 +48,39 @@
     }
   }
 }
+.login-button{
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+  cursor: pointer;
+  display: block !important;
+  font-size: 16px !important;
+  text-decoration: none;
+  border-radius: 6px;
+  padding:10px;
+  height: 50px;
+  width: 300px;
+  outline: none;
+  box-shadow: 2px 2px 3px $shadow-gray ;
+  border: 1px !important;
+  margin:20px auto !important;
+}
+.gplus-signin-button{
+  background:rgba(209, 72, 54,0.8);
+  &:hover{
+      background:rgba(209, 72, 54,1);
+  }
+}
+.facebook-signin-button{
+  background-color: #4c69ba;
+  &:hover{
+    background-color: #20419e;
+  }
+}
+.email-signin-button{
+  background-color: white;
+  text-align: center;
+  &:hover{
+    background-color: $light-gray;
+  }
+}

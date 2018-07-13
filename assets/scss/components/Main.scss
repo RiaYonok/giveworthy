@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: $brand-font-primary;
+  background-color: $light-gray;
 }
 
 .main-container {
@@ -33,4 +34,28 @@ body {
     margin: 0 100px 0 100px;
   }
 
+}
+.root{
+  flex-grow:1
+}
+.flex{
+  flex:1
+}
+.link-button{
+  text-decoration:none
+}
+.sub-header-title{
+  margin-top:60px !important;
+  font-size:48px !important;;
+  text-align:center;
+  color:$dark-gray !important;
+  width:"100%";
+  font-weight:400  !important;;
+}
+.sub-header-desc{
+  font-size:24px !important;;
+  text-align:center;
+  color:$medium-gray !important;
+  width:"100%";
+  font-weight:400  !important;;
 }
