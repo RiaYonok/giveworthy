@@ -74,6 +74,12 @@ module.exports = env => {
       resolve,
       mode: 'production',
       devtool: 'eval',
+      devServer: {
+        contentBase: buildDir,
+        historyApiFallback: true,
+        hot: true,
+        disableHostCheck: true
+      },
       plugins: [
         HTMLWebpackPluginConfig,
         new CleanWebpackPlugin(['build']),
