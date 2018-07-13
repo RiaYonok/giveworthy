@@ -92,7 +92,8 @@ module.exports = env => {
       devServer: {
         contentBase: buildDir,
         historyApiFallback: true,
-        hot: true
+        hot: true,
+        disableHostCheck: true
       },
       plugins: [
         HTMLWebpackPluginConfig,

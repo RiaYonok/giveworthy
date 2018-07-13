@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
-import googleLogo from '@assets/images/g-logo.png';
+import  {Link}  from  'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import  FacebookLogin  from 'react-facebook-login';
 import { loginUser } from '@actions/users';
@@ -60,10 +60,11 @@ export class Login extends PureComponent {
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
           - or -
         </Typography>
-        
-        <Button type="button" variant="contained"  className="login-button email-signin-button">
-          Use Email Address
-        </Button>
+        <Link to="/loginwithemail" className="link-button">
+          <Button type="button" variant="contained"  className="login-button email-signin-button">
+            Use Email Address
+          </Button>
+        </Link>
       </div>
     );
   }

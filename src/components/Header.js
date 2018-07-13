@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 import  {Link}  from  'react-router-dom';
 import { createSelector } from 'reselect';
 import logo from '@assets/images/giveworthy-logo.png';
@@ -30,22 +29,13 @@ export class Header extends PureComponent {
             </Typography>
             {currentUser&&!currentUser.id&&(<div>
               <Link to="/about" className="link-button">
-                <Button
-                  color="primary"
-                >About
-                </Button>
+                <Button>About</Button>
               </Link>
               <Link to="/other"  className="link-button">
-                <Button
-                  color="primary"
-                >Other...
-                </Button>
+                <Button>Other...</Button>
               </Link>
               <Link to="/login"  className="link-button">
-                <Button
-                  color="primary"
-                >Login
-                </Button>
+                <Button>Login </Button>
               </Link>
             </div>)}
           </Toolbar>
