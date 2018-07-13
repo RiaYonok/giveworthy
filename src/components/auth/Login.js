@@ -7,7 +7,7 @@ import  FacebookLogin  from 'react-facebook-login';
 import { loginUser } from '@actions/users';
 import { hot } from 'react-hot-loader';
 import { Button } from '@material-ui/core';
-
+import config from '@assets/config';
 export class Login extends PureComponent {
   constructor(props) {
     super(props);
@@ -29,7 +29,8 @@ export class Login extends PureComponent {
     console.log(facebookUser);
   } 
   render() {
-    
+
+    var googleID = process.env.NODE_ENV=='development'?config.GOOGLE_CLIENT_ID_LOCAL:config.GOOGLE_CLIENT_ID_DO;
     return (
       <div className="root">
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -42,15 +43,14 @@ export class Login extends PureComponent {
         <GoogleLogin 
           className="login-button gplus-signin-button"
           buttonText = "Sign in with Google+"
-          /*clientId="1051526831495-k97buaru1epuj4h12s1h1pet8rqutirr.apps.googleusercontent.com"*/
-          clientId="285836376834-pot80j3ep4anfu110ghvn1tgre9j86c3.apps.googleusercontent.com"
+          clientId={googleID}
           onSuccess={this.onGoogleSignIn}
           onFailure={this.onGoogleSignIn}
           />
       
         <FacebookLogin
           cssClass="login-button facebook-signin-button"
-          appId="194728387860007"
+          appId={config.FACEBOOK_APP_ID}
           autoLoad={false}
           fields="name,email,picture"
           textButton = "Sign in with Facebook"
