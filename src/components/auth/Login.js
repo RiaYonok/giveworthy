@@ -8,21 +8,24 @@ import { loginUser } from '@actions/users';
 import { hot } from 'react-hot-loader';
 import { Button } from '@material-ui/core';
 import config from '@assets/config';
+import getCurrentUser from '@selectors/getCurrentUser';
+import { createSelector } from 'reselect';
+
 export class Login extends PureComponent {
   constructor(props) {
     super(props);
-
     this.onGoogleSignIn = this.onGoogleSignIn.bind(this);
     this.onFacebookLogin = this.onFacebookLogin.bind(this);
   }
-
+  
   onGoogleSignIn(googleUser) {
     const { loginUser } = this.props;
-
+    
     const profile = googleUser.getBasicProfile();
     const authResponse = googleUser.getAuthResponse();
-
+    console.log("profile:",profile);
     console.log(googleUser);
+
     loginUser(profile.U3, authResponse.id_token);
   }
   onFacebookLogin(facebookUser){
@@ -70,8 +73,7 @@ export class Login extends PureComponent {
   }
 }
 
-const mapStateToProps = () => ({});
-
+const mapStateToProps =()=> ({});
 
 export default hot(module)(connect(mapStateToProps, {
   loginUser 
