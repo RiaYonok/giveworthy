@@ -14,7 +14,8 @@ export class Stepper extends PureComponent {
         root:{
             flexDirection:'row',
             width:"100%",
-            display:"flex"
+            display:"flex",
+            marginTop:50
         }
     }
     return (
