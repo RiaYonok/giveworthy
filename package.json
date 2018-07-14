@@ -7,14 +7,14 @@
   "license": "Proprietary",
   "private": true,
   "scripts": {
-    "test": "/usr/local/bin/node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --require jsdom-global/register --require ignore-styles --require babel-polyfill --compilers js:babel-register \"test/**/*.test.js\"",
-    "test-update-snapshots": "SNAPSHOT_UPDATE=1 /usr/local/bin/node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --require jsdom-global/register --require ignore-styles --require babel-polyfill --compilers js:babel-register \"test/**/*.test.js\"",
-    "test-watch": "/usr/local/bin/node ./node_modules/mocha/bin/mocha --require jsdom-global/register --require ignore-styles --require babel-polyfill --compilers js:babel-register --watch \"test/**/*.test.js\"",
-    "test-mutation": "/usr/local/in/node ./node_modules/stryker/bin/stryker run",
-    "json-server": "/usr/local/bin/node ./node_modules/json-server/bin/index --routes mock-backend/routes.json  mock-backend/index.js",
-    "build": "/usr/local/bin/node ./node_modules/webpack/bin/webpack.js --env.mode=production --progress",
-    "start": "/usr/local/bin/node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=development --open",
-    "start-prod": "/usr/local/bin/node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=production"
+    "test": "node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --require jsdom-global/register --require ignore-styles --require babel-polyfill --compilers js:babel-register \"test/**/*.test.js\"",
+    "test-update-snapshots": "SNAPSHOT_UPDATE=1 node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --require jsdom-global/register --require ignore-styles --require babel-polyfill --compilers js:babel-register \"test/**/*.test.js\"",
+    "test-watch": "node ./node_modules/mocha/bin/mocha --require jsdom-global/register --require ignore-styles --require babel-polyfill --compilers js:babel-register --watch \"test/**/*.test.js\"",
+    "test-mutation": "node ./node_modules/stryker/bin/stryker run",
+    "json-server": "node ./node_modules/json-server/bin/index --routes mock-backend/routes.json  mock-backend/index.js",
+    "build": "node ./node_modules/webpack/bin/webpack.js --env.mode=production --progress",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=development --open",
+    "start-prod": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.mode=production"
   },
   "devDependencies": {
     "autoprefixer": "^8.5.0",
@@ -80,6 +80,7 @@
     "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
     "connected-react-router": "^4.3.0",
+    "dotenv-webpack": "^1.5.7",
     "googleapis": "^31.0.2",
     "history": "^4.7.2",
     "immutable": "^3.8.2",

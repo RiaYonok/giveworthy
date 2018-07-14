@@ -12,6 +12,7 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
   filename: 'index.html',
   inject: 'body',
 });
+const Dotenv = require('dotenv-webpack');
 
 module.exports = env => {
   var rules = [
@@ -81,10 +82,12 @@ module.exports = env => {
         HTMLWebpackPluginConfig,
         new CleanWebpackPlugin(['build']),
         new UglifyJSWebpackPlugin(),
-        new BabelMinifyWebpackPlugin()
+        new BabelMinifyWebpackPlugin(),
+        new Dotenv()
       ]
     };
   } else {
+    
     return {
       entry: path.resolve(srcDir, 'index.js'),
       module: { rules },
@@ -101,7 +104,8 @@ module.exports = env => {
       plugins: [
         HTMLWebpackPluginConfig,
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new Dotenv()
       ]
     };
   }
