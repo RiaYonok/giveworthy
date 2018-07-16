@@ -5,12 +5,7 @@ import { loginUser } from '@actions/users';
 import { hot } from 'react-hot-loader';
 import { Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import  {Link}  from  'react-router-dom';
@@ -77,11 +72,11 @@ export class Signup extends PureComponent {
           Add your info below
         </Typography>
         <ValidatorForm
-                ref="form"
-                onSubmit={this.handleSubmit}
-                style={styles.form}
-                onError={errors => console.log(errors)}
-            >
+            ref="form"
+            onSubmit={this.handleSubmit}
+            style={styles.form}
+            onError={errors => console.log(errors)}
+        >
              
             <InputValidator
                 fullWidth
@@ -93,7 +88,7 @@ export class Signup extends PureComponent {
                 type="email"
                 value={this.state.email}
                 validators={['required', 'isEmail']}
-                errorMessages={['this field is required', 'email is not valid']}
+                errorMessages={['User email is required', 'User email is not valid']}
                 onChange={this.handleChange('email')}
             />
         
@@ -107,7 +102,7 @@ export class Signup extends PureComponent {
                 type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
                 validators={['required', 'minStringLength:8','maxStringLength:50']}
-                errorMessages={['this field is required', 'Password length must be more than 8', 'Password length must be less than 50']}
+                errorMessages={['Password is required', 'Password length must be more than 8', 'Password length must be less than 50']}
                 onChange={this.handleChange('password')}
                 endAdornment={
                 <InputAdornment position="end">
