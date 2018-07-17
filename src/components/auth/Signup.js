@@ -60,9 +60,7 @@ export class Signup extends PureComponent {
     event.preventDefault();
   };
   handleSubmit(){
-    const { signupUser,
-            setActiveQuestionnaire } = this.props;
-    setActiveQuestionnaire();
+    const { signupUser } = this.props;
     signupUser(this.state.email, this.state.password);
     this.props.history.push('/questionnarie-step-1'); 
   }
