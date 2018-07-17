@@ -9,6 +9,7 @@ import Main from '@components/Main';
 import AuthenticatedRoute from '@routes/AuthenticatedRoute';
 import Signup from '@components/auth/Signup';
 import QuestionnariesStep1 from '@components/Questionnaries/QuestionnariesStep1';
+import QuestionnariesStep2 from '@components/Questionnaries/QuestionnariesStep2';
 class Routes extends Component {
   render() {
     return (
@@ -18,6 +19,7 @@ class Routes extends Component {
         <Route exact path='/signup' component={Signup} />
         <Route exact path='/' component={Home} />
         <Route exact path='/questionnarie-step-1' component={QuestionnariesStep1} />
+        <Route exact path='/questionnarie-step-2' component={QuestionnariesStep2} />
         <Switch>
           {/* <Redirect from='/' to='/dashboard' exact /> */}
           <AuthenticatedRoute exact path='/dashboard' component={Dashboard} />

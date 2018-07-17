@@ -1,1 +1,1 @@
-export default state => state.users.get('current');
+export default state =>state.users.get('current');

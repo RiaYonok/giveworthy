@@ -20,6 +20,7 @@ import {
 } from '@actions/errors';
 
 import getLocation from '@selectors/getLocation';
+import getCurrentUser from '@selectors/getCurrentUser';
 
 function* sagaLogin(action) {
   try {
@@ -34,7 +35,7 @@ function* sagaLogin(action) {
     yield put(
       setCurrentUser(user.id)
     );
-
+    
     const location = yield select(getLocation);
 
     if (get(location, ['state', 'from', 'pathname']))
@@ -54,7 +55,7 @@ function* sagaLogin(action) {
 // saga action for signup
 
 function* signup(action){
-  console.log(action);
+
   try {
     //const user = yield call(signup, action.email, action.password);
     const payload = {
@@ -63,9 +64,7 @@ function* signup(action){
       password : action.password
     }
     const user = new User(payload);
-    console.log(user);
-   
-    
+
     yield put(
       addUsers(Map({
         [user.id]: User.fromJS(user)
@@ -75,7 +74,8 @@ function* signup(action){
     yield put(
       setCurrentUser(user.id)
     );
-
+    
+ 
     const location = yield select(getLocation);
 
     if (get(location, ['state', 'from', 'pathname']))

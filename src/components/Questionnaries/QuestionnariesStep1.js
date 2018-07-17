@@ -6,13 +6,14 @@ import { hot } from 'react-hot-loader';
 
 import {getActivePageInfo } from '@selectors/questionnaires';
 
-import {nextPage, 
-        prevPage } from '@actions/questionnaires';
+import {setActiveQuestionnaire,
+        nextPage} from '@actions/questionnaires';
+import {updateUserInfo} from  '@actions/users';
 import { Button } from '@material-ui/core';
-import  {Link}  from  'react-router-dom';
+
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, InputValidator} from '@components/Validators';
-
+import getCurrentUser from '@selectors/getCurrentUser';
 
 const styles={
     root:{
@@ -25,40 +26,75 @@ const styles={
         width:300, 
         margin:'30px auto',
         display:'block'
-    }
+    },
+    skipBtn:{
+      textAlign:'center',
+      fontSize:16,
+      margin: "40px auto",
+      display: "block",
+      color:"#ADADAD",
+      textTransform: "initial"
+   }
 }
 
 export const mapStateToProps = createSelector(
   getActivePageInfo,
-  ( activePageInfo) => ({
-    activePageInfo
+  getCurrentUser,
+  ( activePageInfo, currentUser) => ({
+    activePageInfo,
+    currentUser
   })
 );
 
-export class Signup extends PureComponent {
+export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
+    const { currentUser } = props;
     this.state={
-        username:"",
+        fullName:currentUser.fullName||"",
+        givenName:currentUser.givenName||"",
+        familyName:currentUser.familyName||""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSkip = this.handleSkip.bind(this);
+    const {setActiveQuestionnaire} = props;
+    
+    setActiveQuestionnaire(1);
+
   }
+  
+  
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
   };
-  handleMouseDownPassword (event){
-    event.preventDefault();
-  };
+  
   handleSubmit(){
-      
+    const { nextPage, 
+      updateUserInfo } = this.props;
+    
+    var fullName = this.state.fullName;
+    this.state.familyName = fullName.split(" ")[0];
+    this.state.givenName = fullName.replace(this.state.familyName,"").trim();
+    
+    const state = this.state;
+    Object.keys(state).forEach(key => {
+      console.log(state);
+      updateUserInfo(key, state[key]);
+    });
+    nextPage();
+    this.props.history.push('/questionnarie-step-2'); 
+  }
+  handleSkip(){
+    const { nextPage} = this.props;
+    nextPage(this.props.history);
+    this.props.history.push('/questionnarie-step-2'); 
   }
   render() {
     const { 
-      activePageInfo,
-      nextPage
+      activePageInfo
     } = this.props;
-    var steps=activePageInfo;
+    
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -82,16 +118,19 @@ export class Signup extends PureComponent {
                 formControlStyle={styles.form}
                 inputLabel="Enter your name"
                 type="text"
-                value={this.state.username}
+                value={this.state.fullName}
                 validators={['required', 'minStringLength:2','maxStringLength:50']}
                 errorMessages={['Your name is required', 'Your name\'s length must be more than 2.', 'Your name\'s length must be less than 30.']}
-                onChange={this.handleChange('username')}
+                onChange={this.handleChange('fullName')}
             />
         
             <Button type="submit" variant="contained"  className="login-button email-signin-button">
             Next
             </Button>
         </ValidatorForm>
+        <Button  style={styles.skipBtn} onClick={this.handleSkip}>
+        Skip
+        </Button>
         <Stepper steps={activePageInfo}/>
       </div>
     );
@@ -102,4 +141,6 @@ export class Signup extends PureComponent {
 
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
-})(Signup));
+  updateUserInfo,
+  setActiveQuestionnaire
+})(QuestionnarieComponent));
