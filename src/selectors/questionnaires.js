@@ -16,3 +16,7 @@ export const getFields = createSelector(
   getQuestionnairesSlice,
   (questionnaires) => questionnaires.get('fields')
 );
+export const getActivePageInfo = createSelector(
+  getQuestionnairesSlice,
+  (questionnaires) => questionnaires.get('activePageInfo')
+);
