@@ -19,6 +19,8 @@ const shape = {
   imageURL: null,
   createdAt: null,
   updatedAt: null,
+  zipcode:null,
+  note:null
 };
 
 class User extends Record(shape) {
@@ -38,7 +40,9 @@ class User extends Record(shape) {
       donationProfile: pojo.donationProfile || new DonationProfile,
       imageURL: pojo.imageURL || null,
       createdAt: pojo.createdAt ? moment.unix(+pojo.createdAt) : null,
-      updatedAt: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null
+      updatedAt: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null,
+      zipcode:pojo.zipcode ||null,
+      note:pojo.note ||null
     });
   }
 }
