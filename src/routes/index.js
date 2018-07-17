@@ -8,6 +8,7 @@ import Home from '@components/Home';
 import Main from '@components/Main';
 import AuthenticatedRoute from '@routes/AuthenticatedRoute';
 import Signup from '@components/auth/Signup';
+import QuestionnariesStep1 from '@components/Questionnaries/QuestionnariesStep1';
 class Routes extends Component {
   render() {
     return (
@@ -16,6 +17,7 @@ class Routes extends Component {
         <Route exact path='/loginwithemail' component={LoginWithEmail} />
         <Route exact path='/signup' component={Signup} />
         <Route exact path='/' component={Home} />
+        <Route exact path='/questionnarie-step-1' component={QuestionnariesStep1} />
         <Switch>
           {/* <Redirect from='/' to='/dashboard' exact /> */}
           <AuthenticatedRoute exact path='/dashboard' component={Dashboard} />
