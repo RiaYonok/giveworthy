@@ -3,6 +3,7 @@ export const CLOSE_ACTIVE_QUESTIONNAIRE = 'CLOSE_ACTIVE_QUESTIONNAIRE';
 export const NEXT_PAGE = 'NEXT_PAGE';
 export const PREV_PAGE = 'PREV_PAGE';
 export const SET_FIELD = 'SET_FIELD';
+export const GET_ACTIVE_PAGE_INFO = 'GET_ACTIVE_PAGE_INFO';
 
 export const setActiveQuestionnaire = (name, fields) => ({
   type: SET_ACTIVE_QUESTIONNAIRE,
