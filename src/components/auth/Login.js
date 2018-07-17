@@ -23,10 +23,10 @@ export class Login extends PureComponent {
     
     const profile = googleUser.getBasicProfile();
     const authResponse = googleUser.getAuthResponse();
-    console.log("profile:",profile);
-    console.log(googleUser);
+    console.log("profile:", profile);
 
     loginUser(profile.U3, authResponse.id_token);
+    console.log(this.props);
   }
   onFacebookLogin(facebookUser){
     console.log(facebookUser);

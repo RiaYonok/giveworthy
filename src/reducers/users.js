@@ -7,7 +7,8 @@ import {
   FETCH_USERS_SUCCESS,
   ADD_USERS,
   CHANGE_USER_ROLE,
-  ADD_USER_AFFILIATED_ORG
+  ADD_USER_AFFILIATED_ORG,
+  CHANGE_USER_INFO
 } from '@actions/users';
 
 export const initialState = Map({
@@ -17,6 +18,7 @@ export const initialState = Map({
 });
 
 export default function(state = initialState, action) {
+
   switch(action.type) {
     case FETCH_USERS:
       return state.set('isLoading', true);
@@ -33,7 +35,6 @@ export default function(state = initialState, action) {
         return state.updateIn(['users', action.id], user => user.set('role', action.role));
       } catch (err) {
         console.error(err);
-
         return state;
       }
 
@@ -52,6 +53,14 @@ export default function(state = initialState, action) {
 
     case SET_CURRENT_USER:
       return state.set('current', state.getIn(['users', action.id], new User));
+
+    case CHANGE_USER_INFO:
+      try {
+        return state.updateIn(['users', action.id], user => user.set(action.key, action.value));
+      } catch (err) {
+        console.error(err);
+        return state;
+      }
 
     default:
       return state;

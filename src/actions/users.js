@@ -10,6 +10,9 @@ export const CHANGE_USER_ROLE = 'CHANGE_USER_ROLE';
 export const ADD_USER_AFFILIATED_ORG = 'ADD_USER_AFFILIATED_ORG';
 export const REMOVE_USER_AFFILIATED_ORG = 'REMOVE_USER_AFFILIATED_ORG';
 export const LOGIN_USER = 'LOGIN_USER';
+export const SIGNUP_USER = 'SIGNUP_USER';
+export const CHANGE_USER_INFO = 'CHANGE_USER_INFO';
+
 
 export const addUsers = payload => ({
   type: ADD_USERS,
@@ -72,4 +75,17 @@ export const loginUser = (email, token) => ({
   type: LOGIN_USER,
   email,
   token
+});
+
+export const signupUser = (email, password) => ({
+  type: SIGNUP_USER,
+  email,
+  password
+});
+
+export const updateUserInfo = (id, key, value) => ({
+  type: CHANGE_USER_INFO,
+  id,
+  key,
+  value
 });

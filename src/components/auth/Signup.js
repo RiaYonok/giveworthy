@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import Typography from '@material-ui/core/Typography';
 import { loginUser } from '@actions/users';
 import { hot } from 'react-hot-loader';
@@ -11,7 +12,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import  {Link}  from  'react-router-dom';
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, InputValidator} from '@components/Validators';
-
+import { signupUser } from '@actions/users';
+import { setActiveQuestionnaire} from '@actions/questionnaires';
+import {getActivePageInfo } from '@selectors/questionnaires';
 
 const styles={
     root:{
@@ -57,12 +60,17 @@ export class Signup extends PureComponent {
     event.preventDefault();
   };
   handleSubmit(){
-
-      return false;
+    const { signupUser,
+            setActiveQuestionnaire } = this.props;
+    setActiveQuestionnaire();
+    signupUser(this.state.email, this.state.password);
+    this.props.history.push('/questionnarie-step-1'); 
   }
   render() {
-    var steps=[];
-    for(var i=0;i<5;i++) steps.push(false);
+    const { 
+        activePageInfo
+    } = this.props;
+
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -121,15 +129,21 @@ export class Signup extends PureComponent {
             Next
             </Button>
         </ValidatorForm>
-        <Stepper steps={steps}/>
+        <Stepper steps={activePageInfo}/>
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({});
+export const mapStateToProps = createSelector(
+    getActivePageInfo,
+    ( activePageInfo) => ({
+        activePageInfo
+    })
+);
 
 
-export default hot(module)(connect(mapStateToProps, {
-  loginUser 
+export default hot(module)(connect(mapStateToProps,{
+    signupUser,
+    setActiveQuestionnaire
 })(Signup));

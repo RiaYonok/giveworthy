@@ -27,17 +27,18 @@ export class Header extends PureComponent {
             <Typography variant="title" color="primary" className="flex" >
               <Link to="/" className="link-button"><img src={logo} /></Link>
             </Typography>
-            {currentUser&&!currentUser.id&&(<div>
+            <div>
               <Link to="/about" className="link-button">
                 <Button>About</Button>
               </Link>
               <Link to="/other"  className="link-button">
                 <Button>Other...</Button>
               </Link>
+              {currentUser&&!currentUser.id&&(
               <Link to="/login"  className="link-button">
                 <Button>Login </Button>
-              </Link>
-            </div>)}
+              </Link>)}
+            </div>
           </Toolbar>
         </AppBar>
       </div>
