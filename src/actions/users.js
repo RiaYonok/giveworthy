@@ -83,9 +83,8 @@ export const signupUser = (email, password) => ({
   password
 });
 
-export const updateUserInfo = (id, key, value) => ({
+export const updateUserInfo = (key, value) => ({
   type: CHANGE_USER_INFO,
-  id,
   key,
   value
 });

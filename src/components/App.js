@@ -11,9 +11,9 @@ import Header from '@components/Header';
 
 let initialState = {};
 /* istanbul ignore if */
-if (module.hot) {
+//if (module.hot) {
   initialState = window.localStorage.getItem('giveworthy_dev_key') || {};
-}
+//}
 
 const store = configureStore(initialState);
 

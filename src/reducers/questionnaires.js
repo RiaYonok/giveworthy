@@ -9,29 +9,35 @@ import {
 } from '@actions/questionnaires';
 
 export const NUMBERS_OF_QUESTIONS = 5;
-var ActivePageInfo = [];
 
-for (var i=0;i<NUMBERS_OF_QUESTIONS;i++) ActivePageInfo.push(false);
+function initAcitvePageAStatus(){
+  var ActivePageInfo = [];
+  for (var i=0;i<NUMBERS_OF_QUESTIONS;i++) ActivePageInfo.push(false);
+  return ActivePageInfo;
+}
+
 
 export const initialState = Map({
   activeQuestionnaire: null,
   activePageNumber: 1,
   fields: Map(),
-  activePageInfo:ActivePageInfo
+  activePageInfo:initAcitvePageAStatus()
 });
 
 export default function(state = initialState, action) {
-  var arr = state.get('activePageInfo'),
+  var arr = initAcitvePageAStatus(),
       av = state.get('activePageNumber');
 
   switch (action.type) {
     case SET_ACTIVE_QUESTIONNAIRE:
-      arr[0] = true;
+      av = action.pageNumber;
+      if (av>0)
+        arr[av-1] = true;
       return state
-        .set('activeQuestionnaire', action.name)
-        .set('fields', action.fields)
+        //.set('activeQuestionnaire', action.name)
+        //.set('fields', action.fields)
         .set('activePageInfo', arr)
-        .set('activePageNumber', 1);
+        .set('activePageNumber',  action.pageNumber);
 
     case CLOSE_ACTIVE_QUESTIONNAIRE:
       return state.set('activeQuestionnaire', null);
@@ -39,15 +45,13 @@ export default function(state = initialState, action) {
     case NEXT_PAGE:
       if (av<NUMBERS_OF_QUESTIONS){
         arr[av] = false;
-        arr[av+1] = true;
       }
       return state.update('activePageNumber', num => num + 1)
                   .set('activePageInfo', arr);
 
     case PREV_PAGE:
-      if (av > 0){
-        arr[av] = false;
-        arr[av-1] = true;
+      if (av > 1){
+        arr[av-2] = true;
       }
       return state.update('activePageNumber', num => num - 1)
                   .set('activePageInfo', arr);
