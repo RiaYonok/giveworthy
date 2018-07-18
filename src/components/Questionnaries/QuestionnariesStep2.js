@@ -11,10 +11,11 @@ import {setActiveQuestionnaire,
         prevPage } from '@actions/questionnaires';
 import {updateUserInfo} from  '@actions/users';
 import { Button } from '@material-ui/core';
-import  {Link}  from  'react-router-dom';
+
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, InputValidator} from '@components/Validators';
 import getCurrentUser from '@selectors/getCurrentUser';
+import UserAvatar from 'react-user-avatar';
 
 const styles={
     root:{
@@ -50,13 +51,14 @@ export const mapStateToProps = createSelector(
 export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
+    const {currentUser, setActiveQuestionnaire} = props;
     this.state={
-        imageURL:""
+        imageURL:currentUser.imageURL||""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
-    const {setActiveQuestionnaire} = props;
+    
     setActiveQuestionnaire(2);
   }
   
@@ -95,31 +97,11 @@ export class QuestionnarieComponent extends PureComponent {
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
           Let's load a photo
         </Typography>
-        <ValidatorForm
-            ref="form"
-            onSubmit={this.handleSubmit}
-            style={styles.form}
-            onError={errors => console.log(errors)}
-        >
-             
-            <InputValidator
-                fullWidth
-                id="username"
-                name="username"
-                ref="username"
-                formControlStyle={styles.form}
-                inputLabel="Enter your name"
-                type="text"
-                value={this.state.fullName}
-                validators={['required', 'minStringLength:2','maxStringLength:50']}
-                errorMessages={['Your name is required', 'Your name\'s length must be more than 2.', 'Your name\'s length must be less than 30.']}
-                onChange={this.handleChange('fullName')}
-            />
-        
-            <Button type="submit" variant="contained"  className="login-button email-signin-button">
-            Next
-            </Button>
-        </ValidatorForm>
+        <UserAvatar size="128" name="John Doe" colors={['#ccc', '#fafafa', '#ccaabb']} />
+        <Button type="submit" variant="contained"  className="login-button email-signin-button">
+        Next
+        </Button>
+
         <Button  style={styles.skipBtn} onClick={this.handleSkip}>
         Skip
         </Button>
