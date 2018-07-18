@@ -45,10 +45,12 @@ export class Signup extends PureComponent {
         password:"",
         showPassword: false
     };
+    const { setActiveQuestionnaire } = props;
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
     this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    setActiveQuestionnaire(0);
   }
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
