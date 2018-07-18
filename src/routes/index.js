@@ -10,6 +10,9 @@ import AuthenticatedRoute from '@routes/AuthenticatedRoute';
 import Signup from '@components/auth/Signup';
 import QuestionnariesStep1 from '@components/Questionnaries/QuestionnariesStep1';
 import QuestionnariesStep2 from '@components/Questionnaries/QuestionnariesStep2';
+import QuestionnariesStep3 from '@components/Questionnaries/QuestionnariesStep3';
+import QuestionnariesStep4 from '@components/Questionnaries/QuestionnariesStep4';
+import QuestionnariesStep5 from '@components/Questionnaries/QuestionnariesStep5';
 class Routes extends Component {
   render() {
     return (
@@ -20,6 +23,9 @@ class Routes extends Component {
         <Route exact path='/' component={Home} />
         <Route exact path='/questionnarie-step-1' component={QuestionnariesStep1} />
         <Route exact path='/questionnarie-step-2' component={QuestionnariesStep2} />
+        <Route exact path='/questionnarie-step-3' component={QuestionnariesStep3} />
+        <Route exact path='/questionnarie-step-4' component={QuestionnariesStep4} />
+        <Route exact path='/questionnarie-step-5' component={QuestionnariesStep5} />
         <Switch>
           {/* <Redirect from='/' to='/dashboard' exact /> */}
           <AuthenticatedRoute exact path='/dashboard' component={Dashboard} />
