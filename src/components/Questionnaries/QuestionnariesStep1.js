@@ -49,7 +49,7 @@ export const mapStateToProps = createSelector(
 export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
-    const { currentUser } = props;
+    const { currentUser, setActiveQuestionnaire } = props;
     this.state={
         fullName:currentUser.fullName||"",
         givenName:currentUser.givenName||"",
@@ -58,7 +58,6 @@ export class QuestionnarieComponent extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
-    const {setActiveQuestionnaire} = props;
     
     setActiveQuestionnaire(1);
 
@@ -79,7 +78,6 @@ export class QuestionnarieComponent extends PureComponent {
     
     const state = this.state;
     Object.keys(state).forEach(key => {
-      console.log(state);
       updateUserInfo(key, state[key]);
     });
     nextPage();
