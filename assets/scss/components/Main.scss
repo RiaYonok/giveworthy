@@ -63,3 +63,27 @@ body {
   width:"100%";
   font-weight:400  !important;;
 }
+
+.UserAvatar {
+  display: block;
+  color: white;
+
+}
+
+.UserAvatar--inner {
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size:16px;
+  margin:0px auto;
+  cursor: pointer;
+}
+
+.UserAvatar--light {
+  color: gray;
+}
+
+.UserAvatar--light .UserAvatar--inner {
+  border: 1px solid lightgray;
+}
