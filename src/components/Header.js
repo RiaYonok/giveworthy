@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import IconButton from '@material-ui/core/IconButton';
-
+import UserAvatar from 'react-user-avatar';
 
 export class Header extends PureComponent {
   
@@ -38,6 +38,9 @@ export class Header extends PureComponent {
               <Link to="/login"  className="link-button">
                 <Button>Login </Button>
               </Link>)}
+              {currentUser&&currentUser.id&&(
+              <UserAvatar size="48" name="Robin San" src={currentUser.imageURL} colors={['#ccc', '#fafafa', '#ccaabb']} style={{display:'inline-flex'}}/>
+              )}
             </div>
           </Toolbar>
         </AppBar>
