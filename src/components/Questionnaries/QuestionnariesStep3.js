@@ -110,7 +110,7 @@ export class QuestionnarieComponent extends PureComponent {
                 formControlStyle={styles.form}
                 inputLabel="Enter zipcode"
                 type="text"
-                value={this.state.fullName}
+                value={this.state.zipcode}
                 validators={['required']}
                 errorMessages={['Zipcode is required']}
                 onChange={this.handleChange('zipcode')}
