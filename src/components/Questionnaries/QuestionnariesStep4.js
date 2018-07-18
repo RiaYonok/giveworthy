@@ -106,11 +106,11 @@ export class QuestionnarieComponent extends PureComponent {
                 fullWidth
                 id="note"
                 name="note"
-                multiline="true"
+                multiline={true}
                 placeholder = "You'll enter in the reasons why you like to help, maybe a story or a reason behind what drives you to give."
                 ref="note"
                 rows="4"
-                formControlStyle={styles.form}
+                formcontrolstyle={styles.form}
                 value={this.state.note}
                 validators={['required']}
                 errorMessages={['Your note is required']}
