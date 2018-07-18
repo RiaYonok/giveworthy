@@ -76,7 +76,8 @@ module.exports = env => {
       mode: 'production',
       devtool: 'eval',
       devServer: {
-        disableHostCheck: true
+        disableHostCheck: true,
+       
       },
       plugins: [
         HTMLWebpackPluginConfig,
@@ -99,7 +100,10 @@ module.exports = env => {
         contentBase: buildDir,
         historyApiFallback: true,
         hot: true,
-        disableHostCheck: true
+        disableHostCheck: true,
+        proxy: {
+          "/api": "http://localhost:3000"
+        }
       },
       plugins: [
         HTMLWebpackPluginConfig,
