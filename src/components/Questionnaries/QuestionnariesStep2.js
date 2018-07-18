@@ -127,7 +127,7 @@ export class QuestionnarieComponent extends PureComponent {
   handleBack(){
     const { prevPage } = this.props;
     prevPage();
-    this.props.history.push('/questionnarie-step-2'); 
+    this.props.history.push('/questionnarie-step-1'); 
   }
   render() {
     const { 
@@ -140,7 +140,7 @@ export class QuestionnarieComponent extends PureComponent {
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
-        {!this.state.imageURL?("Hey" + (currentUser.fullName||'') +"!"):"Oh Heyyy!"}
+        {!this.state.imageURL?("Hey " + (currentUser.fullName||'') +"!"):"Oh Heyyy!"}
         </Typography>
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
         {!this.state.imageURL? "Let's load a photo":("Looking good " +currentUser.fullName +"!")}
@@ -149,7 +149,6 @@ export class QuestionnarieComponent extends PureComponent {
           accept="image/*"
           className="file-input-button"
           id="contained-button-file"
-          multiple
           type="file"
           onChange={this.handleChange}
         />
