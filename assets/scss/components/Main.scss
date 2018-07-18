@@ -67,7 +67,8 @@ body {
 .UserAvatar {
   display: block;
   color: white;
-
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .UserAvatar--inner {
@@ -83,7 +84,10 @@ body {
 .UserAvatar--light {
   color: gray;
 }
-
+.UserAvatar--img{
+  display: inline-block !important;
+  vertical-align: middle;
+}
 .UserAvatar--light .UserAvatar--inner {
   border: 1px solid lightgray;
 }

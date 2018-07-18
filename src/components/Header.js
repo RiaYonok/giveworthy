@@ -18,7 +18,8 @@ export class Header extends PureComponent {
   
   render() {
     const { currentUser } = this.props;
-    
+    var username = currentUser?currentUser.fullName||"A":"A";
+
     return (
       <div className="root">
         <AppBar position="static" color="default">
@@ -39,7 +40,7 @@ export class Header extends PureComponent {
                 <Button>Login </Button>
               </Link>)}
               {currentUser&&currentUser.id&&(
-              <UserAvatar size="48" name="Robin San" src={currentUser.imageURL} colors={['#ccc', '#fafafa', '#ccaabb']} style={{display:'inline-flex'}}/>
+              <UserAvatar size="48" name={username} src={currentUser.imageURL||avatar} colors={['#BDBDBD']} style={{display:'inline-flex'}}/>
               )}
             </div>
           </Toolbar>

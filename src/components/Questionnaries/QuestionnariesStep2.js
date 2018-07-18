@@ -10,12 +10,14 @@ import {setActiveQuestionnaire,
         nextPage, 
         prevPage } from '@actions/questionnaires';
 import {updateUserInfo} from  '@actions/users';
-import { Button } from '@material-ui/core';
+import { Button, Avatar } from '@material-ui/core';
 
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, InputValidator} from '@components/Validators';
 import getCurrentUser from '@selectors/getCurrentUser';
+import AddIcon from '@material-ui/icons/Add';
 import UserAvatar from 'react-user-avatar';
+import defaultAvatarIcon from '@assets/images/if_male_628288.svg';
 
 const styles={
     root:{
@@ -36,6 +38,14 @@ const styles={
       display: "block",
       color:"#ADADAD",
       textTransform: "initial"
+   },
+   addButton:{
+      display: "block",
+      margin: "40px auto",
+      color:"#ADADAD",
+      background:"lightgray",
+      width:120,
+      height:120,
    }
 }
 
@@ -53,7 +63,7 @@ export class QuestionnarieComponent extends PureComponent {
     super(props);
     const {currentUser, setActiveQuestionnaire} = props;
     this.state={
-        imageURL:currentUser.imageURL||""
+        imageURL:currentUser.imageURL
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,8 +73,11 @@ export class QuestionnarieComponent extends PureComponent {
   }
   
   
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+  handleChange() {
+    this.setState({
+      imageURL: defaultAvatarIcon
+    })
+
   };
   
   handleSubmit(){
@@ -89,6 +102,8 @@ export class QuestionnarieComponent extends PureComponent {
       currentUser
     } = this.props;
     //console.log(currentUser);
+    var username = currentUser?currentUser.fullName||"A":"A";
+    
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -97,7 +112,12 @@ export class QuestionnarieComponent extends PureComponent {
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
           Let's load a photo
         </Typography>
-        <UserAvatar size="128" name="John Doe" colors={['#ccc', '#fafafa', '#ccaabb']} />
+        
+        <Button variant="fab" color="primary" aria-label="AddPhoto" style={styles.addButton}  onClick={this.handleChange}>
+          {!this.state.imageURL&&<AddIcon />}
+          {this.state.imageURL&&<UserAvatar size="128" name={username} colors={['#BDBDBD']} src={this.state.imageURL} style={{margin:0}} />}  
+        </Button>
+
         <Button type="submit" variant="contained"  className="login-button email-signin-button">
         Next
         </Button>
