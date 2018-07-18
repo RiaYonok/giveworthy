@@ -7,7 +7,8 @@ import { hot } from 'react-hot-loader';
 import {getActivePageInfo } from '@selectors/questionnaires';
 
 import {setActiveQuestionnaire,
-        nextPage} from '@actions/questionnaires';
+        nextPage,
+        prevPage} from '@actions/questionnaires';
 import {updateUserInfo} from  '@actions/users';
 import { Button } from '@material-ui/core';
 
@@ -20,7 +21,8 @@ const styles={
         maxWidth:500,
         flexDirection:'row',
         alignItems:'center',
-        margin:'0 auto'
+        margin:'0 auto',
+        position:"relative"
     },
     form:{
         width:"100%", 
@@ -34,6 +36,16 @@ const styles={
       display: "block",
       color:"#ADADAD",
       textTransform: "initial"
+   },
+   backBtn:{
+     fontSize:20,
+     fontWeight:400,
+     margin: "10px auto",
+     color:"#ADADAD",
+     textTransform: "initial",
+     left:"-15%",
+     top:0,
+     position:"absolute",
    }
 }
 
@@ -56,7 +68,7 @@ export class QuestionnarieComponent extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
-
+    this.handleBack = this.handleBack.bind(this);
     setActiveQuestionnaire(4);
 
   }
@@ -81,6 +93,11 @@ export class QuestionnarieComponent extends PureComponent {
     const { nextPage} = this.props;
     nextPage(this.props.history);
     this.props.history.push('/questionnarie-step-5'); 
+  }
+  handleBack(){
+    const { prevPage } = this.props;
+    prevPage();
+    this.props.history.push('/questionnarie-step-3'); 
   }
   render() {
     const { 
@@ -124,6 +141,9 @@ export class QuestionnarieComponent extends PureComponent {
         <Button  style={styles.skipBtn} onClick={this.handleSkip}>
         Skip
         </Button>
+        <Button  style={styles.backBtn} onClick={this.handleBack}>
+          &lt; Back
+        </Button>
         <Stepper steps={activePageInfo}/>
       </div>
     );
@@ -134,6 +154,7 @@ export class QuestionnarieComponent extends PureComponent {
 
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
+  prevPage,
   updateUserInfo,
   setActiveQuestionnaire
 })(QuestionnarieComponent));

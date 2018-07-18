@@ -17,7 +17,6 @@ import AddIcon from '@material-ui/icons/Add';
 import UserAvatar from 'react-user-avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
 const styles={
     root:{
         maxWidth:500,
@@ -38,6 +37,16 @@ const styles={
       display: "block",
       color:"#ADADAD",
       textTransform: "initial"
+    },
+    backBtn:{
+      fontSize:20,
+      fontWeight:400,
+      margin: "10px auto",
+      color:"#ADADAD",
+      textTransform: "initial",
+      left:"-10%",
+      top:0,
+      position:"absolute",
     },
     addButton:{
         display: "block",
@@ -80,6 +89,7 @@ export class QuestionnarieComponent extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
+    this.handleBack = this.handleBack.bind(this);
     this.deletePhoto = this.deletePhoto.bind(this);
     setActiveQuestionnaire(2);
   }
@@ -114,6 +124,11 @@ export class QuestionnarieComponent extends PureComponent {
     nextPage();
     this.props.history.push('/questionnarie-step-3'); 
   }
+  handleBack(){
+    const { prevPage } = this.props;
+    prevPage();
+    this.props.history.push('/questionnarie-step-2'); 
+  }
   render() {
     const { 
       activePageInfo,
@@ -125,7 +140,7 @@ export class QuestionnarieComponent extends PureComponent {
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
-        {!this.state.imageURL?("Hey" + currentUser.fullName +"!"):"Oh Heyyy!"}
+        {!this.state.imageURL?("Hey" + (currentUser.fullName||'') +"!"):"Oh Heyyy!"}
         </Typography>
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
         {!this.state.imageURL? "Let's load a photo":("Looking good " +currentUser.fullName +"!")}
@@ -154,6 +169,9 @@ export class QuestionnarieComponent extends PureComponent {
         <Button  style={styles.skipBtn} onClick={this.handleSkip}>
         Skip
         </Button>
+        <Button  style={styles.backBtn} onClick={this.handleBack}>
+          &lt; Back
+        </Button>
         <Stepper steps={activePageInfo}/>
       </div>
     );
@@ -164,6 +182,7 @@ export class QuestionnarieComponent extends PureComponent {
 
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
+  prevPage,
   updateUserInfo,
   setActiveQuestionnaire
 })(QuestionnarieComponent));

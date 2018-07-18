@@ -7,7 +7,8 @@ import { hot } from 'react-hot-loader';
 import {getActivePageInfo } from '@selectors/questionnaires';
 
 import {setActiveQuestionnaire,
-        nextPage} from '@actions/questionnaires';
+        nextPage,
+        prevPage} from '@actions/questionnaires';
 import {updateUserInfo} from  '@actions/users';
 import { Button } from '@material-ui/core';
 
@@ -34,6 +35,16 @@ const styles={
       display: "block",
       color:"#ADADAD",
       textTransform: "initial"
+   },
+   backBtn:{
+     fontSize:20,
+     fontWeight:400,
+     margin: "10px auto",
+     color:"#ADADAD",
+     textTransform: "initial",
+     left:"-15%",
+     top:0,
+     position:"absolute",
    }
 }
 
@@ -58,7 +69,7 @@ export class QuestionnarieComponent extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
-    
+    this.handleBack = this.handleBack.bind(this);
     setActiveQuestionnaire(5);
 
   }
@@ -87,6 +98,11 @@ export class QuestionnarieComponent extends PureComponent {
   handleSkip(){
     const { nextPage} = this.props;
     nextPage(this.props.history);
+    this.props.history.push('/questionnarie-step-2'); 
+  }
+  handleBack(){
+    const { prevPage } = this.props;
+    prevPage();
     this.props.history.push('/questionnarie-step-2'); 
   }
   render() {
@@ -138,6 +154,7 @@ export class QuestionnarieComponent extends PureComponent {
 
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
+  prevPage,
   updateUserInfo,
   setActiveQuestionnaire
 })(QuestionnarieComponent));
