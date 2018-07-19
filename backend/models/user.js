@@ -32,6 +32,11 @@ var UserSchema = new Schema({
         required: true,
         unique: true
     },
+    type:{
+        type: String,
+        default: 'giver',
+        enum: ['giver','charity']
+    },
     gender: {
         type: String,
         default: 'male',

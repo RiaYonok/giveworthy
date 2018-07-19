@@ -37,6 +37,7 @@ module.exports.setup = function(app) {
     const user = require("backend/controller/user");
     /* Routers */
     app.post("/api/login", user.login);
+    app.post("/api/signup", user.signup);
 
     /* route to handel 404 error */
     app.use('*', function(req, res) {

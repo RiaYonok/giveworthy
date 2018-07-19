@@ -10,7 +10,7 @@ require('rootpath')();
 const jwt = require('jsonwebtoken');
 const msg = require('assets/i18n/en');
 const uuid = require('uuid/v1');
-
+const User = require("backend/models/user");
 const secertKey = process.env.SECRET_KEY;
 /**
  * login controller
@@ -37,19 +37,17 @@ module.exports.login = function(req, res){
         loginProcess();
     }
     function loginProcess(){
-        const User = require("backend/models/user");
+
         User.find({email:user.email}, function(err, docs){
             if (err){
                 console.log(err);
                 resJSON.desc=msg.TOKEN_ERROR;
                 res.send(resJSON);
             }else{
-                console.log(docs);
                 if (!docs || docs.length==0){
                     if (user.googleID || user.facebookID){
                         user.id = uuid();
                         var newUser = new User(user);
-                        console.log(user);
                         newUser.save(function(err, savedDoc){
                             resJSON.msg = msg.SUCCESS;
                             resJSON.newUser = 1;
@@ -86,3 +84,42 @@ module.exports.login = function(req, res){
     }
 }
 
+module.exports.signup = function(req, res){
+    var params = req.body.params,
+        email = params.email,
+        token = params.token;
+    const user = jwt.verify(token, secertKey);
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        access_token:""
+    };
+    if (!user || user.email!= email){
+        resJSON.desc=msg.TOKEN_ERROR;
+        res.send(resJSON);
+    }else{
+        signupProcess();
+    }
+    function signupProcess(){
+        User.find({email:user.email}, function(err, docs){
+            if (err){
+                console.log(err);
+                resJSON.desc=msg.TOKEN_ERROR;
+                res.send(resJSON);
+            }else{
+                if (!docs || docs.length==0){
+                    user.id = uuid();
+                    var newUser = new User(user);
+                    newUser.save(function(err, savedDoc){
+                        resJSON.msg = msg.SUCCESS;
+                        resJSON.access_token = jwt.sign(JSON.stringify(savedDoc), secertKey);
+                        res.send(resJSON);
+                    });
+                }else{
+                    resJSON.desc = msg.DUPLICATED_USER;
+                    res.send(resJSON);
+                }
+            }
+        });
+    }
+}

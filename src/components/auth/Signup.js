@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import Typography from '@material-ui/core/Typography';
-import { loginUser } from '@actions/users';
 import { hot } from 'react-hot-loader';
 import { Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,6 +14,15 @@ import { ValidatorForm, InputValidator} from '@components/Validators';
 import { signupUser } from '@actions/users';
 import { setActiveQuestionnaire} from '@actions/questionnaires';
 import {getActivePageInfo } from '@selectors/questionnaires';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import getError from '@selectors/getError';
+import getStatus from '@selectors/getStatus';
+import {
+  dismissError
+} from '@actions/errors';
+
+const jwt = require('jsonwebtoken');
 
 const styles={
     root:{
@@ -45,12 +53,13 @@ export class Signup extends PureComponent {
         password:"",
         showPassword: false
     };
-    const { setActiveQuestionnaire } = props;
+    const { setActiveQuestionnaire,dismissError } = props;
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
     this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     setActiveQuestionnaire(0);
+    dismissError();
   }
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -63,12 +72,17 @@ export class Signup extends PureComponent {
   };
   handleSubmit(){
     const { signupUser } = this.props;
-    signupUser(this.state.email, this.state.password);
-    this.props.history.push('/questionnarie-step-1'); 
+    const user = {
+        email:this.state.email,
+        password:this.state.password
+    };
+    signupUser(user.email,  jwt.sign(user, process.env.SECRET_KEY));
   }
   render() {
     const { 
-        activePageInfo
+        activePageInfo,
+        error,
+        status
     } = this.props;
 
     return (
@@ -85,7 +99,11 @@ export class Signup extends PureComponent {
             style={styles.form}
             onError={errors => console.log(errors)}
         >
-             
+            <FormHelperText 
+                className = "helper-text"
+                error={error?true:false}>
+                {error||""}
+            </FormHelperText>
             <InputValidator
                 fullWidth
                 id="email"
@@ -124,9 +142,8 @@ export class Signup extends PureComponent {
                 </InputAdornment>
                 }
             />
-
             <Button type="submit" variant="contained"  className="login-button email-signin-button">
-            Next
+            {!status&&"sign up"}  {status&&<CircularProgress size={20}/>}
             </Button>
         </ValidatorForm>
         <Stepper steps={activePageInfo}/>
@@ -137,13 +154,18 @@ export class Signup extends PureComponent {
 
 export const mapStateToProps = createSelector(
     getActivePageInfo,
-    ( activePageInfo) => ({
-        activePageInfo
+    getError,
+    getStatus,
+    (activePageInfo, error, status) => ({
+        activePageInfo,
+        error,
+        status
     })
 );
 
 
 export default hot(module)(connect(mapStateToProps,{
     signupUser,
-    setActiveQuestionnaire
+    setActiveQuestionnaire,
+    dismissError
 })(Signup));

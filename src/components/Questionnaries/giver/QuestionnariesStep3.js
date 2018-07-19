@@ -87,17 +87,17 @@ export class QuestionnarieComponent extends PureComponent {
       updateUserInfo(key, state[key]);
     });
     nextPage();
-    this.props.history.push('/questionnarie-step-4'); 
+    this.props.history.push('/giver-questionnarie-step-4'); 
   }
   handleSkip(){
     const { nextPage} = this.props;
     nextPage(this.props.history);
-    this.props.history.push('/questionnarie-step-4'); 
+    this.props.history.push('/giver-questionnarie-step-4'); 
   }
   handleBack(){
     const { prevPage } = this.props;
     prevPage();
-    this.props.history.push('/questionnarie-step-2'); 
+    this.props.history.push('/giver-questionnarie-step-2'); 
   }
   render() {
     const { 

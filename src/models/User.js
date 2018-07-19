@@ -21,6 +21,7 @@ const shape = {
   googleID:null,
   facebookID:null,
   zipcode:null,
+  type:null,
   note:null
 };
 
@@ -45,6 +46,7 @@ class User extends Record(shape) {
       created_at: pojo.createdAt ? moment.unix(+pojo.createdAt) : null,
       updated_at: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null,
       zipcode:pojo.zipcode ||null,
+      type:pojo.type||"giver",
       note:pojo.note ||null
     });
   }

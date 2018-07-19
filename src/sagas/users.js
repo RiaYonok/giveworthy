@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 import msg from '@assets/i18n/en';
-import { login } from '@api';
+import { login, signup } from '@api';
 import User from '@models/User';
 const jwt = require('jsonwebtoken');
 
@@ -35,15 +35,15 @@ function* sagaLogin(action) {
       if (user){
         yield put(
           addUsers(Map({
-            [user._id]: User.fromJS(user)
+            [user.id]: User.fromJS(user)
           }))
         );
     
         yield put(
-          setCurrentUser(user._id)
+          setCurrentUser(user.id)
         );
         if (res.newUser){
-          yield put(push('/questionnarie-step-1'));
+          yield put(push('/choose-account-type'));
         }else{
           const location = yield select(getLocation);
           if (get(location, ['state', 'from', 'pathname']))
@@ -77,36 +77,41 @@ function* sagaLogin(action) {
 }
 // saga action for signup
 
-function* signup(action){
+function* sagaSignup(action){
 
   try {
-    //const user = yield call(signup, action.email, action.password);
-    const payload = {
-      id:"4394u59840",
-      email : action.email,
-      password : action.password
-    }
-    const user = new User(payload);
-
     yield put(
-      addUsers(Map({
-        [user.id]: User.fromJS(user)
-      }))
+      setStatus()
     );
-
-    yield put(
-      setCurrentUser(user.id)
-    );
+    const res = yield call(signup, action.email, action.token);
     
- 
-    const location = yield select(getLocation);
-
-    if (get(location, ['state', 'from', 'pathname']))
-       yield put(push(get(location, ['state', 'from', 'pathname'])));
-     else
-       yield put(push('/questionnarie-step-1'));
-
-    yield put(dismissError());
+    if (res.msg==msg.SUCCESS){
+      const user = jwt.decode(res.access_token);
+      if (user){
+        yield put(
+          addUsers(Map({
+            [user.id]: User.fromJS(user)
+          }))
+        );
+    
+        yield put(
+          setCurrentUser(user.id)
+        );
+        yield put(push('/choose-account-type'));
+        yield put(dismissError());
+      }else{
+        yield put(
+          setError(res.desc)
+        );
+      }
+    }else{
+      yield put(
+        setError(res.desc)
+      );
+    }
+    yield put(
+      dismissStatus()
+    );
 
   } catch (err) {
     console.error(err);
@@ -117,11 +122,11 @@ function* signup(action){
 }
 export default function* usersSaga() {
   yield takeLatest(LOGIN_USER, sagaLogin);
-  yield takeLatest(SIGNUP_USER, signup);
+  yield takeLatest(SIGNUP_USER, sagaSignup);
 }
 
 
 export {
   sagaLogin,
-  signup
+  sagaSignup
 };

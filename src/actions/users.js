@@ -71,17 +71,16 @@ export const updateUserFailure = error => ({
   error
 });
 
-export const loginUser = (email, token, loginType) => ({
+export const loginUser = (email, token) => ({
   type: LOGIN_USER,
   email,
-  token,
-  loginType
+  token
 });
 
-export const signupUser = (email, password) => ({
+export const signupUser = (email, token) => ({
   type: SIGNUP_USER,
   email,
-  password
+  token
 });
 
 export const updateUserInfo = (key, value) => ({

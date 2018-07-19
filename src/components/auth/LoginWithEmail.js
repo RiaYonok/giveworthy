@@ -16,7 +16,6 @@ import { createSelector } from 'reselect';
 import getError from '@selectors/getError';
 import getStatus from '@selectors/getStatus';
 import {
-  setError,
   dismissError
 } from '@actions/errors';
 
@@ -141,7 +140,6 @@ export class Login extends PureComponent {
         <Link to="/signup"  className="link-button"  >
             <Button  style={styles.signupLink}>
                 Create an Account
-                
             </Button>
         </Link>
       </div>

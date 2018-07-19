@@ -132,7 +132,7 @@ export class QuestionnarieComponent extends PureComponent {
   handleBack(){
     const { prevPage } = this.props;
     prevPage();
-    this.props.history.push('/questionnarie-step-4'); 
+    this.props.history.push('/giver-questionnarie-step-4'); 
   }
   render() {
     const { 

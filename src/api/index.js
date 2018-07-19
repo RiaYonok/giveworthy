@@ -14,8 +14,20 @@ async function login(email, token) {
   
   return result.data;
 }
+async function signup(email, token) {
 
+  var params = {
+    email:email,
+    token:token
+  }
+  const result = await axios.post(`${url}/signup`, {params});
+  if (result.status !== 200)
+    throw new Error(`Login failed with status: ${result.status}`);
+  
+  return result.data;
+}
 export {
   url,
-  login
+  login,
+  signup
 };
