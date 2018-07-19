@@ -3,9 +3,10 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
-
+import msg from '@assets/i18n/en';
 import { login } from '@api';
 import User from '@models/User';
+const jwt = require('jsonwebtoken');
 
 import {
   LOGIN_USER,
@@ -24,26 +25,36 @@ import getCurrentUser from '@selectors/getCurrentUser';
 
 function* sagaLogin(action) {
   try {
-    const user = yield call(login, action.email, action.token);
-
-    yield put(
-      addUsers(Map({
-        [user.id]: User.fromJS(user)
-      }))
-    );
-
-    yield put(
-      setCurrentUser(user.id)
-    );
+    const res = yield call(login, action.email, action.token);
+    console.log(res);
+    if (res.msg==msg.SUCCESS){
+      const user = jwt.decode(res.access_token);
+      console.log(user);
+      if (user){
+        yield put(
+          addUsers(Map({
+            [user._id]: User.fromJS(user)
+          }))
+        );
     
-    const location = yield select(getLocation);
+        yield put(
+          setCurrentUser(user._id)
+        );
+        if (res.newUser){
+          yield put(push('/questionnarie-step-1'));
+        }else{
+          const location = yield select(getLocation);
+          if (get(location, ['state', 'from', 'pathname']))
+            yield put(push(get(location, ['state', 'from', 'pathname'])));
+          else
+            yield put(push('/dashboard'));
+        }
+        
 
-    if (get(location, ['state', 'from', 'pathname']))
-      yield put(push(get(location, ['state', 'from', 'pathname'])));
-    else
-      yield put(push('/dashboard'));
-
-    yield put(dismissError());
+        yield put(dismissError());
+      }
+    }
+    
 
   } catch (err) {
     console.error(err);

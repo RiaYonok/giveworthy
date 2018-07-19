@@ -10,6 +10,7 @@ import { Button } from '@material-ui/core';
 import config from '@assets/config';
 import getCurrentUser from '@selectors/getCurrentUser';
 import { createSelector } from 'reselect';
+const jwt = require('jsonwebtoken');
 
 export class Login extends PureComponent {
   constructor(props) {
@@ -19,18 +20,36 @@ export class Login extends PureComponent {
   }
   
   onGoogleSignIn(googleUser) {
-    const { loginUser } = this.props;
     
-    const profile = googleUser.getBasicProfile();
     const authResponse = googleUser.getAuthResponse();
-    console.log("profile:", profile);
-
-    loginUser(profile.U3, authResponse.id_token);
-    console.log(this.props);
+    const guser = jwt.decode(authResponse.id_token);
+    if (!guser) return;
+    var user = {
+      fullName:guser.name,
+      familyName:guser.family_name||"",
+      givenName:guser.given_name||"",
+      email:guser.email,
+      googleID:guser.sub,
+      imageURL:guser.picture
+    }
+    this.socialLogin(user);
   }
   onFacebookLogin(facebookUser){
-    console.log(facebookUser);
+    if (!facebookUser) return;
+    var user = {
+      fullName:facebookUser.name,
+      familyName:facebookUser.name.split(" ")[0],
+      givenName:facebookUser.replace(facebookUser.name.split(" ")[0],"").trim(),
+      email:facebookUser.email,
+      facebookID:facebookUser.id,
+      imageURL:facebookUser.picture?facebookUser.picture.data.url:null
+    }
+    this.socialLogin(user);
   } 
+  socialLogin(payload){
+    const { loginUser } = this.props;
+    loginUser(payload.email, jwt.sign(payload, process.env.SECRET_KEY));
+  }
   render() {
 
     var googleID = process.env.NODE_ENV=='development'?config.GOOGLE_CLIENT_ID_LOCAL:config.GOOGLE_CLIENT_ID_DO;

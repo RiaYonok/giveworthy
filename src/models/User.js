@@ -18,6 +18,8 @@ const shape = {
   imageURL: null,
   createdAt: null,
   updatedAt: null,
+  googleID:null,
+  facebookID:null,
   zipcode:null,
   note:null
 };
@@ -38,8 +40,10 @@ class User extends Record(shape) {
       affiliatedOrgs: pojo.affiliatedOrgs ? fromJS(pojo.affiliatedOrgs) : List(),
       donationProfile: pojo.donationProfile || new DonationProfile,
       imageURL: pojo.imageURL || null,
-      createdAt: pojo.createdAt ? moment.unix(+pojo.createdAt) : null,
-      updatedAt: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null,
+      googleID:pojo.googleID||"",
+      facebookID:pojo.facebookID||"",
+      created_at: pojo.createdAt ? moment.unix(+pojo.createdAt) : null,
+      updated_at: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null,
       zipcode:pojo.zipcode ||null,
       note:pojo.note ||null
     });

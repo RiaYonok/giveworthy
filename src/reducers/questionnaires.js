@@ -34,8 +34,6 @@ export default function(state = initialState, action) {
       if (av>0)
         arr[av-1] = true;
       return state
-        //.set('activeQuestionnaire', action.name)
-        //.set('fields', action.fields)
         .set('activePageInfo', arr)
         .set('activePageNumber',  action.pageNumber);
 

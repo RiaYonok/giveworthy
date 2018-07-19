@@ -4,5 +4,5 @@ import getCurrentUser from '@selectors/getCurrentUser';
 
 export default createSelector(
   getCurrentUser,
-  current => !!current && !!current.get('jwt')
+  current => !!current && !!current.get('id')
 );

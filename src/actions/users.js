@@ -71,10 +71,11 @@ export const updateUserFailure = error => ({
   error
 });
 
-export const loginUser = (email, token) => ({
+export const loginUser = (email, token, loginType) => ({
   type: LOGIN_USER,
   email,
-  token
+  token,
+  loginType
 });
 
 export const signupUser = (email, password) => ({
