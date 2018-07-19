@@ -77,8 +77,6 @@ module.exports = env => {
       devtool: 'eval',
       devServer: {
         contentBase: buildDir,
-        historyApiFallback: true,
-        hot: true,
         disableHostCheck: true,
         proxy: {
           "/api": "http://localhost:3000"
