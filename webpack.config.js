@@ -76,8 +76,13 @@ module.exports = env => {
       mode: 'production',
       devtool: 'eval',
       devServer: {
+        contentBase: buildDir,
+        historyApiFallback: true,
+        hot: true,
         disableHostCheck: true,
-       
+        proxy: {
+          "/api": "http://localhost:3000"
+        }
       },
       plugins: [
         HTMLWebpackPluginConfig,
