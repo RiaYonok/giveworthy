@@ -11,6 +11,7 @@ const shape = {
   tags: List(),
   description: null,
   summary: null,
+  details:null,
   donationIds: List()
 };
 
@@ -25,6 +26,7 @@ class Cause extends Record(shape) {
       webLink: pojo.webLink || null,
       description: pojo.description || null,
       summary: pojo.summary || null,
+      details: pojo.details || null,
       adminIds: pojo.adminIds ? fromJS(pojo.adminIds) : List(),
       tags: pojo.tags ? fromJS(pojo.tags) : List(),
       donationIds: pojo.donationIds ? fromJS(pojo.donationIds) : List()

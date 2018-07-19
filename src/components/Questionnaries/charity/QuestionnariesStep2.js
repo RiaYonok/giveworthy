@@ -8,16 +8,15 @@ import { hot } from 'react-hot-loader';
 import {getActivePageInfo } from '@selectors/questionnaires';
 
 import {setActiveQuestionnaire,
-        nextPage} from '@actions/questionnaires';
+        nextPage,
+        prevPage} from '@actions/questionnaires';
 import {updateCause} from  '@actions/cause';
 import { Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Stepper from '@components/BarStepper';
-import { ValidatorForm, TextValidator} from '@components/Validators';
 import getCause from '@selectors/getCause';
 
 const styles={
@@ -25,7 +24,8 @@ const styles={
         maxWidth:500,
         flexDirection:'row',
         alignItems:'center',
-        margin:'0 auto'
+        margin:'0 auto',
+        position:"relative"
     },
     form:{
       width:300, 
@@ -36,6 +36,16 @@ const styles={
       width:200, 
       margin:'0px auto',
       display:'block'
+    },
+    backBtn:{
+      fontSize:20,
+      fontWeight:400,
+      margin: "10px auto",
+      color:"#ADADAD",
+      textTransform: "initial",
+      left:"-20%",
+      top:0,
+      position:"absolute",
     },
     skipBtn:{
       textAlign:'center',
@@ -72,6 +82,7 @@ export class QuestionnarieComponent extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
+    this.handleBack = this.handleBack.bind(this);
     setActiveQuestionnaire(2);
   }
 
@@ -91,6 +102,11 @@ export class QuestionnarieComponent extends PureComponent {
     updateCause("tags", List(tags));
     nextPage();
     this.props.history.push('/charity-questionnarie-step-3'); 
+  }
+  handleBack(){
+    const { prevPage } = this.props;
+    prevPage();
+    this.props.history.push('/charity-questionnarie-step-1'); 
   }
   handleSkip(){
     const { nextPage} = this.props;
@@ -164,6 +180,9 @@ export class QuestionnarieComponent extends PureComponent {
         <Button  style={styles.skipBtn} onClick={this.handleSkip}>
         Skip
         </Button>
+        <Button  style={styles.backBtn} onClick={this.handleBack}>
+          &lt; Back
+        </Button>
         <Stepper steps={activePageInfo}/>
       </div>
     );
@@ -174,6 +193,7 @@ export class QuestionnarieComponent extends PureComponent {
 
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
+  prevPage,
   updateCause,
   setActiveQuestionnaire
 })(QuestionnarieComponent));

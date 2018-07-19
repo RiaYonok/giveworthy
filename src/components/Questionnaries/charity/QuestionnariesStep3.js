@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import {List} from "immutable";
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { createSelector } from 'reselect';
@@ -7,14 +8,16 @@ import { hot } from 'react-hot-loader';
 import {getActivePageInfo } from '@selectors/questionnaires';
 
 import {setActiveQuestionnaire,
-        nextPage, 
-        prevPage } from '@actions/questionnaires';
-import {updateUserInfo} from  '@actions/users';
+        nextPage,
+        prevPage} from '@actions/questionnaires';
+import {updateCause} from  '@actions/cause';
 import { Button } from '@material-ui/core';
-
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Stepper from '@components/BarStepper';
-import { ValidatorForm, InputValidator} from '@components/Validators';
-import getCurrentUser from '@selectors/getCurrentUser';
+import getCause from '@selectors/getCause';
 
 const styles={
     root:{
@@ -25,9 +28,14 @@ const styles={
         position:"relative"
     },
     form:{
-        width:300, 
-        margin:'30px auto',
-        display:'block'
+      width:300, 
+      margin:'30px auto',
+      display:'block'
+    },
+    formControl:{
+      width:200, 
+      margin:'0px auto',
+      display:'block'
     },
     backBtn:{
       fontSize:20,
@@ -35,7 +43,7 @@ const styles={
       margin: "10px auto",
       color:"#ADADAD",
       textTransform: "initial",
-      left:"-10%",
+      left:"-20%",
       top:0,
       position:"absolute",
     },
@@ -51,53 +59,48 @@ const styles={
 
 export const mapStateToProps = createSelector(
   getActivePageInfo,
-  getCurrentUser,
-  ( activePageInfo, currentUser) => ({
+  getCause,
+  ( activePageInfo, cause) => ({
     activePageInfo,
-    currentUser
+    cause
   })
 );
 
 export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
-    const { currentUser,setActiveQuestionnaire } = props;
+    const { cause, setActiveQuestionnaire } = props;
     this.state={
-        zipcode:currentUser.zipcode||""
+      primaryVideoLink:cause.primaryVideoLink||""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
     this.handleBack = this.handleBack.bind(this);
     setActiveQuestionnaire(3);
-
   }
-  
-  
+
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+    this.setState({ [prop]: event.target.checked });
   };
   
   handleSubmit(){
     const { nextPage, 
-      updateUserInfo } = this.props;
-    
+      updateCause } = this.props;
     const state = this.state;
-    Object.keys(state).forEach(key => {
-      updateUserInfo(key, state[key]);
-    });
+   
     nextPage();
-    this.props.history.push('/charity-questionnarie-step-4'); 
-  }
-  handleSkip(){
-    const { nextPage} = this.props;
-    nextPage(this.props.history);
     this.props.history.push('/charity-questionnarie-step-4'); 
   }
   handleBack(){
     const { prevPage } = this.props;
     prevPage();
     this.props.history.push('/charity-questionnarie-step-2'); 
+  }
+  handleSkip(){
+    const { nextPage} = this.props;
+    nextPage();
+    this.props.history.push('/charity-questionnarie-step-4'); 
   }
   render() {
     const { 
@@ -107,36 +110,17 @@ export class QuestionnarieComponent extends PureComponent {
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
-          Keep it local
+          Add a video message
         </Typography>
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
-          Let us know your hood and well connect you to local needs
+          Video message about the cause and thanking donors
         </Typography>
-        <ValidatorForm
-            ref="form"
-            onSubmit={this.handleSubmit}
-            style={styles.form}
-            onError={errors => console.log(errors)}
-        >
-             
-            <InputValidator
-                fullWidth
-                id="zipcode"
-                name="zipcode"
-                ref="zipcode"
-                formControlStyle={styles.form}
-                inputLabel="Enter zipcode"
-                type="text"
-                value={this.state.zipcode}
-                validators={['required']}
-                errorMessages={['Zipcode is required']}
-                onChange={this.handleChange('zipcode')}
-            />
-        
-            <Button type="submit" variant="contained"  className="login-button email-signin-button">
-            Next
-            </Button>
-        </ValidatorForm>
+
+          
+          <Button type="submit" variant="contained" onClick={this.handleSubmit} className="login-button email-signin-button">
+          Next
+          </Button>
+
         <Button  style={styles.skipBtn} onClick={this.handleSkip}>
         Skip
         </Button>
@@ -153,7 +137,7 @@ export class QuestionnarieComponent extends PureComponent {
 
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
-  updateUserInfo,
-  setActiveQuestionnaire, 
-  prevPage 
+  prevPage,
+  updateCause,
+  setActiveQuestionnaire
 })(QuestionnarieComponent));

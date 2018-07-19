@@ -37,6 +37,9 @@ var CauseSchema = new Schema({
     summary: {
       type: String
     },
+    details: {
+        type: String
+    },
     donationIds:  {
         type: [String]
     },

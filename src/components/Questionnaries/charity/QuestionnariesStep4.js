@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import {List} from "immutable";
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { createSelector } from 'reselect';
@@ -9,12 +10,11 @@ import {getActivePageInfo } from '@selectors/questionnaires';
 import {setActiveQuestionnaire,
         nextPage,
         prevPage} from '@actions/questionnaires';
-import {updateUserInfo} from  '@actions/users';
+import {updateCause} from  '@actions/cause';
 import { Button } from '@material-ui/core';
-
-import Stepper from '@components/BarStepper';
 import { ValidatorForm, TextValidator} from '@components/Validators';
-import getCurrentUser from '@selectors/getCurrentUser';
+import Stepper from '@components/BarStepper';
+import getCause from '@selectors/getCause';
 
 const styles={
     root:{
@@ -25,9 +25,19 @@ const styles={
         position:"relative"
     },
     form:{
-        width:"100%", 
-        margin:'30px auto',
-        display:'block'
+      width:500, 
+      margin:'30px auto',
+      display:'block'
+    },
+    backBtn:{
+      fontSize:20,
+      fontWeight:400,
+      margin: "10px auto",
+      color:"#ADADAD",
+      textTransform: "initial",
+      left:"-20%",
+      top:0,
+      position:"absolute",
     },
     skipBtn:{
       textAlign:'center',
@@ -36,68 +46,56 @@ const styles={
       display: "block",
       color:"#ADADAD",
       textTransform: "initial"
-   },
-   backBtn:{
-     fontSize:20,
-     fontWeight:400,
-     margin: "10px auto",
-     color:"#ADADAD",
-     textTransform: "initial",
-     left:"-15%",
-     top:0,
-     position:"absolute",
    }
 }
 
 export const mapStateToProps = createSelector(
   getActivePageInfo,
-  getCurrentUser,
-  ( activePageInfo, currentUser) => ({
+  getCause,
+  ( activePageInfo, cause) => ({
     activePageInfo,
-    currentUser
+    cause
   })
 );
 
 export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
-    const { currentUser, setActiveQuestionnaire } = props;
+    const { cause, setActiveQuestionnaire } = props;
     this.state={
-        note:currentUser.note||""
+      details:cause.details||""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
     this.handleBack = this.handleBack.bind(this);
     setActiveQuestionnaire(4);
-
   }
-  
-  
+
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
   };
   
   handleSubmit(){
     const { nextPage, 
-      updateUserInfo } = this.props;
-    
+      updateCause } = this.props;
     const state = this.state;
     Object.keys(state).forEach(key => {
-      updateUserInfo(key, state[key]);
+      updateCause(key, state[key]);
     });
+
     nextPage();
-    this.props.history.push('/charity-questionnarie-step-5'); 
-  }
-  handleSkip(){
-    const { nextPage} = this.props;
-    nextPage(this.props.history);
     this.props.history.push('/charity-questionnarie-step-5'); 
   }
   handleBack(){
     const { prevPage } = this.props;
     prevPage();
     this.props.history.push('/charity-questionnarie-step-3'); 
+  }
+  handleSkip(){
+    const { nextPage} = this.props;
+    nextPage();
+    this.props.history.push('/charity-questionnarie-step-5'); 
   }
   render() {
     const { 
@@ -107,10 +105,10 @@ export class QuestionnarieComponent extends PureComponent {
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
-          Tell us why you help
+          What are you tring to achive?
         </Typography>
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
-          Why do you want to give? What driving you?
+          some details about what you want to accomplish
         </Typography>
         <ValidatorForm
             ref="form"
@@ -118,25 +116,23 @@ export class QuestionnarieComponent extends PureComponent {
             style={styles.form}
             onError={errors => console.log(errors)}
         >
-             
-            <TextValidator
-                fullWidth
-                id="note"
-                name="note"
-                multiline={true}
-                placeholder = "You'll enter in the reasons why you like to help, maybe a story or a reason behind what drives you to give."
-                ref="note"
-                rows="4"
-                formcontrolstyle={styles.form}
-                value={this.state.note}
-                validators={['required']}
-                errorMessages={['Your note is required']}
-                onChange={this.handleChange('note')}
-            />
-        
-            <Button type="submit" variant="contained"  className="login-button email-signin-button">
-            Next
-            </Button>
+          <TextValidator
+            fullWidth
+            id="details"
+            name="details"
+            multiline={true}
+            placeholder = "Initiatives that they are tring to fund at the moment"
+            rows="4"
+            formcontrolstyle={styles.form}
+            value={this.state.details}
+            validators={['required']}
+            errorMessages={['Your details is required']}
+            onChange={this.handleChange('details')}
+          />
+                    
+          <Button type="submit" variant="contained"  className="login-button email-signin-button">
+          Next
+          </Button>
         </ValidatorForm>
         <Button  style={styles.skipBtn} onClick={this.handleSkip}>
         Skip
@@ -155,6 +151,6 @@ export class QuestionnarieComponent extends PureComponent {
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
   prevPage,
-  updateUserInfo,
+  updateCause,
   setActiveQuestionnaire
 })(QuestionnarieComponent));
