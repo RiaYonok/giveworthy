@@ -39,7 +39,7 @@ export class Login extends PureComponent {
     var user = {
       fullName:facebookUser.name,
       familyName:facebookUser.name.split(" ")[0],
-      givenName:facebookUser.replace(facebookUser.name.split(" ")[0],"").trim(),
+      givenName:facebookUser.name.replace(facebookUser.name.split(" ")[0],"").trim(),
       email:facebookUser.email,
       facebookID:facebookUser.id,
       imageURL:facebookUser.picture?facebookUser.picture.data.url:null
