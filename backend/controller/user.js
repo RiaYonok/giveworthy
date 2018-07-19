@@ -10,12 +10,7 @@ require('rootpath')();
 const jwt = require('jsonwebtoken');
 const msg = require('assets/i18n/en');
 const uuid = require('uuid/v1');
-var resJSON = {
-    msg:msg.FAIL,
-    desc:"",
-    access_token:"",
-    newUser:0
-}
+
 const secertKey = process.env.SECRET_KEY;
 /**
  * login controller
@@ -27,7 +22,12 @@ module.exports.login = function(req, res){
         email = params.email,
         token = params.token;
     const user = jwt.verify(token, secertKey);
-
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        access_token:"",
+        newUser:0
+    };
     if (!user || user.email!= email){
         resJSON.desc=msg.TOKEN_ERROR;
         res.send(resJSON);
