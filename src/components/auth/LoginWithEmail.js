@@ -10,6 +10,18 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import  {Link}  from  'react-router-dom';
 import { ValidatorForm, InputValidator} from '@components/Validators';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { createSelector } from 'reselect';
+import getError from '@selectors/getError';
+import getStatus from '@selectors/getStatus';
+import {
+  setError,
+  dismissError
+} from '@actions/errors';
+
+const jwt = require('jsonwebtoken');
+
 const styles={
     root:{
         maxWidth:500,
@@ -54,10 +66,16 @@ export class Login extends PureComponent {
     event.preventDefault();
   };
   handleSubmit(){
-    return false;
+    const {loginUser,dismissError} = this.props;
+    const user = {
+      email:this.state.email,
+      password:this.state.password
+    };
+    dismissError();
+    loginUser(user.email, jwt.sign(user, process.env.SECRET_KEY))
   }
   render() {
-    
+    const {error, status} = this.props;
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -72,7 +90,11 @@ export class Login extends PureComponent {
             style={styles.form}
             onError={errors => console.log(errors)}
         >
-             
+          <FormHelperText 
+            className = "helper-text"
+            error={error?true:false}>
+            {error||""}
+          </FormHelperText>
           <InputValidator
               fullWidth
               id="email"
@@ -113,12 +135,13 @@ export class Login extends PureComponent {
           />
 
           <Button type="submit" variant="contained"  className="login-button email-signin-button">
-          Log In
+          {!status&&"Log in"}  {status&&<CircularProgress size={20}/>}
           </Button>
         </ValidatorForm>
         <Link to="/signup"  className="link-button"  >
             <Button  style={styles.signupLink}>
                 Create an Account
+                
             </Button>
         </Link>
       </div>
@@ -126,9 +149,17 @@ export class Login extends PureComponent {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = createSelector(
+  getError,
+  getStatus,
+  ( error, status) => ({
+    error,
+    status
+  })
+);
 
 
 export default hot(module)(connect(mapStateToProps, {
-  loginUser 
+  loginUser ,
+  dismissError
 })(Login));

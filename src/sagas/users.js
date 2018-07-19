@@ -19,17 +19,19 @@ import {
   setError,
   dismissError
 } from '@actions/errors';
+import {setStatus, dismissStatus} from '@actions/status.js';
 
 import getLocation from '@selectors/getLocation';
 import getCurrentUser from '@selectors/getCurrentUser';
 
 function* sagaLogin(action) {
   try {
+    yield put(
+      setStatus()
+    );
     const res = yield call(login, action.email, action.token);
-    console.log(res);
     if (res.msg==msg.SUCCESS){
       const user = jwt.decode(res.access_token);
-      console.log(user);
       if (user){
         yield put(
           addUsers(Map({
@@ -52,14 +54,24 @@ function* sagaLogin(action) {
         
 
         yield put(dismissError());
+      }else{
+        yield put(
+          setError(res.desc)
+        );
       }
+    }else{
+      yield put(
+        setError(res.desc)
+      );
     }
-    
+    yield put(
+      dismissStatus()
+    );
 
   } catch (err) {
     console.error(err);
     yield put(
-      setError('Oops! Something went wrong during login.')
+      setError(msg.LOGIN_NETWORK_ERROR)
     );
   }
 }

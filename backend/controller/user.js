@@ -46,18 +46,26 @@ module.exports.login = function(req, res){
             }else{
                 console.log(docs);
                 if (!docs || docs.length==0){
-                    user.id = uuid();
-                    var newUser = new User(user);
-                    console.log(user);
-                    newUser.save(function(err, savedDoc){
-                        resJSON.msg = msg.SUCCESS;
-                        resJSON.newUser = 1;
-                        resJSON.access_token = jwt.sign(JSON.stringify(savedDoc), secertKey);
+                    if (user.googleID || user.facebookID){
+                        user.id = uuid();
+                        var newUser = new User(user);
+                        console.log(user);
+                        newUser.save(function(err, savedDoc){
+                            resJSON.msg = msg.SUCCESS;
+                            resJSON.newUser = 1;
+                            resJSON.access_token = jwt.sign(JSON.stringify(savedDoc), secertKey);
+                            res.send(resJSON);
+                        });
+                    }else{
+                        resJSON.desc = msg.AUTH_ERROR;
                         res.send(resJSON);
-                    });
+                    }
                 }else{
                     var doc = docs[0];
-                    if (doc.googleID == user.googleID ||doc.facebookID == user.facebookID){
+                    if (user.googleID || user.facebookID){
+                        doc.googleID = user.googleID;
+                        doc.facebookID = user.facebookID;
+                        doc.save();
                         resJSON.msg = msg.SUCCESS;
                         resJSON.access_token = jwt.sign(JSON.stringify(doc), secertKey);
                         res.send(resJSON);
@@ -67,7 +75,7 @@ module.exports.login = function(req, res){
                                 resJSON.msg = msg.SUCCESS;
                                 resJSON.access_token = jwt.sign(JSON.stringify(doc), secertKey);
                             }else{
-                                resJSON.desc = Messages.AUTH_ERROR;
+                                resJSON.desc = msg.AUTH_ERROR;
                             }
                             res.send(resJSON);
                         });
