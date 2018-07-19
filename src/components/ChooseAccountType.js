@@ -5,9 +5,11 @@ import { createSelector } from 'reselect';
 import { hot } from 'react-hot-loader';
 import {updateUserInfo} from  '@actions/users';
 import { Button } from '@material-ui/core';
+import {saveCause} from '@actions/cause';
 
 import { ValidatorForm, InputValidator} from '@components/Validators';
 import getCurrentUser from '@selectors/getCurrentUser';
+import getCause from '@selectors/getCause';
 
 const styles={
     root:{
@@ -33,7 +35,14 @@ const styles={
    }
 }
 
-export const mapStateToProps = ()=> ({});
+export const mapStateToProps = createSelector(
+  getCurrentUser,
+  getCause,
+  ( currentUser, cause) => ({
+    currentUser,
+    cause
+  })
+);
 
 export class ChooseAccTypeComponent extends PureComponent {
   constructor(props) {
@@ -52,13 +61,21 @@ export class ChooseAccTypeComponent extends PureComponent {
   
   handleSubmit= type =>event=>{
     event.preventDefault();
-    const {updateUserInfo } = this.props;
+    const {updateUserInfo, saveCause, currentUser, cause } = this.props;
     this.setState({type:type});
     const state = this.state;
     Object.keys(state).forEach(key => {
       updateUserInfo(key, state[key]);
     });
-    this.props.history.push(`/${type}-questionnarie-step-1`); 
+    if (type=="charity"){
+      if (cause&&cause.id){
+        this.props.history.push(`/${type}-questionnarie-step-1`); 
+      }else
+        saveCause({
+          ownerId:currentUser.id
+        });
+    }else
+      this.props.history.push(`/${type}-questionnarie-step-1`); 
   }
   render() {
   
@@ -84,5 +101,6 @@ export class ChooseAccTypeComponent extends PureComponent {
 
 
 export default hot(module)(connect(mapStateToProps,{
-  updateUserInfo
+  updateUserInfo,
+  saveCause
 })(ChooseAccTypeComponent));

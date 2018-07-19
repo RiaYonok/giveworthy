@@ -4,8 +4,9 @@ import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 import msg from '@assets/i18n/en';
-import { login, signup } from '@api';
+import { login, signup, savecause } from '@api';
 import User from '@models/User';
+import Cause from '@models/Cause';
 const jwt = require('jsonwebtoken');
 
 import {
@@ -16,13 +17,19 @@ import {
 } from '@actions/users';
 
 import {
+  SAVE_CAUSE,
+  addCause,
+  updateCause
+} from '@actions/cause';
+
+import {
   setError,
   dismissError
 } from '@actions/errors';
 import {setStatus, dismissStatus} from '@actions/status.js';
 
 import getLocation from '@selectors/getLocation';
-import getCurrentUser from '@selectors/getCurrentUser';
+
 
 function* sagaLogin(action) {
   try {
@@ -120,13 +127,48 @@ function* sagaSignup(action){
     );
   }
 }
+
+function* sagaSaveCause(action) {
+  try {
+    yield put(
+      setStatus()
+    );
+    const res = yield call(savecause, action.payload);
+    
+    if (res.msg!=msg.SUCCESS){
+      yield put(
+        setError(res.desc)
+      );
+    }else{
+      if(res.newCause){
+        action.payload.id = res.id;
+        yield put(
+          addCause(Cause.fromJS(action.payload))
+        );
+        
+        yield put(push('/charity-questionnarie-step-1'));
+      }
+    }
+    yield put(
+      dismissStatus()
+    );
+
+  } catch (err) {
+    console.error(err);
+    yield put(
+      setError('Oops! Something went wrong during login.')
+    );
+  }
+}
 export default function* usersSaga() {
   yield takeLatest(LOGIN_USER, sagaLogin);
   yield takeLatest(SIGNUP_USER, sagaSignup);
+  yield takeLatest(SAVE_CAUSE, sagaSaveCause);
 }
 
 
 export {
   sagaLogin,
-  sagaSignup
+  sagaSignup,
+  sagaSaveCause
 };

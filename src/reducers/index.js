@@ -4,11 +4,13 @@ import users from '@reducers/users';
 import errors from '@reducers/errors';
 import questionnaires from '@reducers/questionnaires';
 import status from '@reducers/status';
+import cause from '@reducers/cause';
 export const reducers = {
   users,
   errors,
   questionnaires,
-  status
+  status,
+  cause
 };
 
 export default combineReducers(reducers);

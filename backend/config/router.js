@@ -38,6 +38,7 @@ module.exports.setup = function(app) {
     /* Routers */
     app.post("/api/login", user.login);
     app.post("/api/signup", user.signup);
+    app.post("/api/savecause", user.saveCause);
 
     /* route to handel 404 error */
     app.use('*', function(req, res) {

@@ -26,8 +26,16 @@ async function signup(email, token) {
   
   return result.data;
 }
+async function savecause(params){
+  const result = await axios.post(`${url}/savecause`, {params});
+  if (result.status !== 200)
+    throw new Error(`Login failed with status: ${result.status}`);
+  
+  return result.data;
+}
 export {
   url,
   login,
-  signup
+  signup,
+  savecause
 };

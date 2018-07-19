@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const msg = require('assets/i18n/en');
 const uuid = require('uuid/v1');
 const User = require("backend/models/user");
+const Cause = require("backend/models/cause");
 const secertKey = process.env.SECRET_KEY;
 /**
  * login controller
@@ -122,4 +123,68 @@ module.exports.signup = function(req, res){
             }
         });
     }
+}
+
+module.exports.saveCause = function(req, res){
+    var params = req.body.params,
+        id = params.id;
+
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        id:""
+    };
+    if (!id){
+        if (params.ownerId){
+            User.find({id:params.ownerId}, function(err, docs){
+                if(err){
+                    resJSON.desc=msg.DB_ERROR;
+                    res.send(resJSON);
+                }else{
+                    if (docs&&docs.length>0){
+                        var user = docs[0];
+                        user.type="charity";
+                        user.save();
+                        var cause = new Cause(params);
+                        cause.save(function(err1, savedDoc){
+                            if (err1){
+                                console.log(err1);
+                                resJSON.desc=msg.DB_ERROR;
+                            }else{
+                                resJSON.newCause = 1;
+                                resJSON.id = savedDoc.id;
+                                resJSON.msg = msg.SUCCESS;
+                            }
+                            res.send(resJSON);
+                        });
+                    }else{
+                        res.desc = msg.UNKNOWN_USER;
+                        res.send(resJSON);
+                    }
+                }
+            });
+        }else{
+            res.desc = msg.UNKNOWN_USER;
+            res.send(resJSON);
+        }
+    }else{
+        Cause.find({id:id}, function(err, docs){
+            if (err){
+                resJSON.desc=msg.DB_ERROR;
+            }else{
+                if (docs&&docs.length>0){
+                    var doc = docs[0];
+                    res.msg = msg.SUCCESS;
+                    Object.keys(params).forEach(function(key){
+                        doc[key] = params[key];
+                    });
+                    doc.save();
+                }else{
+                    res.desc = msg.UNKNOWN_CAUSE;
+                }
+            }
+            res.send(resJSON);
+        });
+    }
+
 }
