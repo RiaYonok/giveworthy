@@ -12,12 +12,10 @@ import {setActiveQuestionnaire,
         prevPage} from '@actions/questionnaires';
 import {updateCause} from  '@actions/cause';
 import { Button } from '@material-ui/core';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import DropZone from 'react-dropzone';
 import Stepper from '@components/BarStepper';
 import getCause from '@selectors/getCause';
+import { Player,BigPlayButton } from 'video-react';
 
 const styles={
     root:{
@@ -54,7 +52,24 @@ const styles={
       display: "block",
       color:"#ADADAD",
       textTransform: "initial"
-   }
+   },
+   dropZone:{
+    position : 'relative',
+    width: "100%",
+    border: "2px dashed ",
+    borderColor:"#BDBDBD",
+    height: 200,
+    borderRadius: 5,
+    background:"#eaeaea"
+   },
+   activeDrag:{
+     borderColor:"rgb(127, 154, 68)"
+   },
+   uploadMessage:{
+    margin:"75px auto",
+    textAlign:"center", 
+    color:"#a6a6a6", 
+    fontWeight:"400"}
 }
 
 export const mapStateToProps = createSelector(
@@ -71,12 +86,14 @@ export class QuestionnarieComponent extends PureComponent {
     super(props);
     const { cause, setActiveQuestionnaire } = props;
     this.state={
-      primaryVideoLink:cause.primaryVideoLink||""
+      primaryVideoLink:cause.primaryVideoLink||"",
+      primaryPhotoLink:cause.primaryVideoLink||""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.onDrop = this.onDrop.bind(this);
     setActiveQuestionnaire(3);
   }
 
@@ -88,7 +105,9 @@ export class QuestionnarieComponent extends PureComponent {
     const { nextPage, 
       updateCause } = this.props;
     const state = this.state;
-   
+    Object.keys(state).forEach(key => {
+      updateCause(key, state[key]);
+    });
     nextPage();
     this.props.history.push('/charity-questionnarie-step-4'); 
   }
@@ -102,11 +121,16 @@ export class QuestionnarieComponent extends PureComponent {
     nextPage();
     this.props.history.push('/charity-questionnarie-step-4'); 
   }
+  onDrop(accepted, rejected){
+    
+    if (accepted.length>0){
+      this.setState({primaryVideoLink: accepted[0]});
+    }
+  }
   render() {
     const { 
       activePageInfo
     } = this.props;
-    
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -116,6 +140,18 @@ export class QuestionnarieComponent extends PureComponent {
           Video message about the cause and thanking donors
         </Typography>
 
+          <DropZone
+            style={styles.dropZone}
+            accept="video/mp4"
+            activeStyle={styles.activeDrag}
+            onDrop={this.onDrop}
+          >
+            <Typography variant="title" color="default" style={styles.uploadMessage}  gutterBottom>
+            {this.state.primaryVideoLink && this.state.primaryVideoLink.name&&`Selected video file: ${this.state.primaryVideoLink.name}`}
+            {(!this.state.primaryVideoLink ||  typeof(this.state.primaryVideoLink)=="string") && "Upload a video message."}
+            </Typography>
+
+          </DropZone>
           
           <Button type="submit" variant="contained" onClick={this.handleSubmit} className="login-button email-signin-button">
           Next

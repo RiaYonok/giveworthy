@@ -107,6 +107,7 @@
     "ramda": "^0.25.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "react-dropzone": "^4.2.13",
     "react-facebook-login": "^4.0.1",
     "react-form-validator-core": "^0.4.4",
     "react-google-login": "^3.2.1",
@@ -122,6 +123,7 @@
     "underscore": "^1.8.3",
     "uniqid": "^4.1.1",
     "utf8": "^2.1.2",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "video-react": "^0.13.0"
   }
 }
