@@ -20,7 +20,6 @@ function initAcitvePageAStatus(){
 export const initialState = Map({
   activeQuestionnaire: null,
   activePageNumber: 1,
-  fields: Map(),
   activePageInfo:initAcitvePageAStatus()
 });
 

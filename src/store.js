@@ -7,6 +7,8 @@ import reducer from '@reducers';
 
 import usersSaga from '@sagas/users';
 
+import {localState, saveState} from './localStorage';
+
 
 const sagaMiddleware = createSagaMiddleware();
 export const history = createHistory();
@@ -15,8 +17,10 @@ export const middleware = applyMiddleware(
   sagaMiddleware
 );
 
-export default function configureStore(initialState) {
-  const store = createStore(connectRouter(history)(reducer), middleware);
+export default function configureStore() {
+
+  const persistedState = localState();
+  const store = createStore(connectRouter(history)(reducer), persistedState, middleware);
 
   /* istanbul ignore if */
   if (module.hot) {
@@ -26,7 +30,9 @@ export default function configureStore(initialState) {
       store.replaceReducer(nextReducer);
     });
   }
-
+  store.subscribe(() => {
+    saveState(store.getState())
+  })
   sagaMiddleware.run(usersSaga);
 
   return store;

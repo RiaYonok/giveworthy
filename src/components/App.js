@@ -9,13 +9,7 @@ import configureStore, {history} from '@store';
 import Main from '@components/Main';
 import Header from '@components/Header';
 
-let initialState = {};
-/* istanbul ignore if */
-//if (module.hot) {
-  initialState = window.localStorage.getItem('giveworthy_dev_key') || {};
-//}
-
-const store = configureStore(initialState);
+const store = configureStore();
 
 class App extends Component {
   render() {
