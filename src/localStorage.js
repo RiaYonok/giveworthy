@@ -1,6 +1,8 @@
-import { Map } from 'immutable';
+import { Map,List,fromJS } from 'immutable';
 import User from '@models/User';
 import Cause from '@models/Cause';
+import DonationProfile from '@models/DonationProfile';
+
 export const localState = ()=>{
     try{
         const persistedState = localStorage.getItem('state');
@@ -8,6 +10,11 @@ export const localState = ()=>{
             return undefined;
         }else{
             var payload  = JSON.parse(persistedState);
+            const donations = payload.users.current.donationProfile.donations;
+            payload.users.current.donationProfile.donations = donations?fromJS(donations):List();
+            payload.users.current.donationProfile = new DonationProfile(payload.users.current.donationProfile);
+
+
             payload = {
                 users:Map({
                     users: Map(payload.users.users),

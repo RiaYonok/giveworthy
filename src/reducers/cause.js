@@ -16,7 +16,7 @@ export default function(state = initialState, action) {
         .set('cause', action.payload)
     case DEL_CAUSE:
       return state
-        .set('cause',new Cause);
+      .set('cause', null);
     case UPDATE_CAUSE:
       return state
         .update('cause', cause=>cause.set(action.key, action.value));

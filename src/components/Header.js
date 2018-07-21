@@ -10,15 +10,49 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 import IconButton from '@material-ui/core/IconButton';
 import UserAvatar from 'react-user-avatar';
+import {logOut} from '@actions/users';
+
+import {delCause} from '@actions/cause';
+import {dismissStatus} from '@actions/status';
+import {dismissError} from '@actions/errors';
 
 export class Header extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state={
+      anchorEl: null,
+    };
+    this.handleMenu = this.handleMenu.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
+  }
+  handleMenu = event => {
+    event.preventDefault();
+    this.setState({ anchorEl: event.currentTarget });
+  };
   
+  handleClose () {
+    this.setState({ anchorEl: null });
+  };
+  handleLogOut(){
+    this.setState({ anchorEl: null });
+    const {logOut, delCause, dismissError, dismissStatus} = this.props;
+    logOut();
+    delCause();
+    dismissStatus();
+    dismissError();
+  }
   render() {
     const { currentUser } = this.props;
+    const { anchorEl } = this.state;
     var username = currentUser?currentUser.fullName||"A":"A";
+    const open = Boolean(anchorEl);
+    const auth = currentUser&&currentUser.id;
 
     return (
       <div className="root">
@@ -35,12 +69,43 @@ export class Header extends PureComponent {
               <Link to="/other"  className="link-button">
                 <Button>Other...</Button>
               </Link>
-              {currentUser&&!currentUser.id&&(
+              {!auth&&(
               <Link to="/login"  className="link-button">
                 <Button>Login </Button>
               </Link>)}
-              {currentUser&&currentUser.id&&(
-              <UserAvatar size="48" name={username} src={currentUser.imageURL||avatar} colors={['#BDBDBD']} style={{display:'inline-flex'}}/>
+              {auth&&(
+                <div  style={{display:'inline-flex'}}>
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
+                  color="inherit"
+                >
+                  <UserAvatar 
+                    size="48" 
+                    name={username} 
+                    src={currentUser.imageURL||avatar} 
+                    colors={['#BDBDBD']} 
+                  />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical:'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleLogOut}>Log out</MenuItem>
+                </Menu>
+                </div>      
               )}
             </div>
           </Toolbar>
@@ -92,4 +157,9 @@ export const mapStateToProps = createSelector(
   })
 );
 
-export default hot(module)(connect(mapStateToProps)(Header));
+export default hot(module)(connect(mapStateToProps,{
+  logOut,
+  delCause,
+  dismissStatus,
+  dismissError
+})(Header));

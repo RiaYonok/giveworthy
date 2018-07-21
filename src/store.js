@@ -31,7 +31,7 @@ export default function configureStore() {
     });
   }
   store.subscribe(() => {
-    saveState(store.getState())
+    saveState(store.getState());
   })
   sagaMiddleware.run(usersSaga);
 

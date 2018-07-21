@@ -20,7 +20,7 @@ export class Login extends PureComponent {
   }
   
   onGoogleSignIn(googleUser) {
-    
+    if (!googleUser) return;
     const authResponse = googleUser.getAuthResponse();
     const guser = jwt.decode(authResponse.id_token);
     if (!guser) return;

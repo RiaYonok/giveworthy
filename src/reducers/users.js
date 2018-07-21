@@ -8,8 +8,10 @@ import {
   ADD_USERS,
   CHANGE_USER_ROLE,
   ADD_USER_AFFILIATED_ORG,
-  CHANGE_USER_INFO
+  CHANGE_USER_INFO,
+  LOG_OUT
 } from '@actions/users';
+
 
 export const initialState = Map({
   users: Map(),
@@ -63,7 +65,8 @@ export default function(state = initialState, action) {
         console.error(err);
         return state;
       }
-
+    case LOG_OUT:
+      return initialState;
     default:
       return state;
   }

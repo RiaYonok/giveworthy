@@ -12,7 +12,7 @@ export const REMOVE_USER_AFFILIATED_ORG = 'REMOVE_USER_AFFILIATED_ORG';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const CHANGE_USER_INFO = 'CHANGE_USER_INFO';
-
+export const LOG_OUT = 'LOG_OUT';
 
 export const addUsers = payload => ({
   type: ADD_USERS,
@@ -88,3 +88,6 @@ export const updateUserInfo = (key, value) => ({
   key,
   value
 });
+ export const logOut = ()=>({
+   type:LOG_OUT
+ });
