@@ -1,55 +1,53 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { hot } from 'react-hot-loader';
 
-class AlertDialog extends React.Component {
+export class AlertDialog extends PureComponent {
     constructor(props) {
         super(props);
-        const {open} = props;
-        this.state={
-            open: open||false
-        };
+        this.state ={
+            open:false
+        }
     }
-
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleClose = (b) => {
-        const {callback} = props;
-        this.setState({ open: false });
-        callback(b);
-    };
-
+    handleOKClose=()=>{
+        const {onBtnClick} = this.props;
+        onBtnClick&&onBtnClick(true);
+    }
+    handleCancelClose=()=>{
+        const {onBtnClick} = this.props;
+        onBtnClick&&onBtnClick(false);
+    }
     render() {
-        const {title, description} = this.props;
-        return (
-        <div>
-            <Dialog
-                open={this.state.open}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
+        const {title, description,open} = this.props;
 
-                <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">{description}</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.handleClose(false)} color="primary">
-                    Disagree
-                    </Button>
-                    <Button onClick={this.handleClose(true)} color="primary" autoFocus>
-                    Agree
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+        return (
+            <div>
+                <Dialog
+                    open={open}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+
+                    <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">{description}</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCancelClose}  color="primary">
+                        Disagree
+                        </Button>
+                        <Button onClick={this.handleOKClose} color="primary" autoFocus>
+                        Agree
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         );
     }
 }
 
-export default AlertDialog;
+export default hot(module)(AlertDialog);
