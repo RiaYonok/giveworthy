@@ -22,14 +22,27 @@ async function signup(email, token) {
   }
   const result = await axios.post(`${url}/signup`, {params});
   if (result.status !== 200)
-    throw new Error(`Login failed with status: ${result.status}`);
+    throw new Error(`Signup failed with status: ${result.status}`);
   
   return result.data;
 }
 async function savecause(params){
   const result = await axios.post(`${url}/savecause`, {params});
   if (result.status !== 200)
-    throw new Error(`Login failed with status: ${result.status}`);
+    throw new Error(`Save cause failed with status: ${result.status}`);
+  
+  return result.data;
+}
+
+async function fileupload(params){
+  const result = await axios({
+    method: 'post',
+    url: `${url}/fileupload`,
+    data: params,
+    config: { headers: {'Content-Type': 'multipart/form-data' }}
+    });
+  if (result.status !== 200)
+    throw new Error(`File Uploading failed with status: ${result.status}`);
   
   return result.data;
 }
@@ -37,5 +50,6 @@ export {
   url,
   login,
   signup,
-  savecause
+  savecause,
+  fileupload
 };

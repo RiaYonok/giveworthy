@@ -15,7 +15,7 @@ import { Button } from '@material-ui/core';
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, TextValidator} from '@components/Validators';
 import getCause from '@selectors/getCause';
-import { saveCause } from '../../../actions/cause';
+import { saveCause } from '@actions/cause';
 
 const styles={
     root:{
@@ -55,7 +55,7 @@ export class QuestionnarieComponent extends PureComponent {
     this.state={
       description:cause.description||"",
     };
-    console.log(cause);
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
@@ -69,13 +69,17 @@ export class QuestionnarieComponent extends PureComponent {
   
   handleSubmit(){
     const { nextPage, 
+      saveCause,
       cause,
       updateCause } = this.props;
     const state = this.state;
     Object.keys(state).forEach(key => {
       updateCause(key, state[key]);
     });
-    console.log(cause);
+    saveCause({
+      id:cause.get("id"),
+      ...this.state
+    })
     nextPage();
     this.props.history.push('/charity-questionnarie-step-2'); 
   }
@@ -135,5 +139,6 @@ export class QuestionnarieComponent extends PureComponent {
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
   updateCause,
+  saveCause,
   setActiveQuestionnaire
 })(QuestionnarieComponent));

@@ -10,7 +10,7 @@ import {getActivePageInfo } from '@selectors/questionnaires';
 import {setActiveQuestionnaire,
         nextPage,
         prevPage} from '@actions/questionnaires';
-import {updateCause} from  '@actions/cause';
+import {updateCause,saveCause} from  '@actions/cause';
 import { Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
@@ -18,6 +18,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Stepper from '@components/BarStepper';
 import getCause from '@selectors/getCause';
+
 
 const styles={
     root:{
@@ -92,6 +93,8 @@ export class QuestionnarieComponent extends PureComponent {
   
   handleSubmit(){
     const { nextPage, 
+      saveCause,
+      cause,
       updateCause } = this.props;
     const state = this.state;
     var tags = [];
@@ -100,6 +103,10 @@ export class QuestionnarieComponent extends PureComponent {
         tags.push(key);
     });
     updateCause("tags", List(tags));
+    saveCause({
+      id:cause.get("id"),
+      tags:tags
+    })
     nextPage();
     this.props.history.push('/charity-questionnarie-step-3'); 
   }
@@ -194,6 +201,7 @@ export class QuestionnarieComponent extends PureComponent {
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
   prevPage,
+  saveCause,
   updateCause,
   setActiveQuestionnaire
 })(QuestionnarieComponent));

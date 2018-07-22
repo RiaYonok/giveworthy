@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 import msg from '@assets/i18n/en';
-import { login, signup, savecause } from '@api';
+import { login, signup, savecause, fileupload } from '@api';
 import User from '@models/User';
 import Cause from '@models/Cause';
 const jwt = require('jsonwebtoken');
@@ -19,7 +19,8 @@ import {
 import {
   SAVE_CAUSE,
   addCause,
-  updateCause
+  updateCause,
+  UPLOAD_FILE
 } from '@actions/cause';
 
 import {
@@ -29,6 +30,7 @@ import {
 import {setStatus, dismissStatus} from '@actions/status.js';
 
 import getLocation from '@selectors/getLocation';
+
 
 
 function* sagaLogin(action) {
@@ -160,10 +162,40 @@ function* sagaSaveCause(action) {
     );
   }
 }
+function* uploadFile(action) {
+  try {
+    yield put(
+      setStatus()
+    );
+    const res = yield call(fileupload, action.payload);
+    
+    if (res.msg!=msg.SUCCESS){
+      yield put(
+        setError(res.desc)
+      );
+    }else{
+      // yield put(
+      //   updateCause(action.key, res.link)
+      // );
+      action.callback(res.link)
+    }
+    yield put(
+      dismissStatus()
+    );
+
+  } catch (err) {
+    console.error(err);
+    yield put(
+      setError('Oops! Something went wrong during login.')
+    );
+  }
+}
+
 export default function* usersSaga() {
   yield takeLatest(LOGIN_USER, sagaLogin);
   yield takeLatest(SIGNUP_USER, sagaSignup);
   yield takeLatest(SAVE_CAUSE, sagaSaveCause);
+  yield takeLatest(UPLOAD_FILE, uploadFile);
 }
 
 

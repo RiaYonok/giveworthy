@@ -15,9 +15,21 @@
 
 require('rootpath')();
 
-// var multer = require('multer');
-
-// var upload = multer({ dest: './uploads/' })
+var multer = require('multer');
+const uuidv4 = require('uuid/v4');
+const path = require('path');
+// configure storage
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads');
+    },
+    filename: (req, file, cb) => {
+        const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
+        cb(null, newFilename);
+    },
+});
+// // create the multer instance that will be used to upload/save the file
+const upload = multer({ storage: storage })
 
 /**
  * @description those are the variables related with admin panel
@@ -35,11 +47,14 @@ module.exports.setup = function(app) {
 
     /* controller modules */
     const user = require("backend/controller/user");
+    const uploader = require("backend/controller/uploader");
     /* Routers */
     app.post("/api/login", user.login);
     app.post("/api/signup", user.signup);
     app.post("/api/savecause", user.saveCause);
-
+    app.post("/api/fileupload", upload.single('file'), uploader.fileUploader);
+    
+    
     /* route to handel 404 error */
     app.use('*', function(req, res) {
         res.status(404)

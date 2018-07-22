@@ -1,21 +1,27 @@
 import React, { PureComponent } from 'react';
-import {List} from "immutable";
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { createSelector } from 'reselect';
 import { hot } from 'react-hot-loader';
-
 import {getActivePageInfo } from '@selectors/questionnaires';
-
 import {setActiveQuestionnaire,
         nextPage,
         prevPage} from '@actions/questionnaires';
-import {updateCause} from  '@actions/cause';
+
+import {updateCause, saveCause, uploadFile} from  '@actions/cause';
 import { Button } from '@material-ui/core';
 import DropZone from 'react-dropzone';
 import Stepper from '@components/BarStepper';
 import getCause from '@selectors/getCause';
-import { Player,BigPlayButton } from 'video-react';
+
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UploadIcon from '@material-ui/icons/CloudUpload';
+import PreviewIcon from '@material-ui/icons/Visibility';
+import Alert from '@components/utils/Alert';
+import VideoPlayDialog from '@components/utils/VideoPlayDialog';
+import getStatus from '@selectors/getStatus';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles={
     root:{
@@ -67,17 +73,24 @@ const styles={
    },
    uploadMessage:{
     margin:"75px auto",
+    marginBottom:10,
     textAlign:"center", 
     color:"#a6a6a6", 
-    fontWeight:"400"}
+    fontWeight:"400"},
+  uploadButtonsArea:{
+    width:100,
+    margin:"0 auto"
+  }
 }
 
 export const mapStateToProps = createSelector(
   getActivePageInfo,
   getCause,
-  ( activePageInfo, cause) => ({
+  getStatus,
+  ( activePageInfo, cause, status) => ({
     activePageInfo,
-    cause
+    cause,
+    status
   })
 );
 
@@ -85,14 +98,24 @@ export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
     const { cause, setActiveQuestionnaire } = props;
+    console.log(cause);
     this.state={
-      primaryVideoLink:cause.primaryVideoLink||"",
-      primaryPhotoLink:cause.primaryVideoLink||""
+      primaryVideoLink:cause.primaryVideoLink||null,
+      primaryPhotoLink:cause.primaryPhotoLink||null,
+      fileContent:null,
+      isUploaded:cause.primaryVideoLink&&cause.primaryVideoLink.length>0?true:false,
+      isOpenedDialog:false,
+      isOpenedVideoPlayDialog:false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleUploadVideo = this.handleUploadVideo.bind(this);
+    this.handleDeleteFileContent = this.handleDeleteFileContent.bind(this);
+    this.openAlertDialog = this.openAlertDialog.bind(this);
+    this.openVidoPlayDialog = this.openVidoPlayDialog.bind(this);
+    this.closeVidoPlayDialog = this.closeVidoPlayDialog.bind(this);
     this.onDrop = this.onDrop.bind(this);
     setActiveQuestionnaire(3);
   }
@@ -103,13 +126,21 @@ export class QuestionnarieComponent extends PureComponent {
   
   handleSubmit(){
     const { nextPage, 
-      updateCause } = this.props;
+      cause,
+      saveCause } = this.props;
     const state = this.state;
-    Object.keys(state).forEach(key => {
-      updateCause(key, state[key]);
-    });
-    nextPage();
-    this.props.history.push('/charity-questionnarie-step-4'); 
+    // Object.keys(state).forEach(key => {
+    //   updateCause(key, state[key]);
+    // });
+    console.log(this.state.primaryVideoLink)
+    if(this.state.primaryVideoLink){
+      saveCause({
+        id:cause.get("id"),
+        primaryVideoLink:state.primaryVideoLink
+      })
+      nextPage();
+      this.props.history.push('/charity-questionnarie-step-4'); 
+    }
   }
   handleBack(){
     const { prevPage } = this.props;
@@ -121,15 +152,57 @@ export class QuestionnarieComponent extends PureComponent {
     nextPage();
     this.props.history.push('/charity-questionnarie-step-4'); 
   }
-  onDrop(accepted, rejected){
-    
+  handleUploadVideo(b){
+    this.setState({isOpenedDialog:false});
+    const { cause, 
+      updateCause,
+      uploadFile } = this.props;
+    if(b){
+      const data = new FormData();
+      data.append('file', this.state.fileContent);
+      data.append('id', cause.id);
+      data.append('key','primaryVideoLink');
+      const self = this;
+      uploadFile(data, 'primaryVideoLink', function(link){
+        if (link){
+          self.setState({"isUploaded":true, primaryVideoLink:link});
+          updateCause('primaryVideoLink',link);
+        }
+      });
+      
+    }
+  }
+  openAlertDialog(e){
+    e.stopPropagation();
+    this.setState({isOpenedDialog:true});
+  }
+  openVidoPlayDialog(e){
+    e.stopPropagation();
+    this.setState({isOpenedVideoPlayDialog:true});
+  }
+  closeVidoPlayDialog(){
+    this.setState({isOpenedVideoPlayDialog:false});
+  }
+  
+  handleDeleteFileContent(e){
+    e.stopPropagation();
+    this.setState({
+      fileContent: null, 
+      isUploaded:false,
+      primaryVideoLink:null
+    });
+    const {updateCause} = this.props;
+    updateCause('primaryVideoLink',null);
+  }
+  onDrop(accepted){
     if (accepted.length>0){
-      this.setState({primaryVideoLink: accepted[0]});
+      this.setState({fileContent: accepted[0], isUploaded:false,primaryVideoLink:null});
     }
   }
   render() {
     const { 
-      activePageInfo
+      activePageInfo,
+      status
     } = this.props;
     return (
       <div className="root" style={styles.root}>
@@ -147,23 +220,50 @@ export class QuestionnarieComponent extends PureComponent {
             onDrop={this.onDrop}
           >
             <Typography variant="title" color="default" style={styles.uploadMessage}  gutterBottom>
-            {this.state.primaryVideoLink && this.state.primaryVideoLink.name&&`Selected video file: ${this.state.primaryVideoLink.name}`}
-            {(!this.state.primaryVideoLink ||  typeof(this.state.primaryVideoLink)=="string") && "Upload a video message."}
+            {this.state.fileContent && this.state.fileContent.name&&`Selected video file: ${this.state.fileContent.name}`}
+            {(!this.state.fileContent) && "Upload a video message."}
             </Typography>
 
+            <div style={styles.uploadButtonsArea}>
+              {this.state.primaryVideoLink&&(<IconButton  aria-label="Preview" onClick={this.openVidoPlayDialog}>
+                <PreviewIcon />
+              </IconButton>)}
+              {this.state.fileContent&&!this.state.isUploaded&&(
+                <IconButton  aria-label="Upload" onClick={this.openAlertDialog} disabled={status}>
+                {!status&&<UploadIcon />}  {status&&<CircularProgress size={20}/>}
+                </IconButton>)}
+              {(this.state.primaryVideoLink||this.state.fileContent)&&(
+                <IconButton  aria-label="Delete" onClick={this.handleDeleteFileContent} disabled={status}>
+                  <DeleteIcon />
+                </IconButton>
+              )}
+            </div>
+            
+            
           </DropZone>
           
-          <Button type="submit" variant="contained" onClick={this.handleSubmit} className="login-button email-signin-button">
+          <Button type="submit" variant="contained" onClick={this.handleSubmit} disabled={status} className="login-button email-signin-button">
           Next
           </Button>
 
-        <Button  style={styles.skipBtn} onClick={this.handleSkip}>
+        <Button  style={styles.skipBtn} onClick={this.handleSkip} disabled={status}>
         Skip
         </Button>
         <Button  style={styles.backBtn} onClick={this.handleBack}>
           &lt; Back
         </Button>
         <Stepper steps={activePageInfo}/>
+        <Alert
+          open={this.state.isOpenedDialog}
+          title={"Upload Confirmation"}
+          description={"Would you like to upload this video message?"}
+          onBtnClick={this.handleUploadVideo}
+        />
+        <VideoPlayDialog
+          open={this.state.isOpenedVideoPlayDialog}
+          onClose = {this.closeVidoPlayDialog}
+          src={this.state.primaryVideoLink}
+        />    
       </div>
     );
   }
@@ -175,5 +275,7 @@ export default hot(module)(connect(mapStateToProps,{
   nextPage, 
   prevPage,
   updateCause,
+  saveCause,
+  uploadFile,
   setActiveQuestionnaire
 })(QuestionnarieComponent));

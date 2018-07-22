@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import  {Link}  from  'react-router-dom';
+
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, InputValidator} from '@components/Validators';
 import { signupUser } from '@actions/users';

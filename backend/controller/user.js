@@ -145,6 +145,7 @@ module.exports.saveCause = function(req, res){
                         var user = docs[0];
                         user.type="charity";
                         user.save();
+                        params.id = uuid();
                         var cause = new Cause(params);
                         cause.save(function(err1, savedDoc){
                             if (err1){
@@ -158,13 +159,13 @@ module.exports.saveCause = function(req, res){
                             res.send(resJSON);
                         });
                     }else{
-                        res.desc = msg.UNKNOWN_USER;
+                        resJSON.desc = msg.UNKNOWN_USER;
                         res.send(resJSON);
                     }
                 }
             });
         }else{
-            res.desc = msg.UNKNOWN_USER;
+            resJSON.desc = msg.UNKNOWN_USER;
             res.send(resJSON);
         }
     }else{
@@ -174,13 +175,13 @@ module.exports.saveCause = function(req, res){
             }else{
                 if (docs&&docs.length>0){
                     var doc = docs[0];
-                    res.msg = msg.SUCCESS;
+                    resJSON.msg = msg.SUCCESS;
                     Object.keys(params).forEach(function(key){
                         doc[key] = params[key];
                     });
                     doc.save();
                 }else{
-                    res.desc = msg.UNKNOWN_CAUSE;
+                    resJSON.desc = msg.UNKNOWN_CAUSE;
                 }
             }
             res.send(resJSON);

@@ -6,7 +6,6 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-const uuid = require('uuid/v1');
 
 var CauseSchema = new Schema({
     id:{
@@ -29,7 +28,7 @@ var CauseSchema = new Schema({
         type: String
     },
     tags:{
-        type: String
+        type: [String]
     },
     description: {
         type: String
@@ -53,7 +52,6 @@ var CauseSchema = new Schema({
 CauseSchema.pre('save', function(next){
     var cause = this;
     cause.updated_at = new Date();
-    cause.id = uuid();
     next();
 });
 

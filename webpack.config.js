@@ -79,7 +79,8 @@ module.exports = env => {
         contentBase: buildDir,
         disableHostCheck: true,
         proxy: {
-          "/api": "http://localhost:3000"
+          "/api": "http://localhost:3000",
+          "/public": "http://localhost:3000"
         }
       },
       plugins: [
@@ -105,7 +106,8 @@ module.exports = env => {
         hot: true,
         disableHostCheck: true,
         proxy: {
-          "/api": "http://localhost:3000"
+          "/api": "http://localhost:3000",
+          "/public": "http://localhost:3000"
         }
       },
       plugins: [

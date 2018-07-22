@@ -29,6 +29,7 @@ export class AlertDialog extends PureComponent {
             <div>
                 <Dialog
                     open={open}
+                    onClose={this.handleCancelClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description">
 

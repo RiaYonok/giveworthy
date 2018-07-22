@@ -10,6 +10,7 @@ const messages = {
     'DUPLICATED_USER': 'This user has been already registered.',
     'DB_ERROR':"Database error.",
     'UNKNOWN_CAUSE':"Unknown cause.",
-    "UNKNOWN_USER":"Unknown User"
+    "UNKNOWN_USER":"Unknown User",
+    "FILE_WRITE_ERROR":"Error with writting file on server"
 }
 module.exports = messages;

@@ -15,7 +15,7 @@ import { Button } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from '@components/Validators';
 import Stepper from '@components/BarStepper';
 import getCause from '@selectors/getCause';
-
+import { saveCause } from '@actions/cause';
 const styles={
     root:{
         maxWidth:500,
@@ -78,12 +78,17 @@ export class QuestionnarieComponent extends PureComponent {
   
   handleSubmit(){
     const { nextPage, 
+      saveCause,
+      cause,
       updateCause } = this.props;
     const state = this.state;
     Object.keys(state).forEach(key => {
       updateCause(key, state[key]);
     });
-
+    saveCause({
+      id:cause.get("id"),
+      ...this.state
+    })
     nextPage();
     this.props.history.push('/charity-questionnarie-step-5'); 
   }
@@ -151,6 +156,7 @@ export class QuestionnarieComponent extends PureComponent {
 export default hot(module)(connect(mapStateToProps,{
   nextPage, 
   prevPage,
+  saveCause,
   updateCause,
   setActiveQuestionnaire
 })(QuestionnarieComponent));
