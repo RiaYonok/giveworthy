@@ -4,6 +4,8 @@
 /.stryker-tmp
 /.nyc_output
 /.vscode
+/uploads
+/public/video
 .env
 package-lock.json
 yarn.lock
