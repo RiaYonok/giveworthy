@@ -215,7 +215,7 @@ export class QuestionnarieComponent extends PureComponent {
 
           <DropZone
             style={styles.dropZone}
-            accept="video/mp4"
+            accept="video/*"
             activeStyle={styles.activeDrag}
             onDrop={this.onDrop}
           >
