@@ -6,7 +6,7 @@ body {
 
 .main-container {
   font-size: 8pt;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 
   @media screen and (min-width: $medium-break) {
     font-size: 12pt;
@@ -34,6 +34,10 @@ body {
     margin: 0 auto;
   }
 
+}
+.page-container{
+  margin-top:60px !important;
+  margin-bottom:60px !important;
 }
 .root{
   flex-grow:1

@@ -21,8 +21,8 @@ var CauseSchema = new Schema({
     primaryVideoLink:  {
         type: String
     },
-    primaryPhotoLink: { 
-        type: String
+    photoLinks: { 
+        type: [String]
     },
     webLink: { 
         type: String

@@ -6,13 +6,14 @@ const shape = {
   adminIds: List(),
   name: null,
   primaryVideoLink: null,
-  primaryPhotoLink: null,
+  photoLinks: List(),
   webLink: null,
   tags: List(),
   description: null,
   summary: null,
   details:null,
-  donationIds: List()
+  donationIds: List(),
+  percentile:null
 };
 
 class Cause extends Record(shape) {
@@ -22,14 +23,15 @@ class Cause extends Record(shape) {
       ownerId: pojo.ownerId || null,
       name: pojo.name || null,
       primaryVideoLink: pojo.primaryVideoLink || null,
-      primaryPhotoLink: pojo.primaryPhotoLink || null,
+      photoLinks: pojo.photoLinks ? fromJS(pojo.photoLinks) : List(), 
       webLink: pojo.webLink || null,
       description: pojo.description || null,
       summary: pojo.summary || null,
       details: pojo.details || null,
       adminIds: pojo.adminIds ? fromJS(pojo.adminIds) : List(),
       tags: pojo.tags ? fromJS(pojo.tags) : List(),
-      donationIds: pojo.donationIds ? fromJS(pojo.donationIds) : List()
+      donationIds: pojo.donationIds ? fromJS(pojo.donationIds) : List(),
+      percentile:pojo.percentile || null
     });
   }
 }

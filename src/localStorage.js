@@ -13,7 +13,10 @@ export const localState = ()=>{
             const donations = payload.users.current.donationProfile.donations;
             payload.users.current.donationProfile.donations = donations?fromJS(donations):List();
             payload.users.current.donationProfile = new DonationProfile(payload.users.current.donationProfile);
-
+            payload.cause.cause.photoLinks = payload.cause.cause.photoLinks?fromJS(payload.cause.cause.photoLinks):List();
+            payload.cause.cause.tags = payload.cause.cause.tags?fromJS(payload.cause.cause.tags):List();
+            payload.cause.cause.adminIds = payload.cause.cause.adminIds?fromJS(payload.cause.cause.adminIds):List();
+            payload.cause.cause.donationIds = payload.cause.cause.donationIds?fromJS(payload.cause.cause.donationIds):List();
 
             payload = {
                 users:Map({

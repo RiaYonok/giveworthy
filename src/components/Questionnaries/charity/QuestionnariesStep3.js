@@ -98,10 +98,9 @@ export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
     const { cause, setActiveQuestionnaire } = props;
-    console.log(cause);
+    
     this.state={
       primaryVideoLink:cause.primaryVideoLink||null,
-      primaryPhotoLink:cause.primaryPhotoLink||null,
       fileContent:null,
       isUploaded:cause.primaryVideoLink&&cause.primaryVideoLink.length>0?true:false,
       isOpenedDialog:false,
@@ -129,10 +128,7 @@ export class QuestionnarieComponent extends PureComponent {
       cause,
       saveCause } = this.props;
     const state = this.state;
-    // Object.keys(state).forEach(key => {
-    //   updateCause(key, state[key]);
-    // });
-    console.log(this.state.primaryVideoLink)
+    
     if(this.state.primaryVideoLink){
       saveCause({
         id:cause.get("id"),

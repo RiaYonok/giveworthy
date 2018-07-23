@@ -56,7 +56,7 @@ export class Header extends PureComponent {
 
     return (
       <div className="root">
-        <AppBar position="static" color="default">
+        <AppBar position="fixed" color="default">
           <Toolbar className="main-container" >
             <Typography variant="title" color="primary" className="flex" >
               <Link to="/" className="link-button"><img src={logo} /></Link>

@@ -89,7 +89,8 @@ export class QuestionnarieComponent extends PureComponent {
       id:cause.get("id"),
       ...this.state
     });
-    nextPage();
+    //nextPage();
+    this.props.history.push('/charity-profile'); 
   }
   handleBack(){
     const { prevPage } = this.props;
