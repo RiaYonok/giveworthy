@@ -24,7 +24,6 @@ const styles = theme => ({
       padding: theme.spacing.unit * 2,
       textAlign: 'center',
       color: theme.palette.text.secondary,
-      marginTop:theme.spacing.unit * 5, 
       marginLeft:theme.spacing.unit * 2,
       marginRight:theme.spacing.unit * 2, 
     },
