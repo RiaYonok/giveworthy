@@ -21,6 +21,7 @@ import {delCause} from '@actions/cause';
 import {dismissStatus} from '@actions/status';
 import {dismissError} from '@actions/errors';
 
+
 export class Header extends PureComponent {
   constructor(props) {
     super(props);
@@ -30,6 +31,7 @@ export class Header extends PureComponent {
     this.handleMenu = this.handleMenu.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.gotoProfile = this.gotoProfile.bind(this);
   }
   handleMenu = event => {
     event.preventDefault();
@@ -47,6 +49,13 @@ export class Header extends PureComponent {
     dismissStatus();
     dismissError();
   }
+  gotoProfile(){
+    const { currentUser } = this.props;
+    if (currentUser.type=="charity"){
+      //this.props.history.push('/charity-profile');
+      return <Link to={'/charity-profile'} />;
+    }
+  }
   render() {
     const { currentUser } = this.props;
     const { anchorEl } = this.state;
@@ -62,12 +71,17 @@ export class Header extends PureComponent {
               <Link to="/" className="link-button"><img src={logo} /></Link>
             </Typography>
             <div>
+            {auth&&(
+              <Link to="/dashboard"  className="link-button">
+                <Button>Dashboard </Button>
+              </Link>)}
               <Link to="/about" className="link-button">
                 <Button>About</Button>
               </Link>
+              {!auth&&(
               <Link to="/other"  className="link-button">
                 <Button>Other...</Button>
-              </Link>
+              </Link>)}
               {!auth&&(
               <Link to="/login"  className="link-button">
                 <Button>Login </Button>
@@ -101,7 +115,7 @@ export class Header extends PureComponent {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <Link to={`/${currentUser.type}-profile`} className="link-button"><MenuItem >Profile</MenuItem></Link>
                   <MenuItem onClick={this.handleLogOut}>Log out</MenuItem>
                 </Menu>
                 </div>      

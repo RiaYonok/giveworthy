@@ -52,6 +52,7 @@ module.exports.setup = function(app) {
     app.post("/api/login", user.login);
     app.post("/api/signup", user.signup);
     app.post("/api/savecause", user.saveCause);
+    app.post("/api/getcause", user.getCause);
     app.post("/api/fileupload", upload.single('file'), uploader.fileUploader);
     
     

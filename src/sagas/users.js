@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 import msg from '@assets/i18n/en';
-import { login, signup, savecause, fileupload } from '@api';
+import { login, signup, savecause, fileupload, getCause } from '@api';
 import User from '@models/User';
 import Cause from '@models/Cause';
 const jwt = require('jsonwebtoken');
@@ -51,9 +51,21 @@ function* sagaLogin(action) {
         yield put(
           setCurrentUser(user.id)
         );
+        
         if (res.newUser){
           yield put(push('/choose-account-type'));
         }else{
+          //get Cause if account type is charity
+          if (user.type=="charity"){
+            const causeRes =  yield call(getCause, user.id);
+            if (causeRes.msg == msg.SUCCESS && causeRes.causes.length>0){
+              var cause = causeRes.causes[0];
+              
+              yield put(
+                addCause(Cause.fromJS(cause))
+              );
+            }
+          }
           const location = yield select(getLocation);
           if (get(location, ['state', 'from', 'pathname']))
             yield put(push(get(location, ['state', 'from', 'pathname'])));

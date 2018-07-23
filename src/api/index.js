@@ -33,7 +33,17 @@ async function savecause(params){
   
   return result.data;
 }
+async function getCause(userID) {
 
+  var params = {
+    id:userID
+  }
+  const result = await axios.post(`${url}/getCause`, {params});
+  if (result.status !== 200)
+    throw new Error(`get cause failed with status: ${result.status}`);
+  
+  return result.data;
+}
 async function fileupload(params){
   const result = await axios({
     method: 'post',
@@ -51,5 +61,6 @@ export {
   login,
   signup,
   savecause,
+  getCause,
   fileupload
 };

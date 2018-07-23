@@ -47,7 +47,8 @@ body {
 }
 .link-button{
   text-decoration:none;
-  color:$dark-gray
+  color:$dark-gray;
+  outline: none;
 }
 .sub-header-title{
   margin-top:60px !important;

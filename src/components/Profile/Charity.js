@@ -76,7 +76,7 @@ export class Profile extends PureComponent {
     const { classes } = this.props;
     return (
         <div className="root main-container">
-            <Grid container spacing={24} className="page-container">
+            <Grid container spacing={24}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper} >
                         <Player

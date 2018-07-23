@@ -189,3 +189,31 @@ module.exports.saveCause = function(req, res){
     }
 
 }
+
+module.exports.getCause = function(req, res){
+    var params = req.body.params,
+        id = params.id
+    
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        causes:[]
+    };
+    if (!id || id==""){
+        resJSON.desc=msg.UNKNOWN_USER;
+        res.send(resJSON);
+    }else{
+        Cause.find({ownerId:id}, function(err, docs){
+            if (err){
+                console.log(err);
+                resJSON.desc=msg.DB_ERROR;
+                res.send(resJSON);
+            }else{
+                resJSON.msg = msg.SUCCESS;
+                resJSON.causes = docs||[];
+            }
+            res.send(resJSON);
+        })
+    }
+    
+}

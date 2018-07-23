@@ -10,7 +10,7 @@ class Main extends Component {
         {/* <Questionnaire questionnaireName="test">
           <div>yo yo yo</div>
         </Questionnaire> */}
-        <div style={{marginTop:60}}>
+        <div style={{marginTop:120}}>
           <Routes />
         </div>
       </Fragment>
