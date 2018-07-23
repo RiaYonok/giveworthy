@@ -8,7 +8,7 @@ export class Home extends PureComponent {
   render() {
     
     return (
-      <div className="dashboard-container">
+      <div className="main-container">
         <h1>Welcome</h1>
       </div>
     );

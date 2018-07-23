@@ -14,6 +14,7 @@ body {
 
   @media screen and (min-width: $large-break) {
     font-size: 16pt;
+    width:$large-break;
   }
   
   h1 {
@@ -30,8 +31,7 @@ body {
   }
 
   @media screen and (min-width: $large-break) {
-    box-shadow: 0px 1px 17px -4px rgba(0,0,0,0.75);
-    margin: 0 100px 0 100px;
+    margin: 0 auto;
   }
 
 }
