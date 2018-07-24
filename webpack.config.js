@@ -78,6 +78,8 @@ module.exports = env => {
       devServer: {
         contentBase: buildDir,
         disableHostCheck: true,
+        historyApiFallback: true,
+        hot: true,
         proxy: {
           "/api": "http://localhost:3000",
           "/public": "http://localhost:3000"
