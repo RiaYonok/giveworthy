@@ -10,19 +10,24 @@ import {setActiveQuestionnaire,
 
 import {updateCause, saveCause, uploadFile} from  '@actions/cause';
 import { Button } from '@material-ui/core';
-import DropZone from 'react-dropzone';
+//import DropZone from 'react-dropzone';
 import Stepper from '@components/BarStepper';
 import getCause from '@selectors/getCause';
-
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import UploadIcon from '@material-ui/icons/CloudUpload';
-import PreviewIcon from '@material-ui/icons/Visibility';
-import Alert from '@components/utils/Alert';
-import VideoPlayDialog from '@components/utils/VideoPlayDialog';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+//import IconButton from '@material-ui/core/IconButton';
+//import DeleteIcon from '@material-ui/icons/Delete';
+//import UploadIcon from '@material-ui/icons/CloudUpload';
+//import PreviewIcon from '@material-ui/icons/Visibility';
+//import Alert from '@components/utils/Alert';
+//import VideoPlayDialog from '@components/utils/VideoPlayDialog';
 import getStatus from '@selectors/getStatus';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+//import CircularProgress from '@material-ui/core/CircularProgress';
+import LinkIcon from '@material-ui/icons/Link';
+import YoutubePlayer from 'react-player'
+//import { Player,BigPlayButton } from 'video-react';
 const styles={
     root:{
         maxWidth:500,
@@ -37,9 +42,7 @@ const styles={
       display:'block'
     },
     formControl:{
-      width:200, 
-      margin:'0px auto',
-      display:'block'
+      width:"100%",
     },
     backBtn:{
       fontSize:20,
@@ -65,6 +68,16 @@ const styles={
     border: "2px dashed ",
     borderColor:"#BDBDBD",
     height: 200,
+    borderRadius: 5,
+    background:"#eaeaea"
+   },
+   videoplayArea:{
+    height:300,
+    width:"100%",
+    outline:"none",
+    marginTop:20,
+    border: "2px",
+    borderColor:"#BDBDBD",
     borderRadius: 5,
     background:"#eaeaea"
    },
@@ -120,16 +133,18 @@ export class QuestionnarieComponent extends PureComponent {
   }
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.checked });
+    this.setState({ [prop]: event.target.value });
   };
   
   handleSubmit(){
     const { nextPage, 
       cause,
+      updateCause,
       saveCause } = this.props;
     const state = this.state;
     
     if(this.state.primaryVideoLink){
+      updateCause('primaryVideoLink',state.primaryVideoLink);
       saveCause({
         id:cause.get("id"),
         primaryVideoLink:state.primaryVideoLink
@@ -208,8 +223,30 @@ export class QuestionnarieComponent extends PureComponent {
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
           Video message about the cause and thanking donors
         </Typography>
-
-          <DropZone
+        <div style={styles.formControl}>
+          <Grid container spacing={8} alignItems="flex-end">
+            <Grid item>
+              <LinkIcon />
+            </Grid>
+            <Grid item xs={11}>
+              <FormControl style={styles.formControl} >
+                <InputLabel htmlFor="primaryVideoLink">Video link</InputLabel>
+                <Input id="primaryVideoLink" value={this.state.primaryVideoLink||""} onChange={this.handleChange("primaryVideoLink")} />
+              </FormControl>
+            </Grid>
+          </Grid>
+        </div>
+        <div style={styles.videoplayArea}>
+          <YoutubePlayer
+            playsinline
+            url={this.state.primaryVideoLink||""}
+            controls = {true}
+            width ={"100%"}
+            height ={"100%"}
+          >
+          </YoutubePlayer>
+        </div>
+          {/* <DropZone
             style={styles.dropZone}
             accept="video/*"
             activeStyle={styles.activeDrag}
@@ -220,7 +257,8 @@ export class QuestionnarieComponent extends PureComponent {
             {(!this.state.fileContent) && "Upload a video message."}
             </Typography>
 
-            <div style={styles.uploadButtonsArea}>
+            
+             <div style={styles.uploadButtonsArea}>
               {this.state.primaryVideoLink&&(<IconButton  aria-label="Preview" onClick={this.openVidoPlayDialog}>
                 <PreviewIcon />
               </IconButton>)}
@@ -233,23 +271,23 @@ export class QuestionnarieComponent extends PureComponent {
                   <DeleteIcon />
                 </IconButton>
               )}
-            </div>
+            </div> 
             
             
-          </DropZone>
+          </DropZone> */}
           
-          <Button type="submit" variant="contained" onClick={this.handleSubmit} disabled={status} className="login-button email-signin-button">
+          <Button type="submit" variant="contained" onClick={this.handleSubmit}  className="login-button email-signin-button">
           Next
           </Button>
 
-        <Button  style={styles.skipBtn} onClick={this.handleSkip} disabled={status}>
+        <Button  style={styles.skipBtn} onClick={this.handleSkip} >
         Skip
         </Button>
         <Button  style={styles.backBtn} onClick={this.handleBack}>
           &lt; Back
         </Button>
         <Stepper steps={activePageInfo}/>
-        <Alert
+        {/* <Alert
           open={this.state.isOpenedDialog}
           title={"Upload Confirmation"}
           description={"Would you like to upload this video message?"}
@@ -259,7 +297,7 @@ export class QuestionnarieComponent extends PureComponent {
           open={this.state.isOpenedVideoPlayDialog}
           onClose = {this.closeVidoPlayDialog}
           src={this.state.primaryVideoLink}
-        />    
+        />     */}
       </div>
     );
   }

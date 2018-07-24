@@ -112,6 +112,7 @@
     "react-form-validator-core": "^0.4.4",
     "react-google-login": "^3.2.1",
     "react-hot-loader": "^4.2.0",
+    "react-player": "^1.6.4",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

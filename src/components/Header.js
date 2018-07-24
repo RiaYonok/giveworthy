@@ -52,7 +52,6 @@ export class Header extends PureComponent {
   gotoProfile(){
     const { currentUser } = this.props;
     if (currentUser.type=="charity"){
-      //this.props.history.push('/charity-profile');
       return <Link to={'/charity-profile'} />;
     }
   }
