@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { hot } from 'react-hot-loader';
 import getCause from '@selectors/getCause';
-import { Player,BigPlayButton } from 'video-react';
+import YoutubePlayer from 'react-player'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -21,11 +21,13 @@ const styles = theme => ({
       flexGrow: 1,
     },
     paper: {
-      padding: theme.spacing.unit * 2,
+        position: 'relative',
+      padding: theme.spacing.unit ,
       textAlign: 'center',
       color: theme.palette.text.secondary,
       marginLeft:theme.spacing.unit * 2,
       marginRight:theme.spacing.unit * 2, 
+      height:'75vh'
     },
     subContainer:{
         paddingLeft:theme.spacing.unit * 3,
@@ -49,11 +51,14 @@ export class Profile extends PureComponent {
         description:cause.description||"",
         summary:cause.summary||"",
         details:caches.details||"",
+        webLink:cause.webLink||"charitywebsite.com",
         editFlags:{
             name:false,
             description:false,
             summary:false,
-            details:false
+            details:false,
+            webLink:false,
+            percentile:false
         }
     }
     this.handleChange = this.handleChange.bind(this);
@@ -71,43 +76,64 @@ export class Profile extends PureComponent {
     this.setState({ editFlags:{
         [prop]: !this.state.editFlags[prop]
     }});
-  }
+  };
+
   render() {
     const { classes } = this.props;
     return (
         <div className="root main-container">
             <Grid container spacing={24}>
                 <Grid item xs={12}>
-                    <Paper className={classes.paper} >
-                        <Player
-                            playsInline
-                            src={this.state.primaryVideoLink}
+                    <Paper className={classes.paper}>
+                        <YoutubePlayer
+                            playsinline
+                            url={this.state.primaryVideoLink||""}
+                            controls = {true}
+                            width ={"100%"}
+                            height ={"100%"}
                         >
-                            <BigPlayButton position="center" />
-                        </Player>
+                        </YoutubePlayer>
                     </Paper>
                 </Grid>
-                <Grid item xs={12}  >
+                <Grid item xs={12}>
                     <Grid container className={classes.subContainer}> 
                         <Grid item xs={12} sm={8} >
-                        <Grid container spacing={8} alignItems="flex-end">
-                            <Grid item xs={8} sm={6}>
-                            {!this.state.editFlags.name?<Typography variant="title" color="default"  gutterBottom>
-                                    {this.state.name || "Charity Name"}
-                               </Typography>:
-                               <FormControl className={classes.formControl}>
-                                    <InputLabel htmlFor="name">Charity Name</InputLabel>
-                                    <Input id="name" value={this.state.name} onChange={this.handleChange("name")} />
-                                </FormControl>}
-                            </Grid>
-                            <Grid item>
-                                <IconButton onClick={this.setEditStatus("name")}>
-                                    {this.state.editFlags.name?<SaveIcon/>:<EditIcon />}
-                                </IconButton>
+                            <Grid container spacing={8} alignItems="flex-end">
+                                <Grid item xs={8} sm={6}>
+                                {!this.state.editFlags.name?<Typography variant="title" color="default"  gutterBottom>
+                                        {this.state.name || "Charity Name"}
+                                </Typography>:
+                                <FormControl className={classes.formControl}>
+                                        <InputLabel htmlFor="name">Charity Name</InputLabel>
+                                        <Input id="name" value={this.state.name} onChange={this.handleChange("name")} />
+                                    </FormControl>}
+                                </Grid>
+                                <Grid item>
+                                    <IconButton onClick={this.setEditStatus("name")}>
+                                        {this.state.editFlags.name?<SaveIcon/>:<EditIcon />}
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={8} sm={6}>
+                                {!this.state.editFlags.webLink?<Typography variant="subheading" color="default"  gutterBottom>
+                                        {this.state.webLink}
+                                </Typography>:
+                                <FormControl className={classes.formControl}>
+                                        <InputLabel htmlFor="name">Charity Website</InputLabel>
+                                        <Input id="name" value={this.state.webLink} onChange={this.handleChange("webLink")} />
+                                    </FormControl>}
+                                </Grid>
+                                <Grid item>
+                                    <IconButton onClick={this.setEditStatus("webLink")}>
+                                        {this.state.editFlags.webLink?<SaveIcon/>:<EditIcon />}
+                                    </IconButton>
+                                </Grid>
                             </Grid>
                         </Grid>
-                        
-                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                    <Grid container className={classes.subContainer}> 
+
                     </Grid>
                 </Grid>
             </Grid>
