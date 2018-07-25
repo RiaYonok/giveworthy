@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import {updateCause, saveCause, uploadFile} from  '@actions/cause';
 
 const styles = theme => ({
@@ -35,8 +37,29 @@ const styles = theme => ({
     },
     formControl: {
         margin: theme.spacing.unit,
+        width:"96%"
+    },
+    grayTextSection:{
+        border:"1px solid #a6a6a6",
+        height:200,
+        background:"#e8e8e8",
+        display:"table",
+        position:"relative",
+        overflow:"auto",
+        borderRadius:5,
         width:"100%"
     },
+    verticalMiddleAlign:{
+        verticalAlign:"middle",
+        display:"table-cell",
+        fontSize:22,
+        padding:"0 5px"
+    },
+    rightTopIcon:{
+        position:"absolute",
+        right:0,
+        top:0
+    }
 });
 export class Profile extends PureComponent {
   constructor(props) {
@@ -82,7 +105,7 @@ export class Profile extends PureComponent {
     const { classes } = this.props;
     return (
         <div className="root main-container">
-            <Grid container spacing={24}>
+            <Grid container spacing={40}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <YoutubePlayer
@@ -96,17 +119,17 @@ export class Profile extends PureComponent {
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                    <Grid container className={classes.subContainer}> 
+                    <Grid container className = {classes.subContainer} spacing={32}>
                         <Grid item xs={12} sm={8} >
                             <Grid container spacing={8} alignItems="flex-end">
                                 <Grid item xs={8} sm={6}>
-                                {!this.state.editFlags.name?<Typography variant="title" color="default"  gutterBottom>
-                                        {this.state.name || "Charity Name"}
-                                </Typography>:
-                                <FormControl className={classes.formControl}>
-                                        <InputLabel htmlFor="name">Charity Name</InputLabel>
-                                        <Input id="name" value={this.state.name} onChange={this.handleChange("name")} />
-                                    </FormControl>}
+                                    {!this.state.editFlags.name?<Typography variant="title" color="default"  gutterBottom>
+                                            {this.state.name || "Charity Name"}
+                                    </Typography>:
+                                    <FormControl className={classes.formControl}>
+                                            <InputLabel htmlFor="name">Charity Name</InputLabel>
+                                            <Input id="name" value={this.state.name} onChange={this.handleChange("name")} />
+                                        </FormControl>}
                                 </Grid>
                                 <Grid item>
                                     <IconButton onClick={this.setEditStatus("name")}>
@@ -114,13 +137,13 @@ export class Profile extends PureComponent {
                                     </IconButton>
                                 </Grid>
                                 <Grid item xs={8} sm={6}>
-                                {!this.state.editFlags.webLink?<Typography variant="subheading" color="default"  gutterBottom>
-                                        {this.state.webLink}
-                                </Typography>:
-                                <FormControl className={classes.formControl}>
-                                        <InputLabel htmlFor="name">Charity Website</InputLabel>
-                                        <Input id="name" value={this.state.webLink} onChange={this.handleChange("webLink")} />
-                                    </FormControl>}
+                                    {!this.state.editFlags.webLink?<Typography variant="subheading" color="default"  gutterBottom>
+                                            {this.state.webLink}
+                                    </Typography>:
+                                    <FormControl className={classes.formControl}>
+                                            <InputLabel htmlFor="name">Charity Website</InputLabel>
+                                            <Input id="name" value={this.state.webLink} onChange={this.handleChange("webLink")} />
+                                        </FormControl>}
                                 </Grid>
                                 <Grid item>
                                     <IconButton onClick={this.setEditStatus("webLink")}>
@@ -129,13 +152,94 @@ export class Profile extends PureComponent {
                                 </Grid>
                             </Grid>
                         </Grid>
+                        <Grid item xs={12} sm={4} >
+                            
+                        </Grid>
+                        <Grid item xs={12} >
+                            <div className={classes.grayTextSection}>
+                                {!this.state.editFlags.description?(<Typography variant="subheading" gutterBottom align="center" className = {classes.verticalMiddleAlign} >
+                                    {this.state.description||"Misson statement"}
+                                </Typography>):
+                                <FormControl
+                                    className = {classes.formControl}
+                                    >
+                                    <TextField  
+                                        value={this.state.description}
+                                        onChange={this.handleChange("description")} 
+                                        multiline = {true}
+                                        rows = {4}
+                                        />
+                                </FormControl>}
+                                <IconButton onClick={this.setEditStatus("description")} className={classes.rightTopIcon}>
+                                    {this.state.editFlags.description?<SaveIcon/>:<EditIcon />}
+                                </IconButton>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={2} >
+                            <div className={classes.grayTextSection}>
+                                {!this.state.editFlags.percentile?(<Typography variant="subheading" gutterBottom align="center" className = {classes.verticalMiddleAlign} >
+                                    {this.state.percentile||0}% of founds going to core causes
+                                </Typography>):
+                                <FormControl
+                                    className = {classes.formControl}
+                                    >
+                                    <TextField  
+                                        value={this.state.percentile||0}
+                                        style = {{width:100}}
+                                        onChange={this.handleChange("percentile")} 
+                                        type = {"number"}
+                                        startadornment={<InputAdornment position="start">%</InputAdornment>}
+                                    />
+                                </FormControl>}
+                                <IconButton onClick={this.setEditStatus("percentile")} className={classes.rightTopIcon}>
+                                    {this.state.editFlags.percentile?<SaveIcon/>:<EditIcon />}
+                                </IconButton>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={5} >
+                            <div className={classes.grayTextSection}>
+                                {!this.state.editFlags.summary?(<Typography variant="subheading" gutterBottom align="center" className = {classes.verticalMiddleAlign} >
+                                    {this.state.summary||"Short-term funding goals"}
+                                </Typography>):
+                                <FormControl
+                                    className = {classes.formControl}
+                                    >
+                                    <TextField  
+                                        value={this.state.summary}
+                                        onChange={this.handleChange("summary")} 
+                                        multiline = {true}
+                                        rows = {4}
+                                        />
+                                </FormControl>}
+                                <IconButton onClick={this.setEditStatus("summary")} className={classes.rightTopIcon}>
+                                    {this.state.editFlags.summary?<SaveIcon/>:<EditIcon />}
+                                </IconButton>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={5} >
+                            <div className={classes.grayTextSection}>
+                                {!this.state.editFlags.details?(<Typography variant="subheading" gutterBottom align="center" className = {classes.verticalMiddleAlign} >
+                                    {this.state.details||"Initiatives that you are trying to fund at the moment"}
+                                </Typography>):
+                                <FormControl
+                                    className = {classes.formControl}
+                                    >
+                                    <TextField  
+                                        value={this.state.details}
+                                        onChange={this.handleChange("details")} 
+                                        multiline = {true}
+                                        rows = {4}
+                                        />
+                                </FormControl>}
+                                <IconButton onClick={this.setEditStatus("details")} className={classes.rightTopIcon}>
+                                    {this.state.editFlags.details?<SaveIcon/>:<EditIcon />}
+                                </IconButton>
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Grid container className={classes.subContainer}> 
-
-                    </Grid>
-                </Grid>
+                
+                
             </Grid>
         </div>
     );
