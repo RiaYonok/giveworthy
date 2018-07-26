@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 
 import { hot } from 'react-hot-loader';
-import Gallery from 'react-photo-gallery';
+import Gallery from './Gallery/Gallery';
 import Lightbox from 'react-images';
 
 // const photos = [
@@ -25,6 +25,7 @@ class PhotoGallery extends PureComponent {
     this.openLightbox = this.openLightbox.bind(this);
     this.gotoNext = this.gotoNext.bind(this);
     this.gotoPrevious = this.gotoPrevious.bind(this);
+    this.deletePhotoItem = this.deletePhotoItem.bind(this);
   }
   openLightbox(event, obj) {
     this.setState({
@@ -37,6 +38,15 @@ class PhotoGallery extends PureComponent {
       currentImage: 0,
       lightboxIsOpen: false,
     });
+  }
+  deletePhotoItem(e, obj){
+      
+    if (this.state.photos){
+        var photos = this.state.photos.splice(obj.index+1,1);
+        this.setState({photos:photos});
+        const {deleteCallback} = this.props;
+        deleteCallback(photos);
+    }
   }
   gotoPrevious() {
     this.setState({
@@ -58,7 +68,7 @@ class PhotoGallery extends PureComponent {
     //
     return (
         <div>
-            <Gallery photos={this.state.photos||[]} onClick={this.openLightbox} columns={5}/>
+            <Gallery photos={this.state.photos||[]} onClick={this.openLightbox} onDeleteClick = {this.deletePhotoItem}  columns={5}/>
             <Lightbox images={this.state.photos||[]}
             onClose={this.closeLightbox}
             onClickPrev={this.gotoPrevious}
