@@ -23,7 +23,7 @@ class Cause extends Record(shape) {
       ownerId: pojo.ownerId || null,
       name: pojo.name || null,
       primaryVideoLink: pojo.primaryVideoLink || null,
-      photoLinks: pojo.photoLinks ? fromJS(pojo.photoLinks) : List(), 
+      photoLinks: pojo.photoLinks ? pojo.photoLinks : [], 
       webLink: pojo.webLink || null,
       description: pojo.description || null,
       summary: pojo.summary || null,

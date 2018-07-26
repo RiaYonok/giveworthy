@@ -1,26 +1,12 @@
 import React, {PureComponent} from 'react';
-
-import { hot } from 'react-hot-loader';
 import Gallery from './Gallery/Gallery';
 import Lightbox from 'react-images';
 
-// const photos = [
-//   { src: 'https://source.unsplash.com/2ShvY8Lf6l0/800x599', width:1, height: 1 },
-//   { src: 'https://source.unsplash.com/Dm-qxdynoEc/800x799', width: 1, height: 1 },
-//   { src: 'https://source.unsplash.com/qDkso9nvCg0/600x799', width: 1, height: 1 },
-//   { src: 'https://source.unsplash.com/iecJiKe_RNg/600x799', width: 1, height: 1 },
-//   { src: 'https://source.unsplash.com/epcsn8Ed8kY/600x799', width: 1, height: 1 },
-//   { src: 'https://source.unsplash.com/NQSWvyVRIJk/800x599', width: 1, height: 1 },
-//   { src: 'https://source.unsplash.com/zh7GEuORbUw/600x799', width: 1, height: 1 },
-//   { src: 'https://source.unsplash.com/PpOHJezOalU/800x599', width: 1, height: 1 },
-
-// ];
-
 
 class PhotoGallery extends PureComponent {
-  constructor() {
-    super();
-    this.state = { currentImage: 0};
+  constructor(props) {
+    super(props);
+    this.state = { currentImage: 0,photos:props.photos};
     this.closeLightbox = this.closeLightbox.bind(this);
     this.openLightbox = this.openLightbox.bind(this);
     this.gotoNext = this.gotoNext.bind(this);
@@ -42,10 +28,10 @@ class PhotoGallery extends PureComponent {
   deletePhotoItem(e, obj){
       
     if (this.state.photos){
-        var photos = this.state.photos.splice(obj.index+1,1);
-        this.setState({photos:photos});
+        this.state.photos.splice(obj.index,1);
+        //this.setState({photos:photos});
         const {deleteCallback} = this.props;
-        deleteCallback(photos);
+        deleteCallback(this.state.photos);
     }
   }
   gotoPrevious() {

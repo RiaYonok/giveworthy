@@ -17,7 +17,11 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {updateCause, saveCause, uploadFile} from  '@actions/cause';
-
+import PhotoGallery from '@components/utils/PhotoGallery';
+import { Button } from '@material-ui/core';
+import LinkIcon from '@material-ui/icons/Link';
+import PhotoIcon from '@material-ui/icons/Image';
+import InputDialog from '@components/utils/InputDialog';
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -59,7 +63,21 @@ const styles = theme => ({
         position:"absolute",
         right:0,
         top:0
-    }
+    },
+    photoSection:{
+        height:"40vh",
+        overflow:"auto",
+        maxHeight:400
+    },
+    input: {
+        display: 'none',
+    },
+    leftSpacing: {
+        marginLeft: theme.spacing.unit,
+    },
+    rightSpacing: {
+        marginRight: theme.spacing.unit,
+    },
 });
 export class Profile extends PureComponent {
   constructor(props) {
@@ -69,7 +87,7 @@ export class Profile extends PureComponent {
         id: cause.id,
         name: cause.name||"",
         primaryVideoLink:cause.primaryVideoLink||"",
-        photoLinks:cause.photoLinks,
+        photoLinks:cause.photoLinks||[],
         percentile:cause.percentile||0,
         description:cause.description||"",
         summary:cause.summary||"",
@@ -81,11 +99,16 @@ export class Profile extends PureComponent {
             summary:false,
             details:false,
             webLink:false,
-            percentile:false
+            percentile:false,
+            openAddLinkDialog:false
         }
     }
     this.handleChange = this.handleChange.bind(this);
     this.setEditStatus = this.setEditStatus.bind(this);
+    this.onAddPhoto = this.onAddPhoto.bind(this);
+    this.onAddLink = this.onAddLink.bind(this);
+    this.addLinkCallback = this.addLinkCallback.bind(this);
+    this.onDeletePhotoLink = this.onDeletePhotoLink.bind(this);
   }
   handleChange = prop => event => {
     if (this.state.editFlags[prop]){
@@ -100,7 +123,65 @@ export class Profile extends PureComponent {
         [prop]: !this.state.editFlags[prop]
     }});
   };
+  addPhotoLinkToState(src, dimension){
+    var links = this.state.photoLinks;
+    links.push({
+        src: src,
+        width:dimension?dimension.width:1, 
+        height:dimension?dimension.height:1
+    })
+    this.setState({photoLinks: links});
+    this.forceUpdate();
+    const {updateCause} = this.props;
+    updateCause("photoLinks",links);
+  }
+  addLinkCallback(b, link){
+    if (b){
+        var self = this;
+        this.getImageSize(link, function(dimension){
+            self.addPhotoLinkToState(link, dimension);
+        })
+    }
+    this.setState({
+        editFlags:{
+            openAddLinkDialog:false
+        }
+    })
+  }
+  onAddPhoto(event){
+    if (event.target.files && event.target.files[0]) {
+        const self = this;
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            self.getImageSize(e.target.result, function(dimension){
+                self.addPhotoLinkToState(e.target.result, dimension);
+            })
+           
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  onAddLink(){
+    this.setState({
+        editFlags:{
+            openAddLinkDialog:true
+        }
+    })
+  }
+  onDeletePhotoLink(photos){
+    this.setState({photoLinks: photos});
+    this.forceUpdate();
+    const {updateCause} = this.props;
+    updateCause("photoLinks",photos);
+  }
+  getImageSize(src, cb){
 
+    var image = new Image(); // or document.createElement('img')
+    image.onload = function() {
+        cb({width:this.width, height:this.height})
+    };
+    image.src = src;
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -236,11 +317,45 @@ export class Profile extends PureComponent {
                                 </IconButton>
                             </div>
                         </Grid>
+                        <Grid item xs={12} >
+
+                            <div className={[classes.grayTextSection, classes.photoSection].join(" ")}>
+                                <div style={{margin:20}}> 
+                                    <div style={{margin:"0 0 10px 0"}}>
+                                        <Button variant="outlined" component="span" className={classes.rightSpacing} 
+                                            onClick={this.onAddLink}>
+                                            Add Link<LinkIcon className={classes.leftSpacing}  /> 
+                                        </Button>
+                                        <input
+                                            accept="image/*"
+                                            className={classes.input}
+                                            id="outlined-button-file"
+                                            multiple
+                                            type="file"
+                                            onChange = {this.onAddPhoto}
+                                        />
+                                        <label htmlFor="outlined-button-file">
+                                            <Button variant="outlined" component="span" >
+                                                Add Photo<PhotoIcon className={classes.leftSpacing}  />
+                                            </Button>
+                                        </label>
+                                    </div>
+                                    <div>
+                                    <PhotoGallery photos={this.state.photoLinks||[]} deleteCallback={this.onDeletePhotoLink}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
-                
-                
             </Grid>
+            <InputDialog 
+                open = {this.state.editFlags.openAddLinkDialog}
+                contentText={"Please add valid photo link."}
+                title={"Add Link"}
+                label={"Photo Link"}
+                callback = {this.addLinkCallback}
+            />
         </div>
     );
   }
