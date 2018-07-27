@@ -106,6 +106,7 @@
     "os": "^0.1.1",
     "ramda": "^0.25.0",
     "react": "^16.3.2",
+    "react-avatar-image-cropper": "^1.1.7",
     "react-dom": "^16.3.2",
     "react-dropzone": "^4.2.13",
     "react-facebook-login": "^4.0.1",
