@@ -16,7 +16,7 @@ import getCurrentUser from '@selectors/getCurrentUser';
 import AddIcon from '@material-ui/icons/Add';
 import UserAvatar from 'react-user-avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import AvatarCropperDlg from '@components/utils/AvatarCropDialog'
 const styles={
     root:{
         maxWidth:500,
@@ -64,7 +64,7 @@ const styles={
     },
     delIconBtn:{
       position:"absolute",
-      left:"90%",
+      left:"100%",
       top:"90%"
     }
     
@@ -84,38 +84,27 @@ export class QuestionnarieComponent extends PureComponent {
     super(props);
     const {currentUser, setActiveQuestionnaire} = props;
     this.state={
-        imageURL:currentUser.imageURL
+        imageURL:currentUser.imageURL,
+        isOpendAvartarDlg:false
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.deletePhoto = this.deletePhoto.bind(this);
+    this.avatarCallback = this.avatarCallback.bind(this);
+    
     setActiveQuestionnaire(2);
   }
   
-  
-  handleChange(event) {
-    if (event.target.files && event.target.files[0]) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            this.setState({imageURL: e.target.result});
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-  };
   deletePhoto(e){
     e.preventDefault();
-    this.setState({imageURL: null});
+    this.setState({imageURL: null, isOpendAvartarDlg:false});
   }
   handleSubmit(){
     const { nextPage, 
       updateUserInfo } = this.props;
     const state = this.state;
-
-    Object.keys(state).forEach(key => {
-      updateUserInfo(key, state[key]);
-    });
+    updateUserInfo("imageURL",this.state.imageURL);
     nextPage();
     this.props.history.push('/giver-questionnarie-step-3'); 
   }
@@ -129,6 +118,22 @@ export class QuestionnarieComponent extends PureComponent {
     prevPage();
     this.props.history.push('/giver-questionnarie-step-1'); 
   }
+  openAvartarDlg(){
+    this.setState({isOpendAvartarDlg:true});
+  }
+  avatarCallback(file){
+    if (file.name){
+      var reader = new FileReader();
+      reader.readAsDataURL(file); 
+      const self = this;
+      reader.onloadend = function() {
+        self.setState({imageURL: reader.result});
+      }
+      
+    }
+    this.setState({isOpendAvartarDlg:false});
+  }
+
   render() {
     const { 
       activePageInfo,
@@ -145,22 +150,14 @@ export class QuestionnarieComponent extends PureComponent {
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
         {!this.state.imageURL? "Let's load a photo":("Looking good " +currentUser.fullName +"!")}
         </Typography>
-        <input
-          accept="image/*"
-          className="file-input-button"
-          id="contained-button-file"
-          type="file"
-          onChange={this.handleChange}
-        />
-        <label htmlFor="contained-button-file">
-          <Button variant="fab"  component="span" aria-label="AddPhoto" style={styles.addButton} >
-            {!this.state.imageURL&&<AddIcon style={styles.addIconBtn}/>}
-            {this.state.imageURL&&
-              <UserAvatar size="128" name={username} colors={['#BDBDBD']} src={this.state.imageURL} style={{margin:0}} />
-            }  
-            {this.state.imageURL&&<DeleteIcon style={styles.delIconBtn} onClick={this.deletePhoto}/>}
-          </Button>
-        </label>
+        <Button variant="fab"  component="span" aria-label="AddPhoto" style={styles.addButton} onClick={this.openAvartarDlg.bind(this)} >
+          {!this.state.imageURL&&<AddIcon style={styles.addIconBtn}/>}
+          {this.state.imageURL&&
+            <UserAvatar size="128" name={username} colors={['#BDBDBD']} src={this.state.imageURL} style={{margin:0}} />
+          }  
+          {this.state.imageURL&&<DeleteIcon style={styles.delIconBtn} onClick={this.deletePhoto}/>}
+        </Button>
+        
         <Button type="submit" variant="contained"  onClick={this.handleSubmit}  className="login-button email-signin-button">
         Next
         </Button>
@@ -172,6 +169,7 @@ export class QuestionnarieComponent extends PureComponent {
           &lt; Back
         </Button>
         <Stepper steps={activePageInfo}/>
+        <AvatarCropperDlg open={this.state.isOpendAvartarDlg} callback={this.avatarCallback}/>
       </div>
     );
   }
