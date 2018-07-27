@@ -8,15 +8,25 @@ import {getActivePageInfo } from '@selectors/questionnaires';
 import {setActiveQuestionnaire,
         nextPage,
         prevPage} from '@actions/questionnaires';
-import {updateUserInfo} from  '@actions/users';
+import {updateUserInfo, saveUserInfo} from  '@actions/users';
 import { Button } from '@material-ui/core';
 import Stepper from '@components/BarStepper';
 import { ValidatorForm, InputValidator, TextValidator} from '@components/Validators';
 import getCurrentUser from '@selectors/getCurrentUser';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import UserAvatar from 'react-user-avatar';
-
+import FormHelperText from '@material-ui/core/FormHelperText';
+const jwt = require('jsonwebtoken');
+import getError from '@selectors/getError';
+import getStatus from '@selectors/getStatus';
+import {
+  dismissError
+} from '@actions/errors';
+import {
+  dismissStatus
+} from '@actions/status';
 const styles={
   root:{
       maxWidth:500,
@@ -70,23 +80,30 @@ const styles={
 export const mapStateToProps = createSelector(
   getActivePageInfo,
   getCurrentUser,
-  ( activePageInfo, currentUser) => ({
+  getError,
+  getStatus,
+  ( activePageInfo, currentUser, error, status) => ({
     activePageInfo,
-    currentUser
+    currentUser,
+    error,
+    status
   })
 );
 
 export class QuestionnarieComponent extends PureComponent {
   constructor(props) {
     super(props);
-    const { currentUser, setActiveQuestionnaire } = props;
+    const { currentUser, setActiveQuestionnaire, dismissError,dismissStatus} = props;
     this.state={
-        fullName:currentUser.fullName||"",
-        givenName:currentUser.givenName||"",
-        familyName:currentUser.familyName||"",
-        imageURL:currentUser.imageURL||null,
-        email:currentUser.email||"",
-        note:currentUser.note||""
+      id:currentUser.id,
+      type:currentUser.type,
+      fullName:currentUser.fullName||"",
+      givenName:currentUser.givenName||"",
+      familyName:currentUser.familyName||"",
+      imageURL:currentUser.imageURL||null,
+      email:currentUser.email||"",
+      note:currentUser.note||"",
+      zipcode:currentUser.zipcode||"",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -94,7 +111,8 @@ export class QuestionnarieComponent extends PureComponent {
     this.deletePhoto = this.deletePhoto.bind(this);
     this.handlePhotoChange = this.handlePhotoChange.bind(this);
     setActiveQuestionnaire(5);
-
+    dismissError();
+    dismissStatus();
   }
   
   handlePhotoChange(event) {
@@ -116,18 +134,21 @@ export class QuestionnarieComponent extends PureComponent {
     this.setState({imageURL: null});
   }
   handleSubmit(){
-    const { nextPage, 
-      updateUserInfo } = this.props;
+    const { saveUserInfo,
+            updateUserInfo,
+            status } = this.props;
     
     var fullName = this.state.fullName;
     this.state.familyName = fullName.split(" ")[0];
     this.state.givenName = fullName.replace(this.state.familyName,"").trim();
     const state = this.state;
     Object.keys(state).forEach(key => {
-      updateUserInfo(key, state[key]);
+      if (key!="id")
+        updateUserInfo(key, state[key]);
     });
-   
-    //this.props.history.push('/questionnarie-step-2'); 
+    
+    saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)});
+    //  this.props.history.push('/questionnarie-step-2'); 
   }
   handleBack(){
     const { prevPage } = this.props;
@@ -137,7 +158,9 @@ export class QuestionnarieComponent extends PureComponent {
   render() {
     const { 
       activePageInfo,
-      currentUser
+      currentUser,
+      error, 
+      status
     } = this.props;
     var username = currentUser?currentUser.fullName||"A":"A";
     return (
@@ -187,13 +210,24 @@ export class QuestionnarieComponent extends PureComponent {
                   id="email"
                   name="email"
                   formControlStyle={styles.form}
-                  inputLabel="Enter your name"
                   inputLabel="Email Address"
                   type="email"
                   value={this.state.email}
                   validators={['required', 'isEmail']}
                   errorMessages={['User email is required', 'User email is not valid']}
                   onChange={this.handleChange('email')}
+                />
+                <InputValidator
+                  fullWidth
+                  id="zipcode"
+                  name="zipcode"
+                  formControlStyle={styles.form}
+                  inputLabel="Zipcode"
+                  type="text"
+                  value={this.state.zipcode}
+                  validators={['required']}
+                  errorMessages={['Zipcode is required']}
+                  onChange={this.handleChange('zipcode')}
                 />
                 <TextValidator
                   fullWidth
@@ -210,8 +244,13 @@ export class QuestionnarieComponent extends PureComponent {
             </Grid>
           </Grid>
           <Button type="submit" variant="contained"  className="login-button email-signin-button">
-          Looks Good
+            {status?<CircularProgress size={20}/>:'Looks good/Publish'}
           </Button>
+          <FormHelperText 
+                className = "helper-text"
+                error={error?true:false}>
+                {error||""}
+          </FormHelperText>
         </ValidatorForm>
         <Button  style={styles.backBtn} onClick={this.handleBack}>
           &lt; Back
@@ -228,5 +267,8 @@ export default hot(module)(connect(mapStateToProps,{
   nextPage, 
   prevPage,
   updateUserInfo,
-  setActiveQuestionnaire
+  saveUserInfo,
+  setActiveQuestionnaire,
+  dismissError,
+  dismissStatus
 })(QuestionnarieComponent));

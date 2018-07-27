@@ -58,9 +58,9 @@ export default function(state = initialState, action) {
 
     case CHANGE_USER_INFO:
       try {
-        const currentUser = state.get("current");
-        return state.updateIn(['users', currentUser.get("id")], user => user.set(action.key, action.value))
-                    .update('current',user => user.set(action.key, action.value));
+        // /const currentUser = state.get("current");
+        return state.update('current',user => user.set(action.key, action.value));
+        //.updateIn(['users', currentUser.get("id")], user => user.set(action.key, action.value))
       } catch (err) {
         console.error(err);
         return state;

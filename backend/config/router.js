@@ -54,7 +54,7 @@ module.exports.setup = function(app) {
     app.post("/api/savecause", user.saveCause);
     app.post("/api/getcause", user.getCause);
     app.post("/api/fileupload", upload.single('file'), uploader.fileUploader);
-    
+    app.post("/api/saveuserinfo", user.saveUserInfo);
     
     /* route to handel 404 error */
     app.use('*', function(req, res) {

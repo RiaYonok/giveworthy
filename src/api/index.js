@@ -26,6 +26,14 @@ async function signup(email, token) {
   
   return result.data;
 }
+
+async function saveUserInfo(params){
+  const result = await axios.post(`${url}/saveuserinfo`, {params});
+  if (result.status !== 200)
+    throw new Error(`Save user information failed with status: ${result.status}`);
+  
+  return result.data;
+}
 async function savecause(params){
   const result = await axios.post(`${url}/savecause`, {params});
   if (result.status !== 200)
@@ -62,5 +70,6 @@ export {
   signup,
   savecause,
   getCause,
-  fileupload
+  fileupload,
+  saveUserInfo
 };

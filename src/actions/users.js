@@ -13,6 +13,7 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const CHANGE_USER_INFO = 'CHANGE_USER_INFO';
 export const LOG_OUT = 'LOG_OUT';
+export const SAVE_USER_INFO = 'SAVE_USER_INFO';
 
 export const addUsers = payload => ({
   type: ADD_USERS,
@@ -87,6 +88,10 @@ export const updateUserInfo = (key, value) => ({
   type: CHANGE_USER_INFO,
   key,
   value
+});
+export const saveUserInfo = (payload) => ({
+  type: SAVE_USER_INFO,
+  payload
 });
  export const logOut = ()=>({
    type:LOG_OUT

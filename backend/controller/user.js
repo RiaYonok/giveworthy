@@ -124,6 +124,34 @@ module.exports.signup = function(req, res){
         });
     }
 }
+module.exports.saveUserInfo = function(req, res){
+    var params = req.body.params,
+        token = params.token;
+    const user = jwt.verify(token, secertKey);
+    
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+    };
+    if (!user || !user.id || user.id==""){
+        resJSON.desc = msg.UNKNOWN_USER;
+        res.send(resJSON);
+    }else{
+        User.find({"id":user.id}, function(err, docs){
+            if (err||!docs||docs.length==0){
+                resJSON.desc = msg.UNKNOWN_USER;
+            }else{
+                let doc = docs[0];
+                Object.keys(user).forEach(function(key){
+                    doc[key] = user[key];
+                });
+                doc.save();
+                resJSON.msg = msg.SUCCESS;
+            }
+            res.send(resJSON);
+        });
+    }
+}
 
 module.exports.saveCause = function(req, res){
     var params = req.body.params,
