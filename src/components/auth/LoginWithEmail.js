@@ -134,7 +134,7 @@ export class Login extends PureComponent {
           />
 
           <Button type="submit" variant="contained"  className="login-button email-signin-button">
-          {!status&&"Log in"}  {status&&<CircularProgress size={20}/>}
+          {status?<CircularProgress size={20}/>:'Log in'}
           </Button>
         </ValidatorForm>
         <Link to="/signup"  className="link-button"  >

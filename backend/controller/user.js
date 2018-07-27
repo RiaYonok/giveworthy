@@ -128,7 +128,6 @@ module.exports.signup = function(req, res){
 module.exports.saveCause = function(req, res){
     var params = req.body.params,
         id = params.id;
-
     var resJSON = {
         msg:msg.FAIL,
         desc:"",
@@ -179,7 +178,10 @@ module.exports.saveCause = function(req, res){
                     Object.keys(params).forEach(function(key){
                         doc[key] = params[key];
                     });
-                    doc.save();
+                    doc.save(function(err, savedDoc){
+                        if(err)
+                            console.log(err);
+                    });
                 }else{
                     resJSON.desc = msg.UNKNOWN_CAUSE;
                 }

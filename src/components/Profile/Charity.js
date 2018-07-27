@@ -22,6 +22,15 @@ import { Button } from '@material-ui/core';
 import LinkIcon from '@material-ui/icons/Link';
 import PhotoIcon from '@material-ui/icons/Image';
 import InputDialog from '@components/utils/InputDialog';
+import getError from '@selectors/getError';
+import getStatus from '@selectors/getStatus';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+    dismissError
+  } from '@actions/errors';
+import {
+    dismissStatus
+  } from '@actions/status';
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -82,7 +91,7 @@ const styles = theme => ({
 export class Profile extends PureComponent {
   constructor(props) {
     super(props);
-    const {cause} = this.props;
+    const {cause, dismissError, dismissStatus} = this.props;
     this.state = {
         id: cause.id,
         name: cause.name||"",
@@ -92,7 +101,7 @@ export class Profile extends PureComponent {
         description:cause.description||"",
         summary:cause.summary||"",
         details:caches.details||"",
-        webLink:cause.webLink||"charitywebsite.com",
+        webLink:cause.webLink||"",
         editFlags:{
             name:false,
             description:false,
@@ -109,10 +118,13 @@ export class Profile extends PureComponent {
     this.onAddLink = this.onAddLink.bind(this);
     this.addLinkCallback = this.addLinkCallback.bind(this);
     this.onDeletePhotoLink = this.onDeletePhotoLink.bind(this);
+    this.onSaveCause = this.onSaveCause.bind(this);
+    dismissError();
+    dismissStatus();
   }
   handleChange = prop => event => {
     if (this.state.editFlags[prop]){
-        const {cause, updateCause} = this.props;
+        const {updateCause} = this.props;
         this.setState({ [prop]: event.target.value });
         updateCause(prop,event.target.value);
     }
@@ -182,8 +194,19 @@ export class Profile extends PureComponent {
     };
     image.src = src;
   }
+
+  onSaveCause(){
+    const { cause, saveCause } = this.props;
+
+    saveCause({
+      id:cause.get("id"),
+      ...this.state
+    });
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, error, status } = this.props;
+    
     return (
         <div className="root main-container">
             <Grid container spacing={40}>
@@ -219,7 +242,7 @@ export class Profile extends PureComponent {
                                 </Grid>
                                 <Grid item xs={8} sm={6}>
                                     {!this.state.editFlags.webLink?<Typography variant="subheading" color="default"  gutterBottom>
-                                            {this.state.webLink}
+                                            {this.state.webLink!=""?this.state.webLink:'charitywebsite.com'}
                                     </Typography>:
                                     <FormControl className={classes.formControl}>
                                             <InputLabel htmlFor="name">Charity Website</InputLabel>
@@ -317,8 +340,7 @@ export class Profile extends PureComponent {
                                 </IconButton>
                             </div>
                         </Grid>
-                        <Grid item xs={12} >
-
+                        <Grid item xs={12}>
                             <div className={[classes.grayTextSection, classes.photoSection].join(" ")}>
                                 <div style={{margin:20}}> 
                                     <div style={{margin:"0 0 10px 0"}}>
@@ -346,11 +368,15 @@ export class Profile extends PureComponent {
                                 </div>
                             </div>
                         </Grid>
+                        <Grid item xs={12} style={{textAlign:'center'}}>
+                            <Button variant="contained" align="center" onClick={this.onSaveCause}>
+                            {status?<CircularProgress size={20}/>:'Looks good/Publish'}</Button>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
             <InputDialog 
-                open = {this.state.editFlags.openAddLinkDialog}
+                open = {this.state.editFlags.openAddLinkDialog||false}
                 contentText={"Please add valid photo link."}
                 title={"Add Link"}
                 label={"Photo Link"}
@@ -363,13 +389,19 @@ export class Profile extends PureComponent {
 
 const mapStateToProps =createSelector(
     getCause,
-    (cause) => ({
-      cause
+    getError,
+    getStatus,
+    (cause, error, status) => ({
+      cause,
+      error,
+      status
     })
   );
 
 export default hot(module)(connect(mapStateToProps,{
     updateCause,
     saveCause,
-    uploadFile
+    uploadFile,
+    dismissError,
+    dismissStatus
 })(withStyles(styles)(Profile)));

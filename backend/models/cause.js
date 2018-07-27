@@ -22,7 +22,11 @@ var CauseSchema = new Schema({
         type: String
     },
     photoLinks: { 
-        type: [Object]
+        type: [{
+            src:String,
+            width:Number,
+            height:Number
+        }]
     },
     webLink: { 
         type: String
