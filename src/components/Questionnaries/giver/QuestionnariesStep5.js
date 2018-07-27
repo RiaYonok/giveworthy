@@ -21,12 +21,14 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 const jwt = require('jsonwebtoken');
 import getError from '@selectors/getError';
 import getStatus from '@selectors/getStatus';
+import AvatarCropperDlg from '@components/utils/AvatarCropDialog';
 import {
   dismissError
 } from '@actions/errors';
 import {
   dismissStatus
 } from '@actions/status';
+
 const styles={
   root:{
       maxWidth:500,
@@ -110,6 +112,7 @@ export class QuestionnarieComponent extends PureComponent {
     this.handleBack = this.handleBack.bind(this);
     this.deletePhoto = this.deletePhoto.bind(this);
     this.handlePhotoChange = this.handlePhotoChange.bind(this);
+    this.avatarCallback = this.avatarCallback.bind(this);
     setActiveQuestionnaire(5);
     dismissError();
     dismissStatus();
@@ -155,6 +158,22 @@ export class QuestionnarieComponent extends PureComponent {
     prevPage();
     this.props.history.push('/giver-questionnarie-step-4'); 
   }
+  openAvartarDlg(){
+    this.setState({isOpendAvartarDlg:true});
+  }
+  avatarCallback(file){
+    if (file.name){
+      var reader = new FileReader();
+      reader.readAsDataURL(file); 
+      const self = this;
+      reader.onloadend = function() {
+        self.setState({imageURL: reader.result});
+      }
+      
+    }
+    this.setState({isOpendAvartarDlg:false});
+  }
+
   render() {
     const { 
       activePageInfo,
@@ -172,22 +191,13 @@ export class QuestionnarieComponent extends PureComponent {
               onError={errors => console.log(errors)}>
           <Grid container spacing={40}>
             <Grid item xs={12} sm={3}>
-            <input
-              accept="image/*"
-              className="file-input-button"
-              id="contained-button-file"
-              type="file"
-              onChange={this.handlePhotoChange}
-            />
-            <label htmlFor="contained-button-file">
-              <Button variant="fab"  component="span" aria-label="AddPhoto" style={styles.addButton} >
-                {!this.state.imageURL&&<AddIcon style={styles.addIconBtn}/>}
-                {this.state.imageURL&&
-                  <UserAvatar size="128" name={username} colors={['#BDBDBD']} src={this.state.imageURL} style={{margin:0}} />
-                }  
-                {this.state.imageURL&&<DeleteIcon style={styles.delIconBtn} onClick={this.deletePhoto}/>}
-              </Button>
-            </label>
+            <Button variant="fab"  component="span" aria-label="AddPhoto" style={styles.addButton} onClick={this.openAvartarDlg.bind(this)} >
+              {!this.state.imageURL&&<AddIcon style={styles.addIconBtn}/>}
+              {this.state.imageURL&&
+                <UserAvatar size="128" name={username} colors={['#BDBDBD']} src={this.state.imageURL} style={{margin:0}} />
+              }  
+              {this.state.imageURL&&<DeleteIcon style={styles.delIconBtn} onClick={this.deletePhoto}/>}
+            </Button>
             </Grid>
             <Grid item xs={12} sm={1}></Grid>
             <Grid item xs={12} sm={8}>
@@ -256,6 +266,7 @@ export class QuestionnarieComponent extends PureComponent {
           &lt; Back
         </Button>
         <Stepper steps={activePageInfo}/>
+        <AvatarCropperDlg open={this.state.isOpendAvartarDlg} callback={this.avatarCallback}/>
       </div>
     );
   }
