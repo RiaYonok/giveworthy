@@ -81,6 +81,7 @@
   "dependencies": {
     "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.1.0",
+    "@material-ui/lab": "^1.0.0-alpha.7",
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "bcrypt": "^3.0.0",

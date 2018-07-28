@@ -13,3 +13,23 @@
   top:0 !important;
   position:absolute !important;
 }
+li[class*="MuiMenuItem-root-"].active:after{
+  content:"";
+  height: 15px;
+  width: 15px;
+  background-color: rgb(20, 184, 14);
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+}
+li[class*="MuiMenuItem-root-"].inactive:after{
+  content:"";
+  height: 15px;
+  width: 15px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+}

@@ -14,6 +14,8 @@ import QuestionnariesStep3 from '@components/Questionnaries/giver/Questionnaries
 import QuestionnariesStep4 from '@components/Questionnaries/giver/QuestionnariesStep4';
 import QuestionnariesStep5 from '@components/Questionnaries/giver/QuestionnariesStep5';
 import QuestionnariesStep6 from '@components/Questionnaries/giver/QuestionnariesStep6';
+import QuestionnariesStep7 from '@components/Questionnaries/giver/QuestionnariesStep7';
+import QuestionnariesStep8 from '@components/Questionnaries/giver/QuestionnariesStep8';
 import CharityQuestionnariesStep1 from '@components/Questionnaries/charity/QuestionnariesStep1';
 import CharityQuestionnariesStep2 from '@components/Questionnaries/charity/QuestionnariesStep2';
 import CharityQuestionnariesStep3 from '@components/Questionnaries/charity/QuestionnariesStep3';
@@ -40,6 +42,7 @@ class Routes extends Component {
           <AuthenticatedRoute exact path='/giver-questionnarie-step-4' component={QuestionnariesStep4} />
           <AuthenticatedRoute exact path='/giver-questionnarie-step-5' component={QuestionnariesStep5} />
           <AuthenticatedRoute exact path='/giver-questionnarie-step-6' component={QuestionnariesStep6} />
+          <AuthenticatedRoute exact path='/giver-questionnarie-step-7' component={QuestionnariesStep7} />
           <AuthenticatedRoute exact path='/charity-questionnarie-step-1' component={CharityQuestionnariesStep1} />
           <AuthenticatedRoute exact path='/charity-questionnarie-step-2' component={CharityQuestionnariesStep2} />
           <AuthenticatedRoute exact path='/charity-questionnarie-step-3' component={CharityQuestionnariesStep3} />

@@ -23,7 +23,8 @@ const shape = {
   zipcode:null,
   type:null,
   note:null,
-  paymentInfo:null
+  paymentInfo:null,
+  loi:null
 };
 
 class User extends Record(shape) {
@@ -49,7 +50,8 @@ class User extends Record(shape) {
       zipcode:pojo.zipcode ||null,
       type:pojo.type||"giver",
       note:pojo.note ||null,
-      paymentInfo:pojo.paymentInfo||null
+      paymentInfo:pojo.paymentInfo||null,
+      loi:pojo.loi||null
     });
   }
 }

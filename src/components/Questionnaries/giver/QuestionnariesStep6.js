@@ -10,7 +10,7 @@ import getCurrentUser from '@selectors/getCurrentUser';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import CreditCardInput from 'react-credit-card-input';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 const jwt = require('jsonwebtoken');
 import {
     dismissError
@@ -78,7 +78,6 @@ export class QuestionnarieComponent extends PureComponent {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSkip = this.handleSkip.bind(this);
     this.handleBack = this.handleBack.bind(this);
     dismissError();
     dismissStatus();
@@ -97,10 +96,7 @@ export class QuestionnarieComponent extends PureComponent {
     updateUserInfo("paymentInfo", this.state.paymentInfo);
     saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)},"giver-questionnarie-step-7");
   }
-  handleSkip(){
-    
-    this.props.history.push('/giver-questionnarie-step-7'); 
-  }
+  
   handleBack(){
     this.props.history.push('/giver-questionnarie-step-5'); 
   }

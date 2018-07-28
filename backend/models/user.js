@@ -79,6 +79,13 @@ var UserSchema = new Schema({
         zipcode:{type:String},
         name:{type:String}
     },
+    loi:{
+        environment:{type:Number},
+        social:{type:Number},
+        educational:{type:Number},
+        medical:{type:Number},
+        etc:{type:Number},
+    },
     status: {
         type: String,
         default: 'active',
