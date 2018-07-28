@@ -89,9 +89,10 @@ export const updateUserInfo = (key, value) => ({
   key,
   value
 });
-export const saveUserInfo = (payload) => ({
+export const saveUserInfo = (payload, redirectUrl) => ({
   type: SAVE_USER_INFO,
-  payload
+  payload,
+  redirectUrl
 });
  export const logOut = ()=>({
    type:LOG_OUT

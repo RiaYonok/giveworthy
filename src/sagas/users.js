@@ -147,15 +147,17 @@ function* sagaSaveUser(action){
       setStatus()
     );
     const res = yield call(saveUserInfo, action.payload);
+    yield put(
+      dismissStatus()
+    );
     if (res.msg!=msg.SUCCESS){
       yield put(
         setError(res.desc)
       );
+    }else{
+      if (action.redirectUrl)
+        yield put(push(action.redirectUrl));
     }
-    yield put(
-      dismissStatus()
-    );
-
   } catch (err) {
     console.error(err);
     yield put(

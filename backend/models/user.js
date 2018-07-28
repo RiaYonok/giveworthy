@@ -69,6 +69,16 @@ var UserSchema = new Schema({
     last_login: {
         type: Date
     },
+    paymentInfo:{
+        cardnumber:{type:String},
+        expiry:{type:String},
+        cvc:{type:String},
+        addr1:{type:String},
+        addr2:{type:String},
+        state:{type:String},
+        zipcode:{type:String},
+        name:{type:String}
+    },
     status: {
         type: String,
         default: 'active',

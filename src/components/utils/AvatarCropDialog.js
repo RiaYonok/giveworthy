@@ -17,7 +17,7 @@ export class AvartarCropDialog extends PureComponent {
         return (
             <div>
                 <Dialog
-                    open={open}
+                    open={open||false}
                     onClose={this.handleApply}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description">

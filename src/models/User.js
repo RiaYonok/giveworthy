@@ -22,7 +22,8 @@ const shape = {
   facebookID:null,
   zipcode:null,
   type:null,
-  note:null
+  note:null,
+  paymentInfo:null
 };
 
 class User extends Record(shape) {
@@ -47,7 +48,8 @@ class User extends Record(shape) {
       updated_at: pojo.updatedAt ? moment.unix(+pojo.updatedAt) : null,
       zipcode:pojo.zipcode ||null,
       type:pojo.type||"giver",
-      note:pojo.note ||null
+      note:pojo.note ||null,
+      paymentInfo:pojo.paymentInfo||null
     });
   }
 }

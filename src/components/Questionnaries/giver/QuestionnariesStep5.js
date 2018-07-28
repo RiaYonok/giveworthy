@@ -138,8 +138,7 @@ export class QuestionnarieComponent extends PureComponent {
   }
   handleSubmit(){
     const { saveUserInfo,
-            updateUserInfo,
-            status } = this.props;
+            updateUserInfo } = this.props;
     
     var fullName = this.state.fullName;
     this.state.familyName = fullName.split(" ")[0];
@@ -150,8 +149,8 @@ export class QuestionnarieComponent extends PureComponent {
         updateUserInfo(key, state[key]);
     });
     
-    saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)});
-    //  this.props.history.push('/questionnarie-step-2'); 
+    saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)},"giver-questionnarie-step-6");
+    //this.props.history.push('/questionnarie-step-2'); 
   }
   handleBack(){
     const { prevPage } = this.props;
