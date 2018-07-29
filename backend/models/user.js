@@ -86,6 +86,9 @@ var UserSchema = new Schema({
         medical:{type:Number},
         etc:{type:Number},
     },
+    politicalIdeology:{
+        type:Number
+    },
     status: {
         type: String,
         default: 'active',

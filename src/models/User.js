@@ -24,7 +24,8 @@ const shape = {
   type:null,
   note:null,
   paymentInfo:null,
-  loi:null
+  loi:null,
+  politicalIdeology:null
 };
 
 class User extends Record(shape) {
@@ -51,7 +52,8 @@ class User extends Record(shape) {
       type:pojo.type||"giver",
       note:pojo.note ||null,
       paymentInfo:pojo.paymentInfo||null,
-      loi:pojo.loi||null
+      loi:pojo.loi||null,
+      politicalIdeology:pojo.politicalIdeology || null
     });
   }
 }

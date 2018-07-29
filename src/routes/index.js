@@ -43,6 +43,7 @@ class Routes extends Component {
           <AuthenticatedRoute exact path='/giver-questionnarie-step-5' component={QuestionnariesStep5} />
           <AuthenticatedRoute exact path='/giver-questionnarie-step-6' component={QuestionnariesStep6} />
           <AuthenticatedRoute exact path='/giver-questionnarie-step-7' component={QuestionnariesStep7} />
+          <AuthenticatedRoute exact path='/giver-questionnarie-step-8' component={QuestionnariesStep8} />
           <AuthenticatedRoute exact path='/charity-questionnarie-step-1' component={CharityQuestionnariesStep1} />
           <AuthenticatedRoute exact path='/charity-questionnarie-step-2' component={CharityQuestionnariesStep2} />
           <AuthenticatedRoute exact path='/charity-questionnarie-step-3' component={CharityQuestionnariesStep3} />
