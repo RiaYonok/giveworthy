@@ -131,7 +131,7 @@ export class QuestionnarieComponent extends PureComponent {
                 >
                 {menuItem.map(option => {
                     const val = self.state.loi[option.value];
-                    return (<MenuItem key={option.value} value={option.value} className={val>0?"active":"inactive"} >
+                    return (<MenuItem key={option.value} value={option.value} className={val>0?"loi-active":"loi-inactive"} >
                     {option.label +(val>0?"/"+val:"")}   
                     </MenuItem>)
                 })}

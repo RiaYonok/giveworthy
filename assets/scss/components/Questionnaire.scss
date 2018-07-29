@@ -13,7 +13,7 @@
   top:0 !important;
   position:absolute !important;
 }
-li[class*="MuiMenuItem-root-"].active:after{
+li.loi-active:after{
   content:"";
   height: 15px;
   width: 15px;
@@ -23,7 +23,7 @@ li[class*="MuiMenuItem-root-"].active:after{
   position: absolute;
   right: 10px;
 }
-li[class*="MuiMenuItem-root-"].inactive:after{
+li.loi-inactive:after{
   content:"";
   height: 15px;
   width: 15px;
