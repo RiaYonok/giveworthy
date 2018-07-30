@@ -10,6 +10,8 @@ import getCurrentUser from '@selectors/getCurrentUser';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import {Slider} from '@material-ui/lab';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import InputRange from 'react-input-range';
+
 const jwt = require('jsonwebtoken');
 import {
     dismissError
@@ -35,10 +37,9 @@ const styles={
     menu: {
         width: 200,
     },
-    slider:{
-        marginTop:20,
-        textAlign:'left',
-        fontSize:20
+    inputRange:{
+        marginTop:50,
+        marginBottom:30
     }
 }
 
@@ -67,16 +68,16 @@ export class QuestionnarieComponent extends PureComponent {
   }
   
   
-  handleChange (e,value){
+  handleChange (value){
     this.setState({politicalIdeology : value});
   };
   handleSubmit(){
     const {updateUserInfo, saveUserInfo} = this.props;
     updateUserInfo("politicalIdeology", this.state.politicalIdeology);
-    saveUserInfo({token:jwt.sign({id:this.state.id, politicalIdeology:this.state.politicalIdeology}, process.env.SECRET_KEY)},"giver-questionnarie-step-8");
+    saveUserInfo({token:jwt.sign({id:this.state.id, politicalIdeology:this.state.politicalIdeology}, process.env.SECRET_KEY)},"giver-questionnarie-step-9");
   }
   handleBack(){
-    this.props.history.push('/giver-questionnarie-step-6'); 
+    this.props.history.push('/giver-questionnarie-step-7'); 
   }
   render() {
     const { 
@@ -97,9 +98,13 @@ export class QuestionnarieComponent extends PureComponent {
             onError={errors => console.log(errors)}
         >
             
-            <div style={styles.slider}>
-                <Typography id="label" variant="subheading">{"Selected value: "+this.ideologies[this.state.politicalIdeology].toUpperCase()}</Typography>
-                <Slider style={{paddingLeft:0, paddingRight:0}} value={this.state.politicalIdeology||0} min={0} max={2} step={1} onChange={this.handleChange} />
+            <div style={styles.inputRange}>
+                {/* <Typography id="label" variant="subheading">{"Selected value: "+this.ideologies[this.state.politicalIdeology].toUpperCase()}</Typography> */}
+                <InputRange 
+                    formatLabel={value => `${this.ideologies[value].toUpperCase()}`}
+                    value={this.state.politicalIdeology||0} 
+                    minValue={0} maxValue={2} step={1} 
+                    onChange={this.handleChange} />
             </div>
             <FormHelperText 
                 className = "helper-text"

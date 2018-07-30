@@ -8,8 +8,10 @@ import { Button, TextField, MenuItem } from '@material-ui/core';
 import { ValidatorForm} from '@components/Validators';
 import getCurrentUser from '@selectors/getCurrentUser';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import {Slider} from '@material-ui/lab';
+//import {Slider} from '@material-ui/lab';
+import InputRange from 'react-input-range';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
 const jwt = require('jsonwebtoken');
 import {
     dismissError
@@ -35,10 +37,9 @@ const styles={
     menu: {
         width: 200,
     },
-    slider:{
-        marginTop:20,
-        textAlign:'left',
-        fontSize:20
+    inputRange:{
+        marginTop:50,
+        marginBottom:30
     }
 }
 
@@ -78,7 +79,7 @@ export class QuestionnarieComponent extends PureComponent {
    
     this.setState({[prop] : event.target.value, sliderValue:this.state.loi[event.target.value] });
   };
-  handleSliderChange(e, sliderValue){
+  handleSliderChange(sliderValue){
     this.setState({loi:{...this.state.loi, [this.state.currentKey] :sliderValue}});
     this.setState({sliderValue:sliderValue});
 
@@ -137,9 +138,9 @@ export class QuestionnarieComponent extends PureComponent {
                 })}
             
             </TextField>
-            <div style={styles.slider}>
-                <Typography id="label" variant="subheading">{"Selected label: "+this.state.sliderValue}</Typography>
-                <Slider style={{paddingLeft:0, paddingRight:0}} value={this.state.sliderValue||0} min={0} max={10} step={1} onChange={this.handleSliderChange} />
+            <div style={styles.inputRange}>
+                {/* <Typography id="label" variant="subheading">{"Selected label: "+this.state.sliderValue}</Typography> */}
+                <InputRange style={styles.inputRange} value={this.state.sliderValue||0} minValue={0} maxValue={10} step={1} onChange={this.handleSliderChange} />
             </div>
             <FormHelperText 
                 className = "helper-text"
