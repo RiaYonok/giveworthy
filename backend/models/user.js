@@ -89,6 +89,9 @@ var UserSchema = new Schema({
     politicalIdeology:{
         type:Number
     },
+    donationAmount:{
+        type:Number
+    },
     status: {
         type: String,
         default: 'active',
