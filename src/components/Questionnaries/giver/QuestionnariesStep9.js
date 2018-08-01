@@ -9,8 +9,6 @@ import { ValidatorForm} from '@components/Validators';
 import getCurrentUser from '@selectors/getCurrentUser';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import InputRange from 'react-input-range';
-
 const jwt = require('jsonwebtoken');
 import {
     dismissError
@@ -69,7 +67,7 @@ export class QuestionnarieComponent extends PureComponent {
   handleSubmit(){
     const {updateUserInfo, saveUserInfo} = this.props;
     updateUserInfo("donationAmount", this.state.donationAmount);
-    saveUserInfo({token:jwt.sign({id:this.state.id, donationAmount:this.state.donationAmount}, process.env.SECRET_KEY)},"giver-questionnarie-step-9");
+    saveUserInfo({token:jwt.sign({id:this.state.id, donationAmount:this.state.donationAmount}, process.env.SECRET_KEY)},"charities-grid");
   }
   handleBack(){
     this.props.history.push('/giver-questionnarie-step-8'); 

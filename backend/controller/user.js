@@ -247,3 +247,24 @@ module.exports.getCause = function(req, res){
     }
     
 }
+
+module.exports.getMatchedCauses = function(req, res){
+    var params = req.body.params,
+        limit = params.limit || 5;
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        causes:[]
+    };
+    Cause.find({}, function(err, docs){
+        if (err){
+            console.log(err);
+            resJSON.desc=msg.DB_ERROR;
+            res.send(resJSON);
+        }else{
+            resJSON.msg = msg.SUCCESS;
+            resJSON.causes = docs||[];
+        }
+        res.send(resJSON);
+    }).limit(5);
+}

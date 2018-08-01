@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import {List} from "immutable";
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { createSelector } from 'reselect';

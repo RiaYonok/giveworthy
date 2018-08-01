@@ -52,6 +52,14 @@ async function getCause(userID) {
   
   return result.data;
 }
+async function getMatchedCauses(params){
+  
+  const result = await axios.post(`${url}/get-mathced-causes`, {params});
+  if (result.status !== 200)
+    throw new Error(`get matched causes failed with status: ${result.status}`);
+  
+  return result.data;
+}
 async function fileupload(params){
   const result = await axios({
     method: 'post',
@@ -71,5 +79,6 @@ export {
   savecause,
   getCause,
   fileupload,
-  saveUserInfo
+  saveUserInfo,
+  getMatchedCauses
 };

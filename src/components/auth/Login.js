@@ -21,6 +21,7 @@ export class Login extends PureComponent {
   
   onGoogleSignIn(googleUser) {
     if (!googleUser) return;
+    console.log(googleUser)
     const authResponse = googleUser.getAuthResponse();
     const guser = jwt.decode(authResponse.id_token);
     if (!guser) return;
@@ -66,6 +67,7 @@ export class Login extends PureComponent {
           className="login-button gplus-signin-button"
           buttonText = "Sign in with Google+"
           clientId={googleID}
+          autoLoad={false}
           onSuccess={this.onGoogleSignIn}
           onFailure={this.onGoogleSignIn}
           />
