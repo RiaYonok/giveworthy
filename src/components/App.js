@@ -8,6 +8,7 @@ import { hot } from 'react-hot-loader';
 import configureStore, {history} from '@store';
 import Main from '@components/Main';
 import Header from '@components/Header';
+import Footer from '@components/Footer';
 
 const store = configureStore();
 
@@ -19,6 +20,7 @@ class App extends Component {
           <MuiThemeProvider>
             <Header />
             <Main />
+            <Footer/>
           </MuiThemeProvider>
         </ConnectedRouter>
       </Provider>
