@@ -17,18 +17,18 @@ body {
     width:$large-break;
   }
   
-  h1 {
-    font-size: 12pt;
-    margin: 0;
+  // h1 {
+  //   font-size: 12pt;
+  //   margin: 0;
 
-    @media screen and (min-width: $medium-break) {
-      font-size: 16pt;
-    }
+  //   @media screen and (min-width: $medium-break) {
+  //     font-size: 16pt;
+  //   }
 
-    @media screen and (min-width: $large-break) {
-      font-size: 28pt;
-    }
-  }
+  //   @media screen and (min-width: $large-break) {
+  //     font-size: 28pt;
+  //   }
+  // }
 
   @media screen and (min-width: $large-break) {
     margin: 0 auto;
