@@ -32,9 +32,17 @@ const styles = {
     fontWeight:"400",
     paddingBottom:10
   },
+  username:{
+    fontSize:18,
+    color:"#757575",
+    fontWeight:"400",
+    marginLeft:10,
+    marginRight:10,
+    lineHeight:"2.5em"
+  },
   anchor:{
-    marginLeft:15,
-    marginRight:15
+    marginLeft:20,
+    marginRight:20
   },
   active:{
     borderBottom:"7px solid"
@@ -116,6 +124,7 @@ export class Header extends PureComponent {
               </Link>)}
               {auth&&(
                 <div  style={{display:'inline-flex'}}>
+                <Typography variant="subheading" style={styles.username}>{currentUser.firstName||currentUser.lastName||currentUser.fullName}</Typography>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"
