@@ -12,6 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import getCurrentUser from '@selectors/getCurrentUser';
+import ThanksDialog from '@components/utils/ThanksDialog'
 const styles= theme => ({
   fbFriends:{
     padding:0,
@@ -46,11 +47,15 @@ export class CharitiesGrid extends PureComponent {
   constructor(props){
     super(props);
     this.state = {
-      causes:[]
+      causes:[],
+      opened:false,
+      btnDisabled:false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleGiveAmount = this.handleGiveAmount.bind(this);
     this.handleShowMore = this.handleShowMore.bind(this);
+    this.dlgCallback = this.dlgCallback.bind(this);
+    this.checkSelectedCharities =  this.checkSelectedCharities.bind(this);
   }
 
   componentDidMount(){
@@ -59,6 +64,9 @@ export class CharitiesGrid extends PureComponent {
     causes.then(function(res){
       
       if (res.msg == msg.SUCCESS){
+        res.causes.forEach((item)=>{
+          item.checked = true;
+        });
         self.setState({causes:res.causes});
         res.causes.forEach(function(item){
           self.setState({[item.id]:true});
@@ -68,13 +76,29 @@ export class CharitiesGrid extends PureComponent {
   }
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.checked });
+    var {causes} = this.state;
+    causes[prop].checked =  !causes[prop].checked;// event.target.checked;
+    this.setState({causes});
+    this.checkSelectedCharities();
+    this.forceUpdate();
+
   };
+  checkSelectedCharities(){
+    var b=false;
+    this.state.causes.forEach((item)=>{
+      b = b||item.checked;
+    });
+    this.setState({btnDisabled:!b});
+  }
   handleShowMore = ()=>{
 
   }
-  handleGiveAmount = ()=>{
-
+  handleGiveAmount(){
+    this.setState({opened:true});
+  }
+  dlgCallback(){
+    this.setState({opened:false});
+    this.props.history.push('/dashboard'); 
   }
 
   render() {
@@ -96,13 +120,13 @@ export class CharitiesGrid extends PureComponent {
             <FormControl 
               component="fieldset">
                 <FormGroup>
-                  {this.state.causes.map(function(item){
+                  {this.state.causes.map(function(item, id){
                     return <FormControlLabel
                       key={item.id}
                       control={
                         <Checkbox
-                          checked={self.state[item.id]}
-                          onChange={self.handleChange(item.id)}
+                          checked={item.checked}
+                          onChange={self.handleChange(id)}
                           value={item.id}
                         />
                       }
@@ -112,13 +136,21 @@ export class CharitiesGrid extends PureComponent {
                 </FormGroup>
               </FormControl>
           </div>
-          <Button type="submit" variant="contained" onClick={this.handleGiveAmount} className="login-button email-signin-button">
+          <Button type="submit" variant="contained" onClick={this.handleGiveAmount} className="login-button email-signin-button" disabled={this.state.btnDisabled}>
             {'Give $'+ user.donationAmount + ' per charity'}
           </Button>
           <Button  className={classes.showMore} onClick={this.handleShowMore}>
           Show me 5 more
           </Button>
         </div>
+        <ThanksDialog
+          open={this.state.opened}
+          causes = {this.state.causes}
+          username={user.fullName}
+          amount={user.donationAmount}
+          callback={this.dlgCallback}
+        />
+        
       </div>
     );
   }

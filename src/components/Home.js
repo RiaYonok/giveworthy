@@ -54,7 +54,7 @@ export class Home extends PureComponent {
           <Grid item xs={12}>
             <div className={classes.grayTextSection}>
               <Typography variant="display3" align="left" gutterBottom>
-                Giveworhty 
+                Giveworthy 
               </Typography>
               <Typography variant="headline" align="left" gutterBottom>
                 Some supporting text why we are good.
