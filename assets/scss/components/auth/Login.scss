@@ -67,15 +67,15 @@
   background: white !important;
 }
 .gplus-signin-button{
-  background:rgba(209, 72, 54,0.8);
+  background:rgba(209, 72, 54,0.8) !important;
   &:hover{
-      background:rgba(209, 72, 54,1);
+      background:rgba(209, 72, 54,1) !important;
   }
 }
 .facebook-signin-button{
-  background-color: #4c69ba;
+  background-color: #4c69ba !important;
   &:hover{
-    background-color: #20419e;
+    background-color: #20419e !important;
   }
 }
 .email-signin-button{

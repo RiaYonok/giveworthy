@@ -20,18 +20,37 @@ import {logOut} from '@actions/users';
 import {delCause} from '@actions/cause';
 import {dismissStatus} from '@actions/status';
 import {dismissError} from '@actions/errors';
+import { withRouter } from 'react-router';
 
-
+const styles = {
+  button:{
+    paddingLeft:5,
+    paddingRight:5,
+    textTransform:"capitalize",
+    fontSize:18,
+    color:"#757575",
+    fontWeight:"400",
+    paddingBottom:10
+  },
+  anchor:{
+    marginLeft:15,
+    marginRight:15
+  },
+  active:{
+    borderBottom:"7px solid"
+  }
+}
 export class Header extends PureComponent {
   constructor(props) {
     super(props);
     this.state={
-      anchorEl: null,
+      anchorEl: null
     };
     this.handleMenu = this.handleMenu.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
-    this.gotoProfile = this.gotoProfile.bind(this);
+    this.checkPath = this.checkPath.bind(this);
+    this.changePath = this.changePath.bind(this);
   }
   handleMenu = event => {
     event.preventDefault();
@@ -48,12 +67,23 @@ export class Header extends PureComponent {
     delCause();
     dismissStatus();
     dismissError();
+    this.changePath();
   }
-  gotoProfile(){
-    const { currentUser } = this.props;
-    if (currentUser.type=="charity"){
-      return <Link to={'/charity-profile'} />;
-    }
+  checkPath(path){
+    const {history} = this.props
+    return history.location.pathname.indexOf(path)>-1?true:false;
+  }
+  changePath(){
+    this.forceUpdate();
+  }
+  componentDidMount() {
+    const self = this;
+    this.unlisten = this.props.history.listen( location =>  {
+      self.forceUpdate();
+     });
+  }
+  componentWillUnmount() {
+    this.unlisten();
   }
   render() {
     const { currentUser } = this.props;
@@ -61,7 +91,6 @@ export class Header extends PureComponent {
     var username = currentUser?currentUser.fullName||"A":"A";
     const open = Boolean(anchorEl);
     const auth = currentUser&&currentUser.id;
-
     return (
       <div className="root">
         <AppBar position="fixed" color="default">
@@ -71,19 +100,19 @@ export class Header extends PureComponent {
             </Typography>
             <div>
             {auth&&(
-              <Link to="/dashboard"  className="link-button">
-                <Button>Dashboard </Button>
+              <Link to="/dashboard"  className="link-button" style={this.checkPath("dashboard")?{...styles.active, ...styles.anchor}:styles.anchor} >
+                <Button style={styles.button} onClick={this.changePath}>Dashboard </Button>
               </Link>)}
-              <Link to="/about" className="link-button">
-                <Button>About</Button>
+              <Link to="/about" className="link-button" style={this.checkPath("about")?{...styles.active, ...styles.anchor}:styles.anchor}>
+                <Button style={styles.button} onClick={this.changePath}>About</Button>
               </Link>
               {!auth&&(
-              <Link to="/other"  className="link-button">
-                <Button>Other...</Button>
+              <Link to="/other"  className="link-button" style={this.checkPath("other")?{...styles.active, ...styles.anchor}:styles.anchor}>
+                <Button style={styles.button} onClick={this.changePath}>Other...</Button>
               </Link>)}
               {!auth&&(
-              <Link to="/login"  className="link-button">
-                <Button>Login </Button>
+              <Link to="/login"  className="link-button" style={this.checkPath("login")?{...styles.active, ...styles.anchor}:styles.anchor}>
+                <Button style={styles.button} onClick={this.changePath}>Login </Button>
               </Link>)}
               {auth&&(
                 <div  style={{display:'inline-flex'}}>
@@ -114,8 +143,8 @@ export class Header extends PureComponent {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <Link to={`/${currentUser.type}-profile`} className="link-button"><MenuItem >Profile</MenuItem></Link>
-                  <MenuItem onClick={this.handleLogOut}>Log out</MenuItem>
+                  <Link to={`/${currentUser.type}-profile`} className="link-button"><MenuItem onClick={this.changePath} >Profile</MenuItem></Link>
+                  <Link to={"/"} className="link-button"><MenuItem onClick={this.handleLogOut}>Log out</MenuItem></Link>
                 </Menu>
                 </div>      
               )}
@@ -174,4 +203,4 @@ export default hot(module)(connect(mapStateToProps,{
   delCause,
   dismissStatus,
   dismissError
-})(Header));
+})(withRouter(Header)));
