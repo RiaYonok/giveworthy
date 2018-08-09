@@ -36,7 +36,7 @@ const styles = theme => ({
       flexGrow: 1,
     },
     paper: {
-        position: 'relative',
+      position: 'relative',
       padding: theme.spacing.unit ,
       textAlign: 'center',
       color: theme.palette.text.secondary,
@@ -231,9 +231,9 @@ export class Profile extends PureComponent {
                                             {this.state.name || "Charity Name"}
                                     </Typography>:
                                     <FormControl className={classes.formControl}>
-                                            <InputLabel htmlFor="name">Charity Name</InputLabel>
-                                            <Input id="name" value={this.state.name} onChange={this.handleChange("name")} />
-                                        </FormControl>}
+                                        <InputLabel htmlFor="name">Charity Name</InputLabel>
+                                        <Input id="name" value={this.state.name} onChange={this.handleChange("name")} />
+                                    </FormControl>}
                                 </Grid>
                                 <Grid item>
                                     <IconButton onClick={this.setEditStatus("name")}>
