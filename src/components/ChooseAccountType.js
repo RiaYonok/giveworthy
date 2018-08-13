@@ -64,9 +64,8 @@ export class ChooseAccTypeComponent extends PureComponent {
     const {updateUserInfo, saveCause, currentUser, cause } = this.props;
     this.setState({type:type});
     const state = this.state;
-    Object.keys(state).forEach(key => {
-      updateUserInfo(key, state[key]);
-    });
+    updateUserInfo("type", type);
+    
     if (type=="charity"){
       if (cause&&cause.id){
         this.props.history.push(`/${type}-questionnarie-step-1`); 

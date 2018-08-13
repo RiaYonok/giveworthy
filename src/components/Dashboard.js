@@ -4,6 +4,8 @@ import { hot } from 'react-hot-loader';
 import { createSelector } from 'reselect';
 import getCurrentUser from '@selectors/getCurrentUser';
 import GiverDashboard from '@components/Dashboards/Giver';
+import CharityDashboard from '@components/Dashboards/Charity';
+import AdminDashboard from '@components/Dashboards/Admin';
 
 export class Dashboard extends PureComponent {
 
@@ -14,10 +16,11 @@ export class Dashboard extends PureComponent {
 
   render() {
     const {user} = this.props;
-    console.log(user);
     return (
       <div >
         {user.type=='giver'&&<GiverDashboard/>}
+        {user.type=='charity'&&<CharityDashboard/>}
+        {user.type=='admin'&&<AdminDashboard/>}
       </div>
     );
   }
