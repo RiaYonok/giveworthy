@@ -73,7 +73,26 @@ mongoose.connection.on('disconnected', function() {
 });
 // create maseter account when connecting db if it was not created already
 mongoose.connection.once('open', function(){
-    
+    const User = require("./backend/models/user");
+    const uuid = require('uuid/v1');
+    User.findOne({type:'admin'},function(err, doc){
+        if (err){
+            console.log(err);
+        }else{
+            if (!doc || doc.length==0){
+                var user = new User({
+                    fullName: process.env.ADMIN_USERNAME,
+                    familyName: process.env.ADMIN_USERNAME,
+                    id: uuid(),
+                    password: process.env.ADMIN_PASSWORD,
+                    email:process.env.ADMIN_EMAIL,
+                    type:'admin'
+                });
+                user.save();
+                console.log("Admin user created.");
+            }
+        }
+    });
 });
 
 process.on('SIGINT', function() {
