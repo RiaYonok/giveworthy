@@ -102,7 +102,7 @@ export class CharityDialog extends PureComponent {
                                 url={cause.primaryVideoLink||""}
                                 controls = {true}
                                 width ={"100%"}
-                                height ={"100%"}
+                                height ={300}
                             >
                             </YoutubePlayer>
                     </Grid>
