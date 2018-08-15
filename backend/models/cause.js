@@ -61,7 +61,7 @@ var CauseSchema = new Schema({
 CauseSchema.pre('save', function(next){
     var cause = this;
     cause.updated_at = new Date();
-    cause.created_at = new Date();
+    
     next();
 });
 

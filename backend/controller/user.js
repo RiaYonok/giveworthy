@@ -173,6 +173,8 @@ module.exports.saveCause = function(req, res){
                         user.type="charity";
                         user.save();
                         params.id = uuid();
+                        params.created_at = new Date();
+                        params.status = 'init';
                         var cause = new Cause(params);
                         cause.save(function(err1, savedDoc){
                             if (err1){
@@ -237,7 +239,6 @@ module.exports.getCause = function(req, res){
             if (err){
                 console.log(err);
                 resJSON.desc=msg.DB_ERROR;
-                res.send(resJSON);
             }else{
                 resJSON.msg = msg.SUCCESS;
                 resJSON.causes = docs||[];
@@ -260,7 +261,6 @@ module.exports.getMatchedCauses = function(req, res){
         if (err){
             console.log(err);
             resJSON.desc=msg.DB_ERROR;
-            res.send(resJSON);
         }else{
             resJSON.msg = msg.SUCCESS;
             resJSON.causes = docs||[];
@@ -275,15 +275,14 @@ module.exports.getCausesForAcception = function(req, res){
         desc:"",
         causes:[]
     };
-    Cause.find({}, function(err, docs){
+    Cause.find({$or:[{status:'init'},{status:{$eq:null}}]}, function(err, docs){
         if (err){
             console.log(err);
             resJSON.desc=msg.DB_ERROR;
-            res.send(resJSON);
         }else{
             resJSON.msg = msg.SUCCESS;
             resJSON.causes = docs||[];
         }
         res.send(resJSON);
-    }).sort({"created_at":-1,"updated_at":-1});
+    }).sort({"created_at":-1,"updated_at":-1}).limit(20);
 }

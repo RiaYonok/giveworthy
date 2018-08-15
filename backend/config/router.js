@@ -57,6 +57,7 @@ module.exports.setup = function(app) {
     app.post("/api/saveuserinfo", user.saveUserInfo);
     app.post("/api/get-mathced-causes", user.getMatchedCauses);
     app.post("/api/get-causes-for-acception", user.getCausesForAcception);
+    
     /* route to handel 404 error */
     app.use('*', function(req, res) {
         res.status(404)

@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 import { Button, Hidden } from '@material-ui/core';
-import {getCausesForAcception} from '@api';
+import {getCausesForAcception, savecause} from '@api';
 import msg from '@assets/i18n/en';
 import CharityDialog from '@components/utils/CharityDialog';
 
@@ -56,6 +56,7 @@ export class AdminDashboard extends PureComponent {
     this.renderCharityList = this.renderCharityList.bind(this);
     this.dlgCallback = this.dlgCallback.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.updateCausseStatus = this.updateCausseStatus.bind(this);
   }
   dlgCallback(){
     this.setState({openedCharityDialog:false});
@@ -65,6 +66,24 @@ export class AdminDashboard extends PureComponent {
       openedCharityDialog:true,
       selectedCause:cause
     })
+  }
+  updateCausseStatus (id,status,event){
+    if(confirm('Are you sure?')){
+      const cause = this.state.causes[id]
+      const call = savecause({
+        id:cause.id,
+        status:status
+      });
+      call.then((res)=>{
+        if (res.msg == msg.SUCCESS){
+          var causes = this.state.causes;
+          causes.splice(id,1);
+          this.setState({causes});
+          this.forceUpdate();
+        }
+      });
+    }
+    
   }
   renderCharityList(){
     const {classes} = this.props;
@@ -92,8 +111,8 @@ export class AdminDashboard extends PureComponent {
                   <ListItemText primary={name} className={classes.postDesc}  secondary={`Posted at ${postedDateStr}`}/>
                   <ListItemSecondaryAction>
                     <Hidden xsDown>
-                      <Button variant="outlined" className={classes.button}>Approve</Button>
-                      <Button variant="outlined" className={classes.button}>Deny</Button>
+                      <Button variant="outlined" className={classes.button} onClick={(e)=>this.updateCausseStatus(id,'approve',e)}>Approve</Button>
+                      <Button variant="outlined" className={classes.button} onClick={(e)=>this.updateCausseStatus(id,'deny',e)}>Deny</Button>
                     </Hidden>
                     <Hidden  only={['sm', 'lg','xl','md']}>
                       <IconButton aria-label="approve">
