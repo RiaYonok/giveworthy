@@ -52,9 +52,10 @@ class PhotoGallery extends PureComponent {
   render() {
     // /const {photos} = this.props;
     //
+    const {deleteCallback} = this.props;
     return (
         <div>
-            <Gallery photos={this.state.photos||[]} onClick={this.openLightbox} onDeleteClick = {this.deletePhotoItem}  columns={5}/>
+            <Gallery photos={this.state.photos||[]} onClick={this.openLightbox} onDeleteClick = {deleteCallback?this.deletePhotoItem:null}  columns={5}/>
             <Lightbox images={this.state.photos||[]}
             onClose={this.closeLightbox}
             onClickPrev={this.gotoPrevious}

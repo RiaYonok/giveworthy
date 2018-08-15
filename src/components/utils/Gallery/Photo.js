@@ -35,9 +35,9 @@ const Photo = ({ index, onClick, photo, margin, onDeleteClick  }) => {
         {...photo}
         onClick={onClick ? handleClick : null}
       />
-      <IconButton style={styles.deleteIcon} onClick={onDeleteClick ? handleonDeleteClick : null}>
+      {onDeleteClick&&(<IconButton style={styles.deleteIcon} onClick={onDeleteClick ? handleonDeleteClick : null}>
         <DeleteIcon/>
-      </IconButton>
+      </IconButton>)}
     </div>
   );
 };

@@ -17,6 +17,8 @@ import DoneIcon from '@material-ui/icons/Done';
 import { Button, Hidden } from '@material-ui/core';
 import {getCausesForAcception} from '@api';
 import msg from '@assets/i18n/en';
+import CharityDialog from '@components/utils/CharityDialog';
+
 const moment = require('moment');
 const styles= theme => ({
     graySection:{
@@ -47,12 +49,26 @@ export class AdminDashboard extends PureComponent {
   constructor(props){
     super(props);
     this.state = {
-        causes:[]
+        causes:[],
+        openedCharityDialog:false,
+        selectedCause:null
     }
     this.renderCharityList = this.renderCharityList.bind(this);
+    this.dlgCallback = this.dlgCallback.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
+  }
+  dlgCallback(){
+    this.setState({openedCharityDialog:false});
+  }
+  handleToggle=cause=>event=>{
+    this.setState({
+      openedCharityDialog:true,
+      selectedCause:cause
+    })
   }
   renderCharityList(){
     const {classes} = this.props;
+    const self = this;
     return (
         <List>
           {this.state.causes.map((item, id)=>{
@@ -64,7 +80,7 @@ export class AdminDashboard extends PureComponent {
                   role={undefined}
                   dense
                   button
-                  //onClick={this.handleToggle(value)}
+                  onClick={self.handleToggle(item)}
                   className={classes.listItem}
                 >
                   <UserAvatar 
@@ -92,6 +108,7 @@ export class AdminDashboard extends PureComponent {
                 
               )
             })}
+            {this.state.causes.length==0&&(<Typography className={classes.postDesc}>No Charity to display now</Typography>)}
         </List>
     )
   }
@@ -114,6 +131,7 @@ export class AdminDashboard extends PureComponent {
         <div className={classes.graySection}>
           {this.renderCharityList()}
         </div>
+        <CharityDialog open={this.state.openedCharityDialog} cause={this.state.selectedCause} callback={this.dlgCallback}/>
       </div>
     );
   }
