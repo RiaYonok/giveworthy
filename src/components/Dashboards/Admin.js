@@ -15,7 +15,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ClearIcon from '@material-ui/icons/Clear';
 import DoneIcon from '@material-ui/icons/Done';
 import { Button, Hidden } from '@material-ui/core';
-
+import {getCausesForAcception} from '@api';
+import msg from '@assets/i18n/en';
+const moment = require('moment');
 const styles= theme => ({
     graySection:{
         background:"#DDD",
@@ -49,11 +51,13 @@ export class AdminDashboard extends PureComponent {
     }
     this.renderCharityList = this.renderCharityList.bind(this);
   }
-  renderCharityList(posts){
+  renderCharityList(){
     const {classes} = this.props;
     return (
         <List>
-          {posts.map((item, id)=>{
+          {this.state.causes.map((item, id)=>{
+            var name = (item.name&&item.name.length>0)?item.name:"Charity Name";
+            var postedDateStr = moment(item.created_at||item.updated_at).format("H:mm:ss MM/DD/YYYY");
               return(
                 <ListItem
                   key={id}
@@ -65,11 +69,11 @@ export class AdminDashboard extends PureComponent {
                 >
                   <UserAvatar 
                       size="48" 
-                      name={item.name} 
+                      name={name} 
                       src={item.imageURL} 
                       colors={['#BDBDBD']} 
                     />
-                  <ListItemText primary={item.name} className={classes.postDesc} disableTypography={true}/>
+                  <ListItemText primary={name} className={classes.postDesc}  secondary={`Posted at ${postedDateStr}`}/>
                   <ListItemSecondaryAction>
                     <Hidden xsDown>
                       <Button variant="outlined" className={classes.button}>Approve</Button>
@@ -91,21 +95,24 @@ export class AdminDashboard extends PureComponent {
         </List>
     )
   }
+  componentDidMount(){
+    const causes = getCausesForAcception();
+    const self = this;
+    causes.then(function(res){
+      if (res.msg == msg.SUCCESS){
+        res.causes.forEach((item)=>{
+          item.checked = true;
+        });
+        self.setState({causes:res.causes});
+      }
+    })
+  }
   render() {
     const {classes,user} = this.props;
-    const posts =[{
-      imageUrl:avatar,
-      name:"InYaSchool",
-      type:"video"
-    },{
-      imageUrl:avatar,
-      name:"Allthenature",
-      type:"photo"
-    }];
     return (
       <div className="main-container">
         <div className={classes.graySection}>
-          {this.renderCharityList(posts)}
+          {this.renderCharityList()}
         </div>
       </div>
     );

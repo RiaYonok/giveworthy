@@ -60,6 +60,14 @@ async function getMatchedCauses(params){
   
   return result.data;
 }
+
+async function getCausesForAcception(){
+  const result = await axios.post(`${url}/get-causes-for-acception`);
+  if (result.status !== 200)
+    throw new Error(`get causes for acception failed with status: ${result.status}`);
+  return result.data;
+}
+
 async function fileupload(params){
   const result = await axios({
     method: 'post',
@@ -80,5 +88,6 @@ export {
   getCause,
   fileupload,
   saveUserInfo,
-  getMatchedCauses
+  getMatchedCauses,
+  getCausesForAcception
 };
