@@ -99,6 +99,7 @@ export class Header extends PureComponent {
     var username = currentUser?currentUser.fullName||"A":"A";
     const open = Boolean(anchorEl);
     const auth = currentUser&&currentUser.id;
+    const type = currentUser.type;
     return (
       <div className="root">
         <AppBar position="fixed" color="default">
@@ -111,6 +112,10 @@ export class Header extends PureComponent {
               <Link to="/dashboard"  className="link-button" style={this.checkPath("dashboard")?{...styles.active, ...styles.anchor}:styles.anchor} >
                 <Button style={styles.button} onClick={this.changePath}>Dashboard </Button>
               </Link>)}
+              {auth&&type=='charity'&&(
+              <Link to="/addcause"  className="link-button" style={this.checkPath("addcause")?{...styles.active, ...styles.anchor}:styles.anchor} >
+                <Button style={styles.button} onClick={this.changePath}>Add a Cause </Button>
+              </Link>)}  
               <Link to="/about" className="link-button" style={this.checkPath("about")?{...styles.active, ...styles.anchor}:styles.anchor}>
                 <Button style={styles.button} onClick={this.changePath}>About</Button>
               </Link>
