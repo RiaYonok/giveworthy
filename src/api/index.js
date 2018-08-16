@@ -68,6 +68,13 @@ async function getCausesForAcception(){
   return result.data;
 }
 
+async function getCausesByTag(params){
+  const result = await axios.post(`${url}/getcausesbytag`, {params});
+  if (result.status !== 200)
+    throw new Error(`get causes by tag failed with status: ${result.status}`);
+  return result.data;
+}
+
 async function fileupload(params){
   const result = await axios({
     method: 'post',
@@ -90,5 +97,6 @@ export {
   fileupload,
   saveUserInfo,
   getMatchedCauses,
-  getCausesForAcception
+  getCausesForAcception,
+  getCausesByTag
 };

@@ -268,6 +268,31 @@ module.exports.getMatchedCauses = function(req, res){
         res.send(resJSON);
     }).limit(limit);
 }
+module.exports.getCausesByTags = function(req, res){
+    var params = req.body.params,
+        limit = params.limit || 24;
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        causes:[]
+    };
+    var query = {};
+    if (params.filter!='all'){
+        query['tags'] = {
+            $in:[params.filter]
+        }
+    }
+    Cause.find(query, function(err, docs){
+        if (err){
+            console.log(err);
+            resJSON.desc=msg.DB_ERROR;
+        }else{
+            resJSON.msg = msg.SUCCESS;
+            resJSON.causes = docs||[];
+        }
+        res.send(resJSON);
+    }).limit(limit);
+}
 
 module.exports.getCausesForAcception = function(req, res){
     var resJSON = {
