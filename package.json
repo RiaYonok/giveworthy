@@ -122,6 +122,7 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-stripe-elements": "^2.0.1",
     "react-user-avatar": "^1.10.0",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",

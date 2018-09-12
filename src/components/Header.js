@@ -128,7 +128,7 @@ export class Header extends PureComponent {
                 <Button style={styles.button} onClick={this.changePath}>Login </Button>
               </Link>)}
               {auth&&(
-                <div  style={{display:'inline-flex'}}>
+                <div  style={{display:'inline-flex',"verticalAlign": "middle"}}>
                 <Typography variant="subheading" style={styles.username}>{currentUser.firstName||currentUser.lastName||currentUser.fullName}</Typography>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
