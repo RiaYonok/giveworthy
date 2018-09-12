@@ -88,7 +88,7 @@ export class Signup extends PureComponent {
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
-          Sing up with Email
+          Sign up with Email
         </Typography>
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
           Add your info below
