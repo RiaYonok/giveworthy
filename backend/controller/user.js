@@ -6,6 +6,7 @@
  * @description 
  * the API to user login and signup, profile setting etc
  */
+
 require('rootpath')();
 const jwt = require('jsonwebtoken');
 const msg = require('assets/i18n/en');
@@ -13,6 +14,7 @@ const uuid = require('uuid/v1');
 const User = require("backend/models/user");
 const Cause = require("backend/models/cause");
 const secertKey = process.env.SECRET_KEY;
+var stripe = require("stripe")(process.env.STRIPE_TEST_SEC_KEY);
 /**
  * login controller
  * @param {Object} req 
@@ -128,7 +130,6 @@ module.exports.saveUserInfo = function(req, res){
     var params = req.body.params,
         token = params.token;
     const user = jwt.verify(token, secertKey);
-    
     var resJSON = {
         msg:msg.FAIL,
         desc:"",
@@ -140,15 +141,45 @@ module.exports.saveUserInfo = function(req, res){
         User.find({"id":user.id}, function(err, docs){
             if (err||!docs||docs.length==0){
                 resJSON.desc = msg.UNKNOWN_USER;
+                res.send(resJSON);
             }else{
                 let doc = docs[0];
+                let stripeToken = undefined;
                 Object.keys(user).forEach(function(key){
-                    doc[key] = user[key];
+                    doc[key] = user[key];                    
+                    if (key=="paymentInfo") {
+                        if (user[key].stripeToken) {
+                            stripeToken = user[key].stripeToken
+                        }
+                    }
                 });
-                doc.save();
-                resJSON.msg = msg.SUCCESS;
+                
+                if (stripeToken) {
+                    console.log("Email: ", doc.email);
+                    stripe.customers.create({
+                        email: doc.email,
+                        description: doc.note,
+                        source: stripeToken
+                    }, function(err, customer) {
+
+                        if (err) {
+                            resJSON.msg = err;//msg.SUCCESS;
+                        }
+                        else {
+                            doc.paymentInfo.cusid = customer.id;                            
+                            doc.save();
+                            resJSON.msg = msg.SUCCESS;
+                        }   
+                        res.send(resJSON);                  
+                    });
+                    
+                } else {
+                    doc.save();
+                    resJSON.msg = msg.SUCCESS;
+                    res.send(resJSON);
+                }                
             }
-            res.send(resJSON);
+            
         });
     }
 }

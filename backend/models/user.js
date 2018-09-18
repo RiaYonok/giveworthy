@@ -77,7 +77,8 @@ var UserSchema = new Schema({
         addr2:{type:String},
         state:{type:String},
         zipcode:{type:String},
-        name:{type:String}
+        name:{type:String},
+        cusid:{type:String}
     },
     loi:{
         environment:{type:Number},

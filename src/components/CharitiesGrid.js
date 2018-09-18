@@ -13,6 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import getCurrentUser from '@selectors/getCurrentUser';
 import ThanksDialog from '@components/utils/ThanksDialog'
+
 const styles= theme => ({
   fbFriends:{
     padding:0,
@@ -94,6 +95,9 @@ export class CharitiesGrid extends PureComponent {
 
   }
   handleGiveAmount(){
+    // const { user } = this.props;
+    // console.log("user: ", user);
+
     this.setState({opened:true});
   }
   dlgCallback(){
