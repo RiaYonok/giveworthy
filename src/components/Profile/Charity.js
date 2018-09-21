@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { createSelector } from 'reselect';
 import { hot } from 'react-hot-loader';
 import getCause from '@selectors/getCause';
@@ -263,7 +264,11 @@ export class Profile extends PureComponent {
       ...this.state
     });
   }
-
+  onShowTaxFile(){
+      if (this.state.financialDocLink&&this.state.financialDocLink.length>0){
+          window.open(this.state.financialDocLink);
+      }
+  }
   render() {
     const { classes, error, status } = this.props;
     
@@ -433,6 +438,8 @@ export class Profile extends PureComponent {
                             {status?<CircularProgress size={20}/>:'Looks good/Publish'}</Button>
                             <Button variant="contained" align="center" onClick={this.onShowUploadTaxDocDlg} style={{marginLeft:20}}>
                             {`Upload tax/finacial info ${this.state.editFlags.isTaxFileUploading?'...':''}`}</Button>
+                            {(this.state.financialDocLink&&this.state.financialDocLink.length>0)&&<Button variant="contained" align="center" onClick={this.onShowTaxFile.bind(this)} style={{marginLeft:20}}>
+                            Show Tax/Financial Info</Button>}
                         </Grid>
                     </Grid>
                 </Grid>
