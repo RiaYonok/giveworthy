@@ -56,6 +56,9 @@ var CauseSchema = new Schema({
         type: String,
         default: 'init',
         enum: ['init','approve','deny']
+    },
+    financialDocLink: {
+        type: String
     }
 });
 CauseSchema.pre('save', function(next){

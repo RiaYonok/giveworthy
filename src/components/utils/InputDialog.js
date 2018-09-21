@@ -33,7 +33,6 @@ export default class FormDialog extends React.Component {
         return (
         <div>
             <Dialog
-            
             open={open}
             onClose={this.handleCancelClose}
             aria-labelledby="form-dialog-title"

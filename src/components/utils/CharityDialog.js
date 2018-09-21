@@ -1,17 +1,12 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import { hot } from 'react-hot-loader';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import YoutubePlayer from 'react-player'
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PhotoGallery from '@components/utils/PhotoGallery';

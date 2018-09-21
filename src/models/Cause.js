@@ -13,7 +13,8 @@ const shape = {
   summary: null,
   details:null,
   donationIds: List(),
-  percentile:null
+  percentile:null,
+  financialDocLink:null
 };
 
 class Cause extends Record(shape) {
@@ -31,7 +32,8 @@ class Cause extends Record(shape) {
       adminIds: pojo.adminIds ? fromJS(pojo.adminIds) : List(),
       tags: pojo.tags ? fromJS(pojo.tags) : List(),
       donationIds: pojo.donationIds ? fromJS(pojo.donationIds) : List(),
-      percentile:pojo.percentile || null
+      percentile:pojo.percentile || null,
+      financialDocLink:pojo.financialDocLink ||null
     });
   }
 }

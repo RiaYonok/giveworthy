@@ -209,9 +209,6 @@ function* uploadFile(action) {
         setError(res.desc)
       );
     }else{
-      // yield put(
-      //   updateCause(action.key, res.link)
-      // );
       action.callback(res.link)
     }
     yield put(

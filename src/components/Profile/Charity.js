@@ -22,9 +22,14 @@ import { Button } from '@material-ui/core';
 import LinkIcon from '@material-ui/icons/Link';
 import PhotoIcon from '@material-ui/icons/Image';
 import InputDialog from '@components/utils/InputDialog';
+import UploadTaxDialog from '@components/utils/UploadTaxDialog';
 import getError from '@selectors/getError';
 import getStatus from '@selectors/getStatus';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+
 import {
     dismissError
   } from '@actions/errors';
@@ -102,6 +107,7 @@ export class Profile extends PureComponent {
         summary:cause.summary||"",
         details:caches.details||"",
         webLink:cause.webLink||"",
+        financialDocLink:cause.financialDocLink||"",
         editFlags:{
             name:false,
             description:false,
@@ -109,7 +115,11 @@ export class Profile extends PureComponent {
             details:false,
             webLink:false,
             percentile:false,
-            openAddLinkDialog:false
+            openAddLinkDialog:false,
+            isOpenConfirmDlg:true,
+            openUploadTaxDocDialog:false,
+            isTaxFileUploading:false,
+            isOpenTaxConfirmDlg:false
         }
     }
     this.handleChange = this.handleChange.bind(this);
@@ -119,6 +129,8 @@ export class Profile extends PureComponent {
     this.addLinkCallback = this.addLinkCallback.bind(this);
     this.onDeletePhotoLink = this.onDeletePhotoLink.bind(this);
     this.onSaveCause = this.onSaveCause.bind(this);
+    this.onShowUploadTaxDocDlg = this.onShowUploadTaxDocDlg.bind(this);
+    this.uploadTaxDlgCallback = this.uploadTaxDlgCallback.bind(this);
     dismissError();
     dismissStatus();
   }
@@ -132,6 +144,7 @@ export class Profile extends PureComponent {
   };
   setEditStatus =  prop => event => {
     this.setState({ editFlags:{
+        ...this.state.editFlags,
         [prop]: !this.state.editFlags[prop]
     }});
   };
@@ -156,9 +169,13 @@ export class Profile extends PureComponent {
     }
     this.setState({
         editFlags:{
+            ...this.state.editFlags,
             openAddLinkDialog:false
         }
     })
+  }
+  onCloseFirstConfirmDlg(){
+      this.setState()
   }
   onAddPhoto(event){
     if (event.target.files && event.target.files[0]) {
@@ -168,9 +185,53 @@ export class Profile extends PureComponent {
             self.getImageSize(e.target.result, function(dimension){
                 self.addPhotoLinkToState(e.target.result, dimension);
             })
-           
         };
         reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  onShowUploadTaxDocDlg(){
+    this.setState({
+        editFlags:{
+            ...this.state.editFlags,
+            openUploadTaxDocDialog:true
+        }
+    })
+  };
+  uploadTaxDlgCallback(b, file){
+    
+    if (b&&file){
+        this.setState({
+            editFlags:{
+                ...this.state.editFlags,
+                openUploadTaxDocDialog:false,
+                isTaxFileUploading:true
+            }
+        });
+        const data = new FormData();
+        data.append('file', file);
+        data.append('key','financialDocLink');
+        const self = this;
+        const {updateCause,uploadFile} = this.props;
+        uploadFile(data, 'financialDocLink', function(link){
+            if (link){
+                updateCause("financialDocLink",link);
+                self.setState({
+                    editFlags:{
+                        ...self.state.editFlags,
+                        isTaxFileUploading:false,
+                        isOpenTaxConfirmDlg:true
+                    },
+                    financialDocLink:link
+                });
+                self.onSaveCause();
+            }
+            self.setState({
+                editFlags:{
+                    ...self.state.editFlags,
+                    isTaxFileUploading:false
+                }
+            });
+        });
     }
   }
   onAddLink(){
@@ -197,7 +258,6 @@ export class Profile extends PureComponent {
 
   onSaveCause(){
     const { cause, saveCause } = this.props;
-
     saveCause({
       id:cause.get("id"),
       ...this.state
@@ -371,6 +431,8 @@ export class Profile extends PureComponent {
                         <Grid item xs={12} style={{textAlign:'center'}}>
                             <Button variant="contained" align="center" onClick={this.onSaveCause}>
                             {status?<CircularProgress size={20}/>:'Looks good/Publish'}</Button>
+                            <Button variant="contained" align="center" onClick={this.onShowUploadTaxDocDlg} style={{marginLeft:20}}>
+                            {`Upload tax/finacial info ${this.state.editFlags.isTaxFileUploading?'...':''}`}</Button>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -382,6 +444,41 @@ export class Profile extends PureComponent {
                 label={"Photo Link"}
                 callback = {this.addLinkCallback}
             />
+            <UploadTaxDialog
+                open = {this.state.editFlags.openUploadTaxDocDialog||false}
+                callback = {this.uploadTaxDlgCallback}
+            />
+            <Dialog
+                open={this.state.editFlags.isOpenConfirmDlg}
+                onClose={this.setEditStatus("isOpenConfirmDlg")}
+                aria-labelledby="profile-confirm-dialog-title"
+                aria-describedby="profile-confirm-dialog-description">
+                <Typography variant="display3" align="center" style={{marginTop:20,marginBottom:20}}>Got it!</Typography>
+                
+                <DialogContent>
+                    <Typography variant="display1" align="center" style={{marginTop:20,marginBottom:20}}>Check out your profile and make a changes you need to</Typography> 
+                </DialogContent>
+                <DialogActions style={{textAlign:"center"}}>
+                    <Button variant="contained" align="center" onClick={this.setEditStatus("isOpenConfirmDlg")} color="primary">
+                    OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                open={this.state.editFlags.isOpenTaxConfirmDlg}
+                onClose={this.setEditStatus("isOpenTaxConfirmDlg")}
+            >
+                <Typography variant="display3" align="center" style={{marginTop:20,marginBottom:20}}>Upload/Submit tax/financial info</Typography>
+                
+                <DialogContent>
+                    <Typography variant="display1" align="center" style={{marginTop:20,marginBottom:20}}>Some information about the financial verification process...</Typography> 
+                </DialogContent>
+                <DialogActions style={{textAlign:"center"}}>
+                    <Button variant="contained" align="center" onClick={this.setEditStatus("isOpenTaxConfirmDlg")} color="primary">
+                    OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
   }
