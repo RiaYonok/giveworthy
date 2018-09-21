@@ -1,11 +1,10 @@
-import React, { PureComponent, Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Input } from '@material-ui/core';
+import React from 'react';
+import { Button } from '@material-ui/core';
 import { ValidatorForm, InputValidator, StripeElementValidator} from '@components/Validators';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
-import { injectStripe, CardNumberElement, CardCVCElement, CardExpiryElement} from 'react-stripe-elements';
-
+import { injectStripe} from 'react-stripe-elements';
+import CircularProgress from '@material-ui/core/CircularProgress';
 const jwt = require('jsonwebtoken');
 const styles={
     root:{
@@ -77,15 +76,10 @@ export class StripeFormComponent extends React.Component {
             ...this.state.paymentInfo,
             [prop] : event.target.value
         }});
-    }else{
-        
-    }
-    
+    }    
   };
   onChangeStripeCallback = (type, event)=>{
-    console.log(event, type);
     var b = (event.complete||!event.error);
-    console.log(b);
     this.setState({isCardInputValid:{
         ...this.state.isCardInputValid,
         [type]:b
@@ -94,7 +88,6 @@ export class StripeFormComponent extends React.Component {
   
   async handleSubmit(){
     const valid = this.state.isCardInputValid;
-    console.log(valid);
     if (valid.cardnumber&&valid.cardcvc&&valid.cardexpiry){
         let {token} = await this.props.stripe.createToken({
             name: this.state.paymentInfo.name,
@@ -103,7 +96,6 @@ export class StripeFormComponent extends React.Component {
             address_state: this.state.paymentInfo.state,
             address_zip:this.state.paymentInfo.zipcode
         });
-        
         this.setState({paymentInfo:{
             ...this.state.paymentInfo,
             stripeToken : token.id,
@@ -112,7 +104,6 @@ export class StripeFormComponent extends React.Component {
         updateUserInfo("paymentInfo", this.state.paymentInfo);    
         saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)},"giver-questionnarie-step-7");
     }
-    
   }
   
   render() {
@@ -120,7 +111,6 @@ export class StripeFormComponent extends React.Component {
         error, 
         status
       } = this.props;
-    const self = this;    
     return (
         <ValidatorForm
             ref="form"

@@ -14,7 +14,7 @@ const uuid = require('uuid/v1');
 const User = require("backend/models/user");
 const Cause = require("backend/models/cause");
 const secertKey = process.env.SECRET_KEY;
-var stripe = require("stripe")(process.env.STRIPE_TEST_SEC_KEY);
+const StripeHelper = require("backend/utils/StripeHelper");
 /**
  * login controller
  * @param {Object} req 
@@ -36,7 +36,6 @@ module.exports.login = function(req, res){
         res.send(resJSON);
     }else{
         
-        //res.send(resJSON);
         loginProcess();
     }
     function loginProcess(){
@@ -146,24 +145,26 @@ module.exports.saveUserInfo = function(req, res){
                 let doc = docs[0];
                 let stripeToken = undefined;
                 Object.keys(user).forEach(function(key){
-                    doc[key] = user[key];                    
                     if (key=="paymentInfo") {
-                        if (user[key].stripeToken) {
-                            stripeToken = user[key].stripeToken
-                        }
+                        Object.keys(user.paymentInfo).forEach(function(pkey){
+                            if (pkey=="stripeToken")
+                                stripeToken = user.paymentInfo.stripeToken;
+                            else
+                                doc.paymentInfo[pkey]  = user.paymentInfo[pkey];
+                        });
+                    }else{
+                        doc[key] = user[key];  
                     }
                 });
                 
                 if (stripeToken) {
-                    console.log("Email: ", doc.email);
-                    stripe.customers.create({
+                    const params = {
                         email: doc.email,
-                        description: doc.note,
                         source: stripeToken
-                    }, function(err, customer) {
-
+                    };
+                    var cb = function(err, customer) {
                         if (err) {
-                            resJSON.msg = err;//msg.SUCCESS;
+                            resJSON.msg = err.message;//msg.SUCCESS;
                         }
                         else {
                             doc.paymentInfo.cusid = customer.id;                            
@@ -171,8 +172,11 @@ module.exports.saveUserInfo = function(req, res){
                             resJSON.msg = msg.SUCCESS;
                         }   
                         res.send(resJSON);                  
-                    });
-                    
+                    };
+                    if (doc.paymentInfo.cusid)
+                        StripeHelper.updateCustomer( doc.paymentInfo.cusid, params, cb);
+                    else
+                        StripeHelper.createCustomer(params, cb);
                 } else {
                     doc.save();
                     resJSON.msg = msg.SUCCESS;

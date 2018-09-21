@@ -4,24 +4,20 @@ import Typography from '@material-ui/core/Typography';
 import { createSelector } from 'reselect';
 import { hot } from 'react-hot-loader';
 import {updateUserInfo, saveUserInfo} from  '@actions/users';
-import { Button, Input } from '@material-ui/core';
-import { ValidatorForm, InputValidator} from '@components/Validators';
+import { Button } from '@material-ui/core';
 import getCurrentUser from '@selectors/getCurrentUser';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Grid from '@material-ui/core/Grid';
-import CreditCardInput from 'react-credit-card-input';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {Elements, StripeProvider} from 'react-stripe-elements';
-import {CardElement, injectStripe} from 'react-stripe-elements';
+import getError from '@selectors/getError';
+import getStatus from '@selectors/getStatus';
 import StripeForm from '@components/utils/StripeWrapComponent'
-const jwt = require('jsonwebtoken');
+
 import {
     dismissError
   } from '@actions/errors';
   import {
     dismissStatus
   } from '@actions/status';
-import StripeWrapComponent from '../../utils/StripeWrapComponent';
+
 const styles={
     root:{
         maxWidth:500,
@@ -62,8 +58,12 @@ const styles={
 
 export const mapStateToProps = createSelector(
   getCurrentUser,
-  ( currentUser) => ({
-    currentUser
+  getError,
+  getStatus,
+  ( currentUser,err, status) => ({
+    currentUser,
+    err,
+    status
   })
 );
 
@@ -91,12 +91,6 @@ export class QuestionnarieComponent extends PureComponent {
     dismissError();
     dismissStatus();
   }
-  
-  componentDidMount() {
-    // Create Stripe instance in componentDidMount
-    // (componentDidMount only fires in browser/DOM environment)
-    //this.setState({stripe: window.Stripe('pk_test_j5GpWaafcq906aixbpsoYIWH')});
-  }
 
   handleChange = prop => event => {
     this.setState({paymentInfo: {
@@ -107,15 +101,6 @@ export class QuestionnarieComponent extends PureComponent {
   
   async handleSubmit(ev){
     ev.preventDefault();
-    // console.log(this.state.stripe)
-    // if (this.state.stripe){
-    //     let {token} = await this.state.stripe.createToken({name: "Name"});
-    //     console.log("Token: ", token);
-    // }
-    
-    // const {updateUserInfo, saveUserInfo} = this.props;
-    // updateUserInfo("paymentInfo", this.state.paymentInfo);
-    // saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)},"giver-questionnarie-step-7");
   }
   
   handleBack(){
@@ -142,8 +127,8 @@ export class QuestionnarieComponent extends PureComponent {
             <StripeForm         
                 userid = {this.state.id}                   
                 paymentInfo = {this.state.paymentInfo}
-                error = {this.state.error}
-                status = {this.state.status}
+                error = {error}
+                status = {status}
                 updateUserInfo = {updateUserInfo}
                 saveUserInfo = {saveUserInfo}
             />
