@@ -134,21 +134,21 @@ export class StripeFormComponent extends React.Component {
                         type="cardnumber"
                         placeholder="Card Number"
                         onChangeCallback = {this.onChangeStripeCallback}
-                        value={this.state.paymentInfo.cardnumber}
+                        
                         />
                 </Grid>
                 <Grid item xs={12} sm={3} >
                     <StripeElementValidator
                         type="cardexpiry"
                         onChangeCallback = {this.onChangeStripeCallback}
-                        value={this.state.paymentInfo.expiry}
+                        
                     />
                 </Grid>
                 <Grid item xs={12}  sm={3} >
                     <StripeElementValidator
                         type="cardcvc"
                         onChangeCallback = {this.onChangeStripeCallback}
-                        value={this.state.paymentInfo.cvc}
+                        
                     />
                 </Grid>
                 <Grid item xs={12} sm={9}>
