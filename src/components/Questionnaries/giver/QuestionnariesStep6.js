@@ -74,13 +74,13 @@ export class QuestionnarieComponent extends PureComponent {
     this.state={
         id:currentUser.id,
         paymentInfo:{
-            // cardnumber:currentUser.paymentInfo?currentUser.paymentInfo.cardnumber:"",
-            // expiry:currentUser.paymentInfo?currentUser.paymentInfo.expiry:"",
-            // cvc:currentUser.paymentInfo?currentUser.paymentInfo.cvc:"",
+            cardnumber:currentUser.paymentInfo?currentUser.paymentInfo.cardnumber:"",
+            expiry:currentUser.paymentInfo?currentUser.paymentInfo.expiry:"",
+            cvc:currentUser.paymentInfo?currentUser.paymentInfo.cvc:"",
             addr1:currentUser.paymentInfo?currentUser.paymentInfo.addr1:"",
             addr2:currentUser.paymentInfo?currentUser.paymentInfo.addr2:"",
             state:currentUser.paymentInfo?currentUser.paymentInfo.state:"",
-            // zipcode:currentUser.paymentInfo?currentUser.paymentInfo.zipcode:"",
+            zipcode:currentUser.paymentInfo?currentUser.paymentInfo.zipcode:"",
             name:currentUser.paymentInfo?currentUser.paymentInfo.name:"",
         },
         stripe:null

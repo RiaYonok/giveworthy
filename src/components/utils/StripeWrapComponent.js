@@ -1,10 +1,10 @@
 import React, { PureComponent, Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Input } from '@material-ui/core';
-import { ValidatorForm, InputValidator} from '@components/Validators';
+import { ValidatorForm, InputValidator, StripeElementValidator} from '@components/Validators';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
-import {CardElement, injectStripe} from 'react-stripe-elements';
+import { injectStripe, CardNumberElement, CardCVCElement, CardExpiryElement} from 'react-stripe-elements';
 
 const jwt = require('jsonwebtoken');
 const styles={
@@ -39,10 +39,7 @@ const styles={
       top:0,
       position:"absolute",
    },
-   cardElement: {
-     margin: "16px 4px 16px",
-     borderBottom:"1px solid rgba(0,0,0,0.42)"
-   }
+  
 }
 
 export class StripeFormComponent extends React.Component {
@@ -51,47 +48,71 @@ export class StripeFormComponent extends React.Component {
     this.state={
         id:props.userid,
         paymentInfo:{
-            // cardnumber:currentUser.paymentInfo?currentUser.paymentInfo.cardnumber:"",
-            // expiry:currentUser.paymentInfo?currentUser.paymentInfo.expiry:"",
-            // cvc:currentUser.paymentInfo?currentUser.paymentInfo.cvc:"",
+            cardnumber:props.paymentInfo?props.paymentInfo.cardnumber:"",
+            expiry:props.paymentInfo?props.paymentInfo.expiry:"",
+            cvc:props.paymentInfo?props.paymentInfo.cvc:"",
             addr1:props.paymentInfo?props.paymentInfo.addr1:"",
             addr2:props.paymentInfo?props.paymentInfo.addr2:"",
             state:props.paymentInfo?props.paymentInfo.state:"",
-            // zipcode:currentUser.paymentInfo?currentUser.paymentInfo.zipcode:"",
             name:props.paymentInfo?props.paymentInfo.name:"",
-            stripeToken:props.paymentInfo?props.paymentInfo.stripeToken:""
+            zipcode:props.paymentInfo?props.paymentInfo.zipcode:"",
+            stripeToken:props.paymentInfo?props.paymentInfo.stripeToken:"",
+        },
+        isCardInputValid:{
+            cardnumber:false,
+            cardexpiry:false,
+            cardcvc:false
 
         }
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChangeStripeCallback = this.onChangeStripeCallback.bind(this);
   }
   
   
   handleChange = prop => event => {
-    this.setState({paymentInfo: {
-        ...this.state.paymentInfo,
-        [prop] : event.target.value
-    }});
+    if (event.target){
+        this.setState({paymentInfo: {
+            ...this.state.paymentInfo,
+            [prop] : event.target.value
+        }});
+    }else{
+        
+    }
+    
   };
+  onChangeStripeCallback = (type, event)=>{
+    console.log(event, type);
+    var b = (event.complete||!event.error);
+    console.log(b);
+    this.setState({isCardInputValid:{
+        ...this.state.isCardInputValid,
+        [type]:b
+    }});
+  }
   
   async handleSubmit(){
+    const valid = this.state.isCardInputValid;
+    console.log(valid);
+    if (valid.cardnumber&&valid.cardcvc&&valid.cardexpiry){
+        let {token} = await this.props.stripe.createToken({
+            name: this.state.paymentInfo.name,
+            address_line1: this.state.paymentInfo.addr1,
+            address_line2: this.state.paymentInfo.addr2,
+            address_state: this.state.paymentInfo.state,
+            address_zip:this.state.paymentInfo.zipcode
+        });
+        
+        this.setState({paymentInfo:{
+            ...this.state.paymentInfo,
+            stripeToken : token.id,
+        }})
+        const {updateUserInfo, saveUserInfo} = this.props;
+        updateUserInfo("paymentInfo", this.state.paymentInfo);    
+        saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)},"giver-questionnarie-step-7");
+    }
     
-    let {name} = this.state.paymentInfo;
-    let {addr1} = this.state.paymentInfo;
-    let {addr2} = this.state.paymentInfo;
-    let {state} = this.state.paymentInfo;
-    let {token} = await this.props.stripe.createToken({
-        name: name,
-        address_line1: addr1,
-        address_line2: addr2,
-        address_state: state
-    });
-    
-    this.state.paymentInfo.stripeToken = token.id;
-    const {updateUserInfo, saveUserInfo} = this.props;
-    updateUserInfo("paymentInfo", this.state.paymentInfo);    
-    saveUserInfo({token:jwt.sign(this.state, process.env.SECRET_KEY)},"giver-questionnarie-step-7");
   }
   
   render() {
@@ -108,7 +129,7 @@ export class StripeFormComponent extends React.Component {
             onError={errors => console.log(errors)}
         >
             <Grid container spacing={8} >
-                <Grid item xs={4} style={{textAlign:'center'}}>
+                <Grid item xs={4} style={{textAlign:'center', marginBottom:20}}>
                     <Button variant="contained">Paypal</Button>
                 </Grid>
                 <Grid item xs={4} style={{textAlign:'center'}}>
@@ -117,8 +138,27 @@ export class StripeFormComponent extends React.Component {
                 <Grid item xs={4} style={{textAlign:'center'}}>
                     <Button variant="contained">etc...</Button>
                 </Grid>
-                <Grid item xs={12} style={styles.cardElement} >
-                    <CardElement style={{base: {fontSize: '16px'}}}  />
+                <Grid item xs={12} sm={6}>
+                    <StripeElementValidator
+                        type="cardnumber"
+                        placeholder="Card Number"
+                        onChangeCallback = {this.onChangeStripeCallback}
+                        value={this.state.paymentInfo.cardnumber}
+                        />
+                </Grid>
+                <Grid item xs={12} sm={3} >
+                    <StripeElementValidator
+                        type="cardexpiry"
+                        onChangeCallback = {this.onChangeStripeCallback}
+                        value={this.state.paymentInfo.expiry}
+                    />
+                </Grid>
+                <Grid item xs={12}  sm={3} >
+                    <StripeElementValidator
+                        type="cardcvc"
+                        onChangeCallback = {this.onChangeStripeCallback}
+                        value={this.state.paymentInfo.cvc}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <InputValidator
@@ -148,7 +188,7 @@ export class StripeFormComponent extends React.Component {
                         onChange={this.handleChange('state')}
                     />
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12} sm={9}>
                     <InputValidator
                         id="address2"
                         name="address2"
@@ -160,7 +200,7 @@ export class StripeFormComponent extends React.Component {
                         onChange={this.handleChange('addr2')}
                     />
                 </Grid>
-                {/* <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={3}>
                     <InputValidator
                         id="zipcode"
                         name="zipcode"
@@ -173,7 +213,7 @@ export class StripeFormComponent extends React.Component {
                         errorMessages={['Zipcode is required']}
                         onChange={this.handleChange('zipcode')}
                     />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={12}>
                     <InputValidator
                         fullWidth
