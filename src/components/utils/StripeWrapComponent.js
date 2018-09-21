@@ -111,6 +111,7 @@ export class StripeFormComponent extends React.Component {
         error, 
         status
       } = this.props;
+    
     return (
         <ValidatorForm
             ref="form"
@@ -128,14 +129,15 @@ export class StripeFormComponent extends React.Component {
                 <Grid item xs={4} style={{textAlign:'center'}}>
                     <Button variant="contained">etc...</Button>
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12} sm={6}>
                     <StripeElementValidator
-
+                        type="cardnumber"
+                        placeholder="Card Number"
                         onChangeCallback = {this.onChangeStripeCallback}
                         value={this.state.paymentInfo.cardnumber}
                         />
                 </Grid>
-                {/* <Grid item xs={12} sm={3} >
+                <Grid item xs={12} sm={3} >
                     <StripeElementValidator
                         type="cardexpiry"
                         onChangeCallback = {this.onChangeStripeCallback}
@@ -148,7 +150,7 @@ export class StripeFormComponent extends React.Component {
                         onChangeCallback = {this.onChangeStripeCallback}
                         value={this.state.paymentInfo.cvc}
                     />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={12} sm={9}>
                     <InputValidator
                         id="address"

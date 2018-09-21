@@ -4,7 +4,7 @@ import Input from '@material-ui/core/Input';
 /* eslint-enable */
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import { CardElement, CardNumberElement, CardCVCElement, CardExpiryElement} from 'react-stripe-elements';
+import {  CardNumberElement, CardCVCElement, CardExpiryElement} from 'react-stripe-elements';
 const styles = {
     borderBottom: {
         borderBottom:"1px solid rgba(0,0,0,0.42)",
@@ -39,12 +39,7 @@ export default class StripeElemntValidator extends React.Component {
         return (
             <FormControl style={{width:"100%"}} >
                 <div style={styles.borderBottom}>
-                <CardElement
-                    {...rest}
-                    style={{base: {fontSize: '16px'}}}
-                    onChange={this.handleChange}
-                />
-                    {/* {type=="cardnumber"&&
+                    {type=="cardnumber"&&
                         <CardNumberElement
                             {...rest}
                             style={{base: {fontSize: '16px'}}}
@@ -64,7 +59,7 @@ export default class StripeElemntValidator extends React.Component {
                             style={{base: {fontSize: '16px'}}}
                             onChange={this.handleChange}
                         />
-                    } */}
+                    }
                 </div>
                 <FormHelperText 
                     error={this.state.error?true:false}>
