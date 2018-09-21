@@ -114,8 +114,7 @@ export class QuestionnarieComponent extends PureComponent {
       } = this.props;
     const self = this;    
     return (
-        // process.env.STRIPE_TEST_PUB_KEY
-    <StripeProvider apiKey="pk_test_j5GpWaafcq906aixbpsoYIWH" > 
+    <StripeProvider apiKey={process.env.STRIPE_TEST_PUB_KEY} > 
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
           Payment Info
