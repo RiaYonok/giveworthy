@@ -88,7 +88,6 @@ export class Signup extends PureComponent {
         error,
         status
     } = this.props;
-
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>

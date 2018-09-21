@@ -120,7 +120,7 @@ app.options('/', cors(corsOptions));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-//app.use(express.static("build"));
+app.use(express.static("build"));
 app.use(bodyParser.json({limit: '500mb'}));
 app.use(bodyParser.urlencoded({limit: '500mb', extended: true, parameterLimit:50000}));
 app.use(cookieParser());

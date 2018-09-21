@@ -18,6 +18,9 @@ import getStatus from '@selectors/getStatus';
 import {
   dismissError
 } from '@actions/errors';
+import {
+  dismissStatus
+} from '@actions/status';
 
 const jwt = require('jsonwebtoken');
 
@@ -54,6 +57,9 @@ export class Login extends PureComponent {
     this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    const { dismissError,dismissStatus } = props;
+    dismissError();
+    dismissStatus();
   }
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -159,5 +165,6 @@ const mapStateToProps = createSelector(
 
 export default hot(module)(connect(mapStateToProps, {
   loginUser ,
-  dismissError
+  dismissError,
+  dismissStatus
 })(Login));
