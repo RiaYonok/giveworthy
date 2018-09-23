@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom'
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -59,7 +60,7 @@ export class Home extends PureComponent {
               <Typography variant="headline" align="left" gutterBottom>
                 Some supporting text why we are good.
               </Typography>
-              <Button variant="contained" className={classes.button}>
+              <Button variant="contained" className={classes.button} component={Link} to="/login">
                 Get Started
               </Button>
             </div>
