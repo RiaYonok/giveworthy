@@ -110,6 +110,7 @@ export class Profile extends PureComponent {
         financialDocLink:cause.financialDocLink||"",
         status:"",
         editFlags:{
+            primaryVideoLink:false,
             name:false,
             description:false,
             summary:false,
@@ -314,6 +315,20 @@ export class Profile extends PureComponent {
                     <Grid container className = {classes.subContainer} spacing={32}>
                         <Grid item xs={12} sm={8} >
                             <Grid container spacing={8} alignItems="flex-end">
+                                <Grid item xs={10} sm={10}>
+                                    {!this.state.editFlags.primaryVideoLink?<Typography variant="subheading" color="default"  gutterBottom>
+                                            {this.state.primaryVideoLink || "Charity video link"}
+                                    </Typography>:
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel htmlFor="primaryVideoLink">Charity video link</InputLabel>
+                                        <Input id="primaryVideoLink" value={this.state.primaryVideoLink} onChange={this.handleChange("primaryVideoLink")} />
+                                    </FormControl>}
+                                </Grid>
+                                <Grid item>
+                                    <IconButton onClick={this.setEditStatus("primaryVideoLink")}>
+                                        {this.state.editFlags.primaryVideoLink?<SaveIcon/>:<EditIcon />}
+                                    </IconButton>
+                                </Grid>
                                 <Grid item xs={8} sm={6}>
                                     {!this.state.editFlags.name?<Typography variant="title" color="default"  gutterBottom>
                                             {this.state.name || "Charity Name"}
