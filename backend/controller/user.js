@@ -15,6 +15,7 @@ const User = require("backend/models/user");
 const Cause = require("backend/models/cause");
 const secertKey = process.env.SECRET_KEY;
 const StripeHelper = require("backend/utils/StripeHelper");
+const fs = require("fs");
 /**
  * login controller
  * @param {Object} req 
@@ -240,7 +241,12 @@ module.exports.saveCause = function(req, res){
                 if (docs&&docs.length>0){
                     var doc = docs[0];
                     resJSON.msg = msg.SUCCESS;
-                    
+                    if (doc.financialDocLink&&doc.financialDocLink.length>0){
+                        var path = __dirname + "/../.." ;
+                        var financialDocFilePath = path + doc.financialDocLink.replace(process.env.HOST,"");
+                        if (fs.existsSync(financialDocFilePath))
+                            fs.unlinkSync(financialDocFilePath);
+                    }
                     Object.keys(params).forEach(function(key){
                         doc[key] = params[key];
                     });

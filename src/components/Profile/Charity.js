@@ -210,6 +210,7 @@ export class Profile extends PureComponent {
         this.setState({
             editFlags:{
                 ...this.state.editFlags,
+                openUploadTaxDocDialog:false,
                 isTaxFileUploading:true
             }
         });
