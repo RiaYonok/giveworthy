@@ -240,9 +240,14 @@ module.exports.saveCause = function(req, res){
                 if (docs&&docs.length>0){
                     var doc = docs[0];
                     resJSON.msg = msg.SUCCESS;
+                    
                     Object.keys(params).forEach(function(key){
                         doc[key] = params[key];
                     });
+                    if (doc.status != "approve" && params.financialDocLink&&params.financialDocLink.length>0){
+                        doc.status = "reviewing";
+                    };
+                    resJSON.status = doc.status;
                     doc.save(function(err, savedDoc){
                         if(err)
                             console.log(err);

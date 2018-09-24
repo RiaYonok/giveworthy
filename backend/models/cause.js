@@ -55,7 +55,7 @@ var CauseSchema = new Schema({
     status:{
         type: String,
         default: 'init',
-        enum: ['init','approve','deny']
+        enum: ['init','reviewing','approve','deny']
     },
     financialDocLink: {
         type: String

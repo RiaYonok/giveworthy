@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {updateCause, saveCause, uploadFile} from  '@actions/cause';
+import {updateCause, saveCause, uploadFile, getCauseStatus} from  '@actions/cause';
 import PhotoGallery from '@components/utils/PhotoGallery';
 import { Button } from '@material-ui/core';
 import LinkIcon from '@material-ui/icons/Link';
@@ -108,6 +108,7 @@ export class Profile extends PureComponent {
         details:caches.details||"",
         webLink:cause.webLink||"",
         financialDocLink:cause.financialDocLink||"",
+        status:"",
         editFlags:{
             name:false,
             description:false,
@@ -119,7 +120,7 @@ export class Profile extends PureComponent {
             isOpenConfirmDlg:true,
             openUploadTaxDocDialog:false,
             isTaxFileUploading:false,
-            isOpenTaxConfirmDlg:false
+            isOpenTaxConfirmDlg:true
         }
     }
     this.handleChange = this.handleChange.bind(this);
@@ -131,6 +132,7 @@ export class Profile extends PureComponent {
     this.onSaveCause = this.onSaveCause.bind(this);
     this.onShowUploadTaxDocDlg = this.onShowUploadTaxDocDlg.bind(this);
     this.uploadTaxDlgCallback = this.uploadTaxDlgCallback.bind(this);
+    this.setCauseStatus = this.setCauseStatus.bind(this);
     dismissError();
     dismissStatus();
   }
@@ -195,15 +197,19 @@ export class Profile extends PureComponent {
             ...this.state.editFlags,
             openUploadTaxDocDialog:true
         }
-    })
+    });
   };
   uploadTaxDlgCallback(b, file){
-    
+    this.setState({
+        editFlags:{
+            ...this.state.editFlags,
+            openUploadTaxDocDialog:false,
+        }
+    });
     if (b&&file){
         this.setState({
             editFlags:{
                 ...this.state.editFlags,
-                openUploadTaxDocDialog:false,
                 isTaxFileUploading:true
             }
         });
@@ -212,7 +218,7 @@ export class Profile extends PureComponent {
         data.append('key','financialDocLink');
         const self = this;
         const {updateCause,uploadFile} = this.props;
-        uploadFile(data, 'financialDocLink', function(link){
+        uploadFile(data, 'financialDocLink', function(link, status){
             if (link){
                 updateCause("financialDocLink",link);
                 self.setState({
@@ -257,10 +263,16 @@ export class Profile extends PureComponent {
   }
 
   onSaveCause(){
-    const { cause, saveCause } = this.props;
+    const { cause, saveCause, dismissError, dismissStatus } = this.props;
+    const self=this;
+    dismissError();
+    dismissStatus();
     saveCause({
       id:cause.get("id"),
       ...this.state
+    }, function(status){
+        if (status)
+            self.setCauseStatus(status);
     });
   }
   onShowTaxFile(){
@@ -268,9 +280,20 @@ export class Profile extends PureComponent {
           window.open(this.state.financialDocLink);
       }
   }
+  setCauseStatus(status){
+      this.setState({status});
+  };
+
   render() {
-    const { classes, error, status } = this.props;
-    
+    const { classes, error, status,getCauseStatus, cause } = this.props;
+    const self = this;
+    if (this.state.status == ""){
+        getCauseStatus({causeId:cause.get("id")}, function(res){
+            if (res){
+                self.setCauseStatus(res);
+            }
+        });
+    }
     return (
         <div className="root main-container">
             <Grid container spacing={40}>
@@ -435,9 +458,9 @@ export class Profile extends PureComponent {
                         <Grid item xs={12} style={{textAlign:'center'}}>
                             <Button variant="contained" align="center" onClick={this.onSaveCause}>
                             {status?<CircularProgress size={20}/>:'Looks good/Publish'}</Button>
-                            <Button variant="contained" align="center" onClick={this.onShowUploadTaxDocDlg} style={{marginLeft:20}}>
-                            {`Upload tax/finacial info ${this.state.editFlags.isTaxFileUploading?'...':''}`}</Button>
-                            {(this.state.financialDocLink&&this.state.financialDocLink.length>0)&&<Button variant="contained" align="center" onClick={this.onShowTaxFile.bind(this)} style={{marginLeft:20}}>
+                            {this.state.status!="approve"&&<Button variant="contained" align="center" onClick={this.onShowUploadTaxDocDlg} style={{marginLeft:20}}>
+                            {`Upload tax/finacial info ${this.state.editFlags.isTaxFileUploading?'...':''}`}</Button>}
+                            {(this.state.status!="approve"&&this.state.financialDocLink&&this.state.financialDocLink.length>0)&&<Button variant="contained" align="center" onClick={this.onShowTaxFile.bind(this)} style={{marginLeft:20}}>
                             Show Tax/Financial Info</Button>}
                         </Grid>
                     </Grid>
@@ -471,13 +494,13 @@ export class Profile extends PureComponent {
                 </DialogActions>
             </Dialog>
             <Dialog
-                open={this.state.editFlags.isOpenTaxConfirmDlg}
+                open={this.state.editFlags.isOpenTaxConfirmDlg&&this.state.status=="reviewing"}
                 onClose={this.setEditStatus("isOpenTaxConfirmDlg")}
             >
-                <Typography variant="display3" align="center" style={{marginTop:20,marginBottom:20}}>Upload/Submit tax/financial info</Typography>
-                
+                <Typography variant="display3" align="center" style={{marginTop:20,marginBottom:20}}>Verifying...</Typography>
                 <DialogContent>
-                    <Typography variant="display1" align="center" style={{marginTop:20,marginBottom:20}}>Some information about the financial verification process...</Typography> 
+                    <Typography variant="display1" align="center" style={{marginTop:20}}>Some information about the financial verification process...</Typography> 
+                    <Typography variant="display1" align="center" style={{marginBottom:20}}>maybe they see this if they come back to view their profile after submitting tax $$info?</Typography> 
                 </DialogContent>
                 <DialogActions style={{textAlign:"center"}}>
                     <Button variant="contained" align="center" onClick={this.setEditStatus("isOpenTaxConfirmDlg")} color="primary">
@@ -505,6 +528,7 @@ export default hot(module)(connect(mapStateToProps,{
     updateCause,
     saveCause,
     uploadFile,
+    getCauseStatus,
     dismissError,
     dismissStatus
 })(withStyles(styles)(Profile)));

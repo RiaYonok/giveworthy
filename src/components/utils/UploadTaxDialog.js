@@ -57,6 +57,7 @@ export default class UploadTaxFormDialog extends React.Component {
             >
             <Typography variant="display3" align="center" style={{marginTop:20,marginBottom:20}}>Upload/Submit tax/financial info</Typography>
             <DialogContent >
+                <Typography variant="display1" align="center" style={{marginTop:20,marginBottom:20}}>Some information about the financial verification process...</Typography> 
                 <Dropzone 
                     style={styles.dropZone} 
                     activeStyle={styles.activeDrag}

@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 import msg from '@assets/i18n/en';
-import { login, signup, savecause, fileupload, getCause, saveUserInfo } from '@api';
+import { login, signup, savecause, fileupload, getCause, saveUserInfo, getCauseStatus } from '@api';
 import User from '@models/User';
 import Cause from '@models/Cause';
 const jwt = require('jsonwebtoken');
@@ -30,6 +30,7 @@ import {
 import {setStatus, dismissStatus} from '@actions/status.js';
 
 import getLocation from '@selectors/getLocation';
+import { GET_CAUSE_STATUS } from '../actions/cause';
 
 
 
@@ -137,7 +138,7 @@ function* sagaSignup(action){
   } catch (err) {
     console.error(err);
     yield put(
-      setError('Oops! Something went wrong during login.')
+      setError('Oops! Something went wrong during signing up.')
     );
   }
 }
@@ -161,7 +162,7 @@ function* sagaSaveUser(action){
   } catch (err) {
     console.error(err);
     yield put(
-      setError('Oops! Something went wrong during login.')
+      setError('Oops! Something went wrong during saving user.')
     );
   }
 }
@@ -184,7 +185,9 @@ function* sagaSaveCause(action) {
         );
         
         yield put(push('/charity-questionnarie-step-1'));
-      }
+      };
+      if (res.status)
+        action.callback(res.status);
     }
     yield put(
       dismissStatus()
@@ -193,7 +196,7 @@ function* sagaSaveCause(action) {
   } catch (err) {
     console.error(err);
     yield put(
-      setError('Oops! Something went wrong during login.')
+      setError('Oops! Something went wrong during saving causes.')
     );
   }
 }
@@ -218,7 +221,33 @@ function* uploadFile(action) {
   } catch (err) {
     console.error(err);
     yield put(
-      setError('Oops! Something went wrong during login.')
+      setError('Oops! Something went wrong during uploading file.')
+    );
+  }
+}
+
+function* sagaGetCauseStatus(action) {
+  try {
+    yield put(
+      setStatus()
+    );
+    const res = yield call(getCauseStatus, action.payload);
+    
+    if (res.msg!=msg.SUCCESS){
+      yield put(
+        setError(res.msg)
+      );
+    }else{
+      action.callback(res.status)
+    }
+    yield put(
+      dismissStatus()
+    );
+
+  } catch (err) {
+    console.error(err);
+    yield put(
+      setError('Oops! Something went wrong during getting cause status.')
     );
   }
 }
@@ -229,6 +258,7 @@ export default function* usersSaga() {
   yield takeLatest(SAVE_CAUSE, sagaSaveCause);
   yield takeLatest(UPLOAD_FILE, uploadFile);
   yield takeLatest(SAVE_USER_INFO, sagaSaveUser);
+  yield takeLatest(GET_CAUSE_STATUS, sagaGetCauseStatus);
 }
 
 
@@ -236,5 +266,6 @@ export {
   sagaLogin,
   sagaSignup,
   sagaSaveCause,
-  sagaSaveUser
+  sagaSaveUser,
+  sagaGetCauseStatus
 };

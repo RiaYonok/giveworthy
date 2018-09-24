@@ -47,6 +47,7 @@ module.exports.setup = function(app) {
 
     /* controller modules */
     const user = require("backend/controller/user");
+    const causes = require("backend/controller/causes");
     const uploader = require("backend/controller/uploader");
     /* Routers */
     app.post("/api/login", user.login);
@@ -58,7 +59,8 @@ module.exports.setup = function(app) {
     app.post("/api/get-mathced-causes", user.getMatchedCauses);
     app.post("/api/get-causes-for-acception", user.getCausesForAcception);
     app.post("/api/getcausesbytag", user.getCausesByTags);
-    
+    //For causes
+    app.post("/api/getcausestatus", causes.getCauseStatus);
     /* route to handel 404 error */
     app.use('*', function(req, res) {
         res.status(404)
