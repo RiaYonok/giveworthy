@@ -10,16 +10,16 @@ import YoutubePlayer from 'react-player'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PhotoGallery from '@components/utils/PhotoGallery';
+import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
     
     paper: {
-      position: 'relative',
       padding: theme.spacing.unit ,
       textAlign: 'center',
       color: theme.palette.text.secondary,
       marginLeft:theme.spacing.unit * 2,
       marginRight:theme.spacing.unit * 2, 
-      
+      height:"100%"
     },
     subContainer:{
         paddingLeft:theme.spacing.unit * 3,
@@ -69,14 +69,15 @@ export class CharityDialog extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            videoHeight:0
+            videoHeight:300
         };
         this.onShowTaxFile = this.onShowTaxFile.bind(this);
         this.updateDimensions = this.updateDimensions.bind(this);
         this.videoCardRef = React.createRef();
     }  
     updateDimensions() {
-        this.setState({videoHeight: this.videoCardRef.current.offsetWidth*9/16 });
+        if (this.videoCardRef.current)
+            this.setState({videoHeight: this.videoCardRef.current.offsetWidth*9/16 });
     }
     componentDidMount() {
         this.updateDimensions();
@@ -97,6 +98,7 @@ export class CharityDialog extends PureComponent {
     }
     render() {
         const {cause, open, classes} = this.props;
+        this.updateDimensions();
         return (
         <div>
            {cause&& <Dialog
@@ -110,13 +112,15 @@ export class CharityDialog extends PureComponent {
                     
                     <Grid item xs={12}>
                         <div ref={this.videoCardRef} style={{height:this.state.videoHeight}}>
-                            <YoutubePlayer
-                                playsinline
-                                url={cause.primaryVideoLink||""}
-                                controls = {true}
-                                width ={"100%"}
-                                height ={"100%"}
-                            />
+                            <Paper className={classes.paper} >
+                                <YoutubePlayer
+                                    playsinline
+                                    url={cause.primaryVideoLink||""}
+                                    controls = {true}
+                                    width ={"100%"}
+                                    height ={"100%"}
+                                />
+                            </Paper>
                         </div>
                     </Grid>
                     
