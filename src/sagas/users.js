@@ -187,7 +187,7 @@ function* sagaSaveCause(action) {
         yield put(push('/charity-questionnarie-step-1'));
       };
       if (res.status)
-        action.callback(res.status);
+        action.callback&&action.callback(res.status);
     }
     yield put(
       dismissStatus()

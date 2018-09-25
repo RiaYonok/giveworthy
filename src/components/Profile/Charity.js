@@ -175,7 +175,7 @@ export class Profile extends PureComponent {
             ...this.state.editFlags,
             openAddLinkDialog:false
         }
-    })
+    });
   }
   onCloseFirstConfirmDlg(){
       this.setState()
@@ -245,6 +245,7 @@ export class Profile extends PureComponent {
   onAddLink(){
     this.setState({
         editFlags:{
+            ...this.state.editFlags,
             openAddLinkDialog:true
         }
     })
