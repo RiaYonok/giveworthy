@@ -385,7 +385,7 @@ export class Profile extends PureComponent {
                         <Grid item xs={12} sm={2} >
                             <div className={classes.grayTextSection}>
                                 {!this.state.editFlags.percentile?(<Typography variant="subheading" gutterBottom align="center" className = {classes.verticalMiddleAlign} >
-                                    {this.state.percentile||0}% of founds going to core causes
+                                    {this.state.percentile||0}% of funds going to core causes
                                 </Typography>):
                                 <FormControl
                                     className = {classes.formControl}
