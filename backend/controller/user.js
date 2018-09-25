@@ -268,32 +268,6 @@ module.exports.saveCause = function(req, res){
 
 }
 
-module.exports.getCause = function(req, res){
-    var params = req.body.params,
-        id = params.id
-    
-    var resJSON = {
-        msg:msg.FAIL,
-        desc:"",
-        causes:[]
-    };
-    if (!id || id==""){
-        resJSON.desc=msg.UNKNOWN_USER;
-        res.send(resJSON);
-    }else{
-        Cause.find({ownerId:id}, function(err, docs){
-            if (err){
-                console.log(err);
-                resJSON.desc=msg.DB_ERROR;
-            }else{
-                resJSON.msg = msg.SUCCESS;
-                resJSON.causes = docs||[];
-            }
-            res.send(resJSON);
-        })
-    }
-    
-}
 
 module.exports.getMatchedCauses = function(req, res){
     var params = req.body.params,
@@ -338,22 +312,4 @@ module.exports.getCausesByTags = function(req, res){
         }
         res.send(resJSON);
     }).limit(limit);
-}
-
-module.exports.getCausesForAcception = function(req, res){
-    var resJSON = {
-        msg:msg.FAIL,
-        desc:"",
-        causes:[]
-    };
-    Cause.find({$or:[{status:'init'},{status:{$eq:null}}]}, function(err, docs){
-        if (err){
-            console.log(err);
-            resJSON.desc=msg.DB_ERROR;
-        }else{
-            resJSON.msg = msg.SUCCESS;
-            resJSON.causes = docs||[];
-        }
-        res.send(resJSON);
-    }).sort({"created_at":-1,"updated_at":-1}).limit(20);
 }

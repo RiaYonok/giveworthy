@@ -70,14 +70,19 @@ export class CharityDialog extends PureComponent {
         super(props);
         this.state = {
         };
-
+        this.onShowTaxFile = this.onShowTaxFile.bind(this);
     }  
    
     handleOKClose=()=>{
         const {callback} = this.props;
         callback&&callback();
     }
-
+    onShowTaxFile=()=>{
+        const {cause} = this.props;
+        if (cause.financialDocLink&&cause.financialDocLink.length>0){
+            window.open(cause.financialDocLink);
+        }
+    }
     render() {
         const {cause, open, classes} = this.props;
         return (
@@ -91,15 +96,13 @@ export class CharityDialog extends PureComponent {
             <DialogContent >
                 <Grid container spacing={40}>
                     <Grid item xs={12}>
-                        
-                            <YoutubePlayer
-                                playsinline
-                                url={cause.primaryVideoLink||""}
-                                controls = {true}
-                                width ={"100%"}
-                                height ={300}
-                            >
-                            </YoutubePlayer>
+                        <YoutubePlayer
+                            playsinline
+                            url={cause.primaryVideoLink||""}
+                            controls = {true}
+                            width ={"100%"}
+                            height ={300}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container className = {classes.subContainer} spacing={32}>
@@ -161,7 +164,9 @@ export class CharityDialog extends PureComponent {
                 
             </DialogContent>
             <DialogActions>
-                <Button onClick={this.handleOKClose} color="primary">
+                {(cause.financialDocLink&&cause.financialDocLink.length>0)&&<Button variant="contained" align="center" onClick={this.onShowTaxFile}>
+                                Show Tax/Financial Info</Button>}
+                <Button onClick={this.handleOKClose} variant="contained">
                 close
                 </Button>
             </DialogActions>

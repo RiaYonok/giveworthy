@@ -53,12 +53,12 @@ module.exports.setup = function(app) {
     app.post("/api/login", user.login);
     app.post("/api/signup", user.signup);
     app.post("/api/savecause", user.saveCause);
-    app.post("/api/getcause", user.getCause);
+    app.post("/api/getcause", causes.getCause);
     app.post("/api/fileupload", upload.single('file'), uploader.fileUploader);
     app.post("/api/saveuserinfo", user.saveUserInfo);
-    app.post("/api/get-mathced-causes", user.getMatchedCauses);
-    app.post("/api/get-causes-for-acception", user.getCausesForAcception);
-    app.post("/api/getcausesbytag", user.getCausesByTags);
+    app.post("/api/get-mathced-causes", causes.getMatchedCauses);
+    app.post("/api/get-causes-for-acception", causes.getCausesForAcception);
+    app.post("/api/getcausesbytag", causes.getCausesByTags);
     //For causes
     app.post("/api/getcausestatus", causes.getCauseStatus);
     /* route to handel 404 error */
