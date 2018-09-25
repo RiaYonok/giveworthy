@@ -69,10 +69,22 @@ export class CharityDialog extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            videoHeight:0
         };
         this.onShowTaxFile = this.onShowTaxFile.bind(this);
+        this.updateDimensions = this.updateDimensions.bind(this);
+        this.videoCardRef = React.createRef();
     }  
-   
+    updateDimensions() {
+        this.setState({videoHeight: this.videoCardRef.current.offsetWidth*9/16 });
+    }
+    componentDidMount() {
+        this.updateDimensions();
+        window.addEventListener("resize", this.updateDimensions);
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateDimensions);
+    }
     handleOKClose=()=>{
         const {callback} = this.props;
         callback&&callback();
@@ -95,15 +107,19 @@ export class CharityDialog extends PureComponent {
             <DialogTitle id="form-dialog-title">Charity profile</DialogTitle>
             <DialogContent >
                 <Grid container spacing={40}>
+                    
                     <Grid item xs={12}>
-                        <YoutubePlayer
-                            playsinline
-                            url={cause.primaryVideoLink||""}
-                            controls = {true}
-                            width ={"100%"}
-                            height ={300}
-                        />
+                        <div ref={this.videoCardRef} style={{height:this.state.videoHeight}}>
+                            <YoutubePlayer
+                                playsinline
+                                url={cause.primaryVideoLink||""}
+                                controls = {true}
+                                width ={"100%"}
+                                height ={"100%"}
+                            />
+                        </div>
                     </Grid>
+                    
                     <Grid item xs={12}>
                         <Grid container className = {classes.subContainer} spacing={32}>
                             <Grid item xs={12} sm={8} >
