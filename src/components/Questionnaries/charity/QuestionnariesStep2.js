@@ -78,7 +78,10 @@ export class QuestionnarieComponent extends PureComponent {
       "environmental":tagsString.indexOf("environmental")>-1,
       "social":tagsString.indexOf("social")>-1,
       "educational":tagsString.indexOf("education")>-1,
-      "etc":tagsString.indexOf("etc")>-1,
+      "animal":tagsString.indexOf("animal")>-1,
+      "ngos":tagsString.indexOf("ngos")>-1,
+      "health":tagsString.indexOf("health")>-1,
+      "art_culture":tagsString.indexOf("art_culture")>-1,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -124,7 +127,29 @@ export class QuestionnarieComponent extends PureComponent {
     const { 
       activePageInfo
     } = this.props;
-    
+    const causeTypeList = [{
+      value:"environmental",
+      label:"Environmental"
+    },{
+      value:"social",
+      label:"Social"
+    },{
+      value:"educational",
+      label:"Educational"
+    },{
+      value:"animal",
+      label:"Animal"
+    },{
+      value:"ngos",
+      label:"International NGOs"
+    },{
+      value:"health",
+      label:"Health"
+    },{
+      value:"art_culture",
+      label:"Art & Culture"
+    }];
+    const self = this;
     return (
       <div className="root" style={styles.root}>
         <Typography variant="title" color="default" className="sub-header-title" gutterBottom>
@@ -133,51 +158,24 @@ export class QuestionnarieComponent extends PureComponent {
         <Typography variant="title" color="default" className="sub-header-desc" gutterBottom>
           
         </Typography>
-
+        
           <FormControl 
             style={styles.formControl}
            component="fieldset">
             <FormGroup>
-              <FormControlLabel
+            {causeTypeList.map((item)=>{
+              return (<FormControlLabel
+                key={item.value}
                 control={
                   <Checkbox
-                    checked={this.state.environmental}
-                    onChange={this.handleChange('environmental')}
-                    value="environmental"
+                    checked={self.state[item.value]}
+                    onChange={self.handleChange(item.value)}
+                    value={item.value}
                   />
                 }
-                label="Environmental"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.social}
-                    onChange={this.handleChange('social')}
-                    value="social"
-                  />
-                }
-                label="Social"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.educational}
-                    onChange={this.handleChange('educational')}
-                    value="educational"
-                  />
-                }
-                label="Educational"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.etc}
-                    onChange={this.handleChange('etc')}
-                    value="etc"
-                  />
-                }
-                label="Etc..."
-              />
+                label={item.label}
+              />);
+            })}
             </FormGroup>
           </FormControl>
           <Button type="submit" variant="contained" onClick={this.handleSubmit} className="login-button email-signin-button">
