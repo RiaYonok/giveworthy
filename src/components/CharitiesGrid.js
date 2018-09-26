@@ -50,31 +50,44 @@ export class CharitiesGrid extends PureComponent {
     this.state = {
       causes:[],
       opened:false,
-      btnDisabled:false
+      btnDisabled:false,
+      start:0,
+      isEnableShowmoreBtn:true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleGiveAmount = this.handleGiveAmount.bind(this);
     this.handleShowMore = this.handleShowMore.bind(this);
     this.dlgCallback = this.dlgCallback.bind(this);
     this.checkSelectedCharities =  this.checkSelectedCharities.bind(this);
+    this.getMatchedCauses = this.getMatchedCauses.bind(this);
   }
 
   componentDidMount(){
-    const causes = getMatchedCauses({});
+    this.getMatchedCauses();
+  };
+
+  getMatchedCauses(){
+    const {user} = this.props;
+    const causes = getMatchedCauses({
+      userId:user.id,
+      start:this.state.start
+    });
     const self = this;
     causes.then(function(res){
-      
       if (res.msg == msg.SUCCESS){
         res.causes.forEach((item)=>{
           item.checked = true;
         });
-        self.setState({causes:res.causes});
+        self.setState({causes:self.state.causes.concat(res.causes), start:self.state.start+5});
         res.causes.forEach(function(item){
           self.setState({[item.id]:true});
         });
       }
+      if (res.msg == msg.FAIL || (res.causes&&res.causes.length<5)){
+        self.setState({isEnableShowmoreBtn:false});
+      }
     })
-  }
+  };
 
   handleChange = prop => event => {
     var {causes} = this.state;
@@ -92,7 +105,7 @@ export class CharitiesGrid extends PureComponent {
     this.setState({btnDisabled:!b});
   }
   handleShowMore = ()=>{
-
+    this.getMatchedCauses();
   }
   handleGiveAmount(){
     // const { user } = this.props;
@@ -143,7 +156,7 @@ export class CharitiesGrid extends PureComponent {
           <Button type="submit" variant="contained" onClick={this.handleGiveAmount} className="login-button email-signin-button" disabled={this.state.btnDisabled}>
             {'Give $'+ user.donationAmount + ' per charity'}
           </Button>
-          <Button  className={classes.showMore} onClick={this.handleShowMore}>
+          <Button  className={classes.showMore} onClick={this.handleShowMore} disabled={!this.state.isEnableShowmoreBtn}>
           Show me 5 more
           </Button>
         </div>

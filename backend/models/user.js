@@ -84,8 +84,10 @@ var UserSchema = new Schema({
         environment:{type:Number},
         social:{type:Number},
         educational:{type:Number},
-        medical:{type:Number},
-        etc:{type:Number},
+        animal:{type:Number},
+        ngos:{type:Number},
+        health:{type:Number},
+        art_culture:{type:Number}
     },
     politicalIdeology:{
         type:Number

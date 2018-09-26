@@ -83,22 +83,58 @@ module.exports.getCausesForAcception = function(req, res){
 
 module.exports.getMatchedCauses = function(req, res){
     var params = req.body.params,
-        limit = params.limit || 5;
+        userId = params.userId,
+        limit = params.limit || 5,
+        start = params.start || 0;
     var resJSON = {
         msg:msg.FAIL,
         desc:"",
         causes:[]
     };
+    if (!userId) {
+        res.send(resJSON);
+        return;
+    }
     Cause.find({}, function(err, docs){
         if (err){
             console.log(err);
             resJSON.desc=msg.DB_ERROR;
+            res.send(resJSON);
         }else{
             resJSON.msg = msg.SUCCESS;
-            resJSON.causes = docs||[];
+            if(start>=docs.length){
+                resJSON.causes = [];
+                res.send(resJSON);
+            }else{
+                sortByLoi(docs||[], function(sortedItems){
+                    resJSON.causes = sortedItems;
+                    res.send(resJSON);
+                });
+            }
+            
         }
-        res.send(resJSON);
-    }).limit(limit);
+    });
+    function sortByLoi(items, cb){
+        User.find({id:userId}, function(err, docs){
+            if (err||!docs||docs.length==0){
+                console.log(err);
+                cb([]);
+            }else{
+                const userLoi = docs[0].loi;
+                //get score for matching
+                items.forEach(function(item){
+                    var tags = item.tags;
+                    item.score = item.donationIds?item.donationIds.length:0;
+                    tags.forEach(function(tag){
+                        item.score += userLoi[tag]?userLoi[tag]:0;
+                    });
+                });
+                //sort cause array
+                items.sort((a,b)=>a.score < b.score ? 1 : a.score > b.score ? -1 : 0);
+                cb(items.slice(start,start+limit>=items.length?items.length:start+limit));
+            }
+        });
+    };
 }
 
 /**

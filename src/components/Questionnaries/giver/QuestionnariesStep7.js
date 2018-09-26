@@ -60,8 +60,10 @@ export class QuestionnarieComponent extends PureComponent {
             environment:currentUser.loi?currentUser.loi.environment:0,
             social:currentUser.loi?currentUser.loi.social:0,
             educational:currentUser.loi?currentUser.loi.educational:0,
-            medical:currentUser.loi?currentUser.loi.educational:0,
-            etc:currentUser.loi?currentUser.loi.etc:0,
+            animal:currentUser.loi?currentUser.loi.animal:0,
+            ngos:currentUser.loi?currentUser.loi.ngos:0,
+            health:currentUser.loi?currentUser.loi.health:0,
+            art_culture:currentUser.loi?currentUser.loi.art_culture:0
         },
         sliderValue:currentUser.loi?currentUser.loi.environment:0,
         currentKey:"environment"
@@ -100,10 +102,12 @@ export class QuestionnarieComponent extends PureComponent {
     const self = this;
     const menuItem =[
         {value:"environment", label:"Environmental causes"},
-        {value:"social", label:"anti-provety programs"},
+        {value:"social", label:"Social programs"},
         {value:"educational", label:"Educational programs"},
-        {value:"medical", label:"Medical research"},
-        {value:"etc", label:"etc..."}
+        {value:"animal",label:"Animal programs"},
+        {value:"ngos",label:"International NGOs"},
+        {value:"health", label:"Health programs"},
+        {value:"art_culture",label:"Art & Culture programs"}
     ]
     return (
       <div className="root" style={styles.root}>
