@@ -12,3 +12,15 @@ module.exports.updateCustomer = function(cusid, params, cb){
         cb(err, customer);            
     });
 };
+
+module.exports.createCharge = function(cusid, amount, desc,  cb){
+    stripe.charges.create({
+        amount: amount*100,
+        currency: "usd",
+        customer:cusid,
+        description:desc
+    }, function(err, charge) {
+    // asynchronously called
+       cb&&cb(err, charge);
+    });
+}

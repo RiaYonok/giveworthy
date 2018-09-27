@@ -95,7 +95,7 @@ module.exports.getMatchedCauses = function(req, res){
         res.send(resJSON);
         return;
     }
-    Cause.find({}, function(err, docs){
+    Cause.find({status:"approve"}, function(err, docs){
         if (err){
             console.log(err);
             resJSON.desc=msg.DB_ERROR;
@@ -148,7 +148,7 @@ module.exports.getCausesByTags = function(req, res){
         desc:"",
         causes:[]
     };
-    var query = {};
+    var query = {status:"approve"};
     if (params.filter!='all'){
         query['tags'] = {
             $in:[params.filter]

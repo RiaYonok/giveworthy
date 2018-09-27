@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { hot } from 'react-hot-loader';
 import { createSelector } from 'reselect';
 import Typography from '@material-ui/core/Typography';
-import {getMatchedCauses} from '@api';
+import {getMatchedCauses, giveDonation} from '@api';
 import msg from '@assets/i18n/en';
 import { Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -13,7 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import getCurrentUser from '@selectors/getCurrentUser';
 import ThanksDialog from '@components/utils/ThanksDialog'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 const styles= theme => ({
   fbFriends:{
     padding:0,
@@ -52,7 +52,9 @@ export class CharitiesGrid extends PureComponent {
       opened:false,
       btnDisabled:false,
       start:0,
-      isEnableShowmoreBtn:true
+      isEnableShowmoreBtn:true,
+      givingDonation:false,
+      loadingCharities:false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleGiveAmount = this.handleGiveAmount.bind(this);
@@ -68,6 +70,7 @@ export class CharitiesGrid extends PureComponent {
 
   getMatchedCauses(){
     const {user} = this.props;
+    this.setState({loadingCharities:true});
     const causes = getMatchedCauses({
       userId:user.id,
       start:this.state.start
@@ -85,7 +88,8 @@ export class CharitiesGrid extends PureComponent {
       }
       if (res.msg == msg.FAIL || (res.causes&&res.causes.length<5)){
         self.setState({isEnableShowmoreBtn:false});
-      }
+      };
+      self.setState({loadingCharities:false});
     })
   };
 
@@ -108,10 +112,19 @@ export class CharitiesGrid extends PureComponent {
     this.getMatchedCauses();
   }
   handleGiveAmount(){
-    // const { user } = this.props;
+    const { user } = this.props;
     // console.log("user: ", user);
-
-    this.setState({opened:true});
+    const self = this;
+    this.setState({givingDonation:true});
+    var selectedCauses = this.state.causes.map((item)=>{
+      if (self.state[item.id]) return item.id;
+    });
+    giveDonation({userId:user.id, causeIds:selectedCauses, amount:user.donationAmount}).then(function(res){
+      if (res.msg == msg.SUCCESS){
+        self.setState({opened:true});
+      }
+      self.setState({givingDonation:false});
+    });
   }
   dlgCallback(){
     this.setState({opened:false});
@@ -154,10 +167,10 @@ export class CharitiesGrid extends PureComponent {
               </FormControl>
           </div>
           <Button type="submit" variant="contained" onClick={this.handleGiveAmount} className="login-button email-signin-button" disabled={this.state.btnDisabled}>
-            {'Give $'+ user.donationAmount + ' per charity'}
+            {this.state.givingDonation?<CircularProgress/>:'Give $'+ user.donationAmount + ' per charity'}
           </Button>
           <Button  className={classes.showMore} onClick={this.handleShowMore} disabled={!this.state.isEnableShowmoreBtn}>
-          Show me 5 more
+          {this.state.loadingCharities?<CircularProgress/>:'Show me 5 more'}
           </Button>
         </div>
         <ThanksDialog

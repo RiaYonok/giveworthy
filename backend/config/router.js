@@ -49,6 +49,7 @@ module.exports.setup = function(app) {
     const user = require("backend/controller/user");
     const causes = require("backend/controller/causes");
     const uploader = require("backend/controller/uploader");
+    const donation = require("backend/controller/donation");
     /* Routers */
     app.post("/api/login", user.login);
     app.post("/api/signup", user.signup);
@@ -61,6 +62,9 @@ module.exports.setup = function(app) {
     app.post("/api/getcausesbytag", causes.getCausesByTags);
     //For causes
     app.post("/api/getcausestatus", causes.getCauseStatus);
+    app.post("/api/givedonation", donation.giveDonation);
+    //For donations
+    
     /* route to handel 404 error */
     app.use('*', function(req, res) {
         res.status(404)

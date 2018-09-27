@@ -93,6 +93,12 @@ async function fileupload(params){
   
   return result.data;
 }
+async function giveDonation(params){
+  const result = await axios.post(`${url}/givedonation`, {params});
+  if (result.status !== 200)
+    throw new Error(`get cause's status failed with status: ${result.status}`);
+  return result.data;
+}
 
 export {
   url,
@@ -105,5 +111,6 @@ export {
   getMatchedCauses,
   getCausesForAcception,
   getCausesByTag,
-  getCauseStatus
+  getCauseStatus,
+  giveDonation
 };
