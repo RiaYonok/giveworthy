@@ -258,7 +258,8 @@ export class UsersMng extends PureComponent {
         const self = this;
         getAllUsers().then((res)=>{
             if (res.msg == 'success'){
-                self.setState({users:res.users});
+                self.setState({users:res.users, selected:[]});
+                self.forceUpdate();
             }
         });
     }

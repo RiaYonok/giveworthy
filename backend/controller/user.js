@@ -300,6 +300,7 @@ module.exports.deleteUsers = function(req, res){
     if (!userIds)
         res.send(resJSON);
     else{
+        var count = 0;
         userIds.forEach((userid=>{
             User.find({'id':userid}, function(err, docs){
                 if (err){
@@ -307,6 +308,7 @@ module.exports.deleteUsers = function(req, res){
                 }else{
                     const doc = docs[0];
                     if (doc){
+                        doc.remove();
                         //delete causes by this id if type is charity
                         if (doc.type=="charity"){
                             deleteCauseRelatedWithUser(doc.id);
@@ -315,14 +317,18 @@ module.exports.deleteUsers = function(req, res){
                         if (doc.type=="giver" && doc.paymentInfo && doc.paymentInfo.cusid){
                             StripeHelper.deleteCustomer(doc.paymentInfo.cusid);
                         }
-                        doc.remove();
-                        res.msg = msg.SUCCESS;
+                        
                     }
                 }
-                
+                if (count == userIds.length-1){
+                    resJSON.msg = msg.SUCCESS;
+                    res.send(resJSON);
+                }else{
+                    count++;
+                }
             });
         }));
-        res.send(resJSON);
+        
     }
     function deleteCauseRelatedWithUser(ownerId){
         Cause.find({ownerId:ownerId}, function(err, docs){
