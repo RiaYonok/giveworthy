@@ -96,10 +96,22 @@ async function fileupload(params){
 async function giveDonation(params){
   const result = await axios.post(`${url}/givedonation`, {params});
   if (result.status !== 200)
-    throw new Error(`get cause's status failed with status: ${result.status}`);
+    throw new Error(`give donation failed with status: ${result.status}`);
   return result.data;
 }
 
+async function getAllUsers(){
+  const result = await axios.post(`${url}/getallusers`, {});
+  if (result.status !== 200)
+    throw new Error(`get all users list status failed with status: ${result.status}`);
+  return result.data;
+}
+async function deleteUsers(params){
+  const result = await axios.post(`${url}/deleteusers`, {params});
+  if (result.status !== 200)
+    throw new Error(`delete seleted users list status failed with status: ${result.status}`);
+  return result.data;
+}
 export {
   url,
   login,
@@ -112,5 +124,7 @@ export {
   getCausesForAcception,
   getCausesByTag,
   getCauseStatus,
-  giveDonation
+  giveDonation,
+  getAllUsers,
+  deleteUsers
 };

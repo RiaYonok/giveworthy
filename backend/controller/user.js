@@ -267,3 +267,76 @@ module.exports.saveCause = function(req, res){
     }
 
 }
+
+module.exports.getAllUsers = function(req, res){
+    var resJSON = {
+        msg:msg.FAIL,
+        users:[]
+    };
+    User.find({type:{$ne:'admin'}}, function(err, docs){
+        if(err){
+            console.log(err);
+        }else{
+            resJSON.msg = msg.SUCCESS;
+            resJSON.users = docs.map((item)=>{
+                return {
+                    id:item.id,
+                    name:item.fullName || item.givenName || item.familyName,
+                    email:item.email,
+                    type:item.type,
+                    created_at:item.created_at
+                };
+            })
+        };
+        res.send(resJSON);
+    });
+}
+
+module.exports.deleteUsers = function(req, res){
+    var userIds = req.body.params.userIds;
+    var resJSON = {
+        msg:msg.FAIL
+    };
+    if (!userIds)
+        res.send(resJSON);
+    else{
+        userIds.forEach((userid=>{
+            User.find({'id':userid}, function(err, docs){
+                if (err){
+                    console.log(err);
+                }else{
+                    const doc = docs[0];
+                    if (doc){
+                        //delete causes by this id if type is charity
+                        if (doc.type=="charity"){
+                            deleteCauseRelatedWithUser(doc.id);
+                        }
+                        // delete payment info if type is giver
+                        if (doc.type=="giver" && doc.paymentInfo && doc.paymentInfo.cusid){
+                            StripeHelper.deleteCustomer(doc.paymentInfo.cusid);
+                        }
+                        doc.remove();
+                        res.msg = msg.SUCCESS;
+                    }
+                }
+                
+            });
+        }));
+        res.send(resJSON);
+    }
+    function deleteCauseRelatedWithUser(ownerId){
+        Cause.find({ownerId:ownerId}, function(err, docs){
+            if (!err){
+                docs.forEach(function(item){
+                    if ( item.financialDocLink && item.financialDocLink.length>0){
+                        var path = __dirname + "/../.." ;
+                        var financialDocFilePath = path + item.financialDocLink.replace(process.env.HOST,"");
+                        if (fs.existsSync(financialDocFilePath))
+                            fs.unlinkSync(financialDocFilePath);
+                    }
+                    item.remove();
+                });
+            }
+        });
+    }
+}

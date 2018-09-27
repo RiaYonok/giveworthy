@@ -62,9 +62,12 @@ module.exports.setup = function(app) {
     app.post("/api/getcausesbytag", causes.getCausesByTags);
     //For causes
     app.post("/api/getcausestatus", causes.getCauseStatus);
-    app.post("/api/givedonation", donation.giveDonation);
-    //For donations
     
+    //For donations
+    app.post("/api/givedonation", donation.giveDonation);
+    // For admin users
+    app.post("/api/getallusers", user.getAllUsers);
+    app.post("/api/deleteusers", user.deleteUsers);
     /* route to handel 404 error */
     app.use('*', function(req, res) {
         res.status(404)

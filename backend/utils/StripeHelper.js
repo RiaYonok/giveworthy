@@ -24,3 +24,13 @@ module.exports.createCharge = function(cusid, amount, desc,  cb){
        cb&&cb(err, charge);
     });
 }
+
+module.exports.deleteCustomer = function(cusid, cb){
+    stripe.customers.del(
+        cusid,
+        function(err, confirmation) {
+          // asynchronously called
+          cb&&cb(err,confirmation);
+        }
+    );
+}

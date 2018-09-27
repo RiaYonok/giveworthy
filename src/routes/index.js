@@ -26,6 +26,7 @@ import CharitiesGrid from '@components/CharitiesGrid';
 import CharityProfile from "@components/Profile/Charity"
 import ChooseAccountType from '@components/ChooseAccountType';
 import AddCause from '@components/AddCause';
+import UsersMng from '@components/Admin/UsersMng';
 class Routes extends Component {
   render() {
     return (
@@ -56,6 +57,7 @@ class Routes extends Component {
           <AuthenticatedRoute exact path='/charity-profile' component={CharityProfile} />
           <AuthenticatedRoute exact path='/charities-grid' component={CharitiesGrid} />
           <AuthenticatedRoute exact path='/addcause' component={AddCause} />
+          <AuthenticatedRoute exact path='/users' component={UsersMng} />
         </Switch>
       </div>
     );
