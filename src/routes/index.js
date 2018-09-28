@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router';
 
-import Dashboard from '@components/Dashboard';
+import Dashboard from '@components/Dashboards';
 import Login from '@components/auth/Login';
 import LoginWithEmail from '@components/auth/LoginWithEmail';
 import Home from '@components/Home';
