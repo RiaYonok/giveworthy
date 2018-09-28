@@ -56,6 +56,7 @@ function getSorting(order, orderBy) {
 const rows = [
   { id: 'id', numeric: false, disablePadding: true, label: 'Cause ID' },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
   { id: 'created_at', numeric: false, disablePadding: false, label: 'Created at' }
 ];
 class EnhancedTableHead extends React.Component {
@@ -355,6 +356,7 @@ render() {
                                     {n.id}
                                 </TableCell>
                                 <TableCell >{n.name}</TableCell>
+                                <TableCell >{n.status}</TableCell>
                                 <TableCell >{moment(n.created_at).format("YYYY/MM/DD HH:mm:ss")}</TableCell>
                             </TableRow>
                           );
@@ -366,7 +368,7 @@ render() {
                     )}
                     {this.state.isLoadingItems&&(
                       <TableRow style={{ height: 49 * emptyRows }}>
-                        <TableCell colSpan={4} style={{textAlign:'center'}}>
+                        <TableCell colSpan={5} style={{textAlign:'center'}}>
                           <CircularProgress/>
                         </TableCell>  
                       </TableRow>
