@@ -17,6 +17,8 @@ import IconButton from '@material-ui/core/IconButton';
 import VideoPlayer from 'react-player';
 import Paper from '@material-ui/core/Paper';
 import noImage from '@assets/images/no-image.png';
+import {getDontionSumByUserId} from '@api';
+
 const styles= theme => ({
   fbFriends:{
     padding:0,
@@ -93,14 +95,26 @@ export class GiverDashboard extends PureComponent {
   constructor(props){
     super(props);
     this.state = {
-      sliderLeft:0
+      sliderLeft:0,
+      totalDonatedAmount:0,
+      totalCauese:0,
+      percentile:0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCarouselDir = this.handleCarouselDir.bind(this);
   }
 
   componentDidMount(){
-   
+    const {user} = this.props;
+    const self = this;
+    getDontionSumByUserId({userId:user.id}).then((res)=>{
+      if (res.msg == msg.SUCCESS){
+        self.setState({
+          totalDonatedAmount:res.sum||0,
+          totalCauese:res.cn || 0
+        });
+      }
+    });
   }
 
   handleChange = prop => event => {
@@ -121,9 +135,7 @@ export class GiverDashboard extends PureComponent {
     const {classes, user} = this.props;
     const self = this;
     var username = user.fullName||user.familyName||user.givenName;
-    var totalDonatedAmount = 300,
-        percentile = 30,
-        totalCauese=30;
+    var {totalDonatedAmount, percentile, totalCauese} = this.state;
     const posts =[{
       imageUrl:avatar,
       name:"InYaSchool",

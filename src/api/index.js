@@ -131,6 +131,13 @@ async function deleteCauses(params){
     throw new Error(`delete seleted causes list status failed with status: ${result.status}`);
   return result.data;
 }
+async function getDontionSumByUserId(params){
+  const result = await axios.post(`${url}/getdontionsumbyuserid`, {params});
+  if (result.status !== 200)
+    throw new Error(`get cause by ID status failed with status: ${result.status}`);
+  return result.data;
+}
+
 export {
   url,
   login,
@@ -148,5 +155,6 @@ export {
   deleteUsers,
   getCausesByOwnerID,
   getCauseByID,
-  deleteCauses
+  deleteCauses,
+  getDontionSumByUserId
 };

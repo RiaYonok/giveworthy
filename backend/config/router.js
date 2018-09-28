@@ -67,6 +67,8 @@ module.exports.setup = function(app) {
     app.post("/api/deletecauses", causes.deleteCauses);
     //For donations
     app.post("/api/givedonation", donation.giveDonation);
+    app.post("/api/getdontionsumbyuserid", donation.getDonationsSumByUserID);
+    
     // For admin users
     app.post("/api/getallusers", user.getAllUsers);
     app.post("/api/deleteusers", user.deleteUsers);

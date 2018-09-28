@@ -72,3 +72,37 @@ function donationProcessByCauses(causeIds, userId, cusid, amount){
 function chargeForDonation(cusid, amount, charityName, cb){
     StripeHelper.createCharge(cusid, amount, "Donation for " + charityName, cb);
 }
+
+
+module.exports.getDonationsSumByUserID = function(req, res){
+    const userId = req.body.params.userId;
+    let causeIds = "";
+    var resJSON = {
+        msg:msg.FAIL,
+        sum:0,
+        cn:0
+    };
+    let sum = 0,
+        cn = 0;
+    if (!userId)
+        res.send(resJSON);
+    else{
+        Donation.find({giverId:userId}, function(err, docs){
+            if (err){
+                console.log(err);
+            }else{
+                docs.forEach((doc)=>{
+                    if (causeIds.indexOf(doc.causeId)<0){
+                        cn++;
+                        causeIds += doc.causeId + ",";
+                    }
+                    sum += doc.amount;
+                });
+                resJSON.msg = msg.SUCCESS;
+                resJSON.sum = sum;
+                resJSON.cn = cn;
+            }
+            res.send(resJSON);
+        });
+    }
+}
