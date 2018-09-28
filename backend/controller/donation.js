@@ -109,7 +109,7 @@ module.exports.getDonationsSumByUserID = function(req, res){
                 });
             }
             
-        });
+        }).sort({"created_at":-1});
     }
     function getCausesList(arr, cb){
         if (arr.length==0) {
@@ -122,6 +122,6 @@ module.exports.getDonationsSumByUserID = function(req, res){
             }else{
                 cb(docs);
             }
-        });
+        }).limit(10);
     }
 }
