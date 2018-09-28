@@ -76,7 +76,7 @@ function chargeForDonation(cusid, amount, charityName, cb){
 
 module.exports.getDonationsSumByUserID = function(req, res){
     const userId = req.body.params.userId;
-    let causeIds = "";
+    let causeIds = "", causesArr = [];
     var resJSON = {
         msg:msg.FAIL,
         sum:0,
@@ -90,19 +90,38 @@ module.exports.getDonationsSumByUserID = function(req, res){
         Donation.find({giverId:userId}, function(err, docs){
             if (err){
                 console.log(err);
+                res.send(resJSON);
             }else{
                 docs.forEach((doc)=>{
                     if (causeIds.indexOf(doc.causeId)<0){
                         cn++;
                         causeIds += doc.causeId + ",";
+                        causesArr.push(doc.causeId);
                     }
                     sum += doc.amount;
                 });
                 resJSON.msg = msg.SUCCESS;
                 resJSON.sum = sum;
                 resJSON.cn = cn;
+                getCausesList(causesArr, function(causes){
+                    resJSON.causes = causes;
+                    res.send(resJSON);
+                });
             }
-            res.send(resJSON);
+            
+        });
+    }
+    function getCausesList(arr, cb){
+        if (arr.length==0) {
+            cb([]);
+            return;
+        };
+        Cause.find({id:{$in:arr}}, function(err, docs){
+            if(err){
+                cb([]);
+            }else{
+                cb(docs);
+            }
         });
     }
 }

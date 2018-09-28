@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import UserAvatar from 'react-user-avatar';
 import msg from '@assets/i18n/en';
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import getCurrentUser from '@selectors/getCurrentUser';
 import avatar from '@assets/images/if_male_628288.svg';
 import ArrowLeftIcon from '@material-ui/icons/NavigateBefore';
@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import VideoPlayer from 'react-player';
 import Paper from '@material-ui/core/Paper';
 import noImage from '@assets/images/no-image.png';
-import {getDontionSumByUserId} from '@api';
+import {getDontionSumByUserId, getMatchedCauses} from '@api';
 
 const styles= theme => ({
   fbFriends:{
@@ -38,12 +38,15 @@ const styles= theme => ({
   },
   section:{
     margin:40,
+    minHeight:360,
+    textAlign:'center'
   },
   carouselContainer:{
     minHeight:360,
     position:"relative",
     "overflow-x":"hidden",
     "overflow-y":"overlay",
+    textAlign:'center'
   },
   carouselItemsSection:{
     position:"absolute",
@@ -73,7 +76,8 @@ const styles= theme => ({
     fontSize:16,
     fontWeight:'400',
     color:"#757575",
-    lineHeight:"1.8em"
+    lineHeight:"1.8em",
+    textAlign:"left"
   },
   userinfo:{
     marginBottom:30
@@ -98,32 +102,62 @@ export class GiverDashboard extends PureComponent {
       sliderLeft:0,
       totalDonatedAmount:0,
       totalCauese:0,
-      percentile:0
+      percentile:0,
+      donatedItems:[],
+      charities:[],
+      loadingCharities:false,
+      loadingDonationInfo:false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCarouselDir = this.handleCarouselDir.bind(this);
+    this.getDonationSum = this.getDonationSum.bind(this);
+    this.getMatchedCauses = this.getMatchedCauses.bind(this);
   }
 
   componentDidMount(){
+    this.getDonationSum();
+    this.getMatchedCauses();
+  }
+  getDonationSum(){
     const {user} = this.props;
     const self = this;
+    this.setState({loadingCharities:true});
     getDontionSumByUserId({userId:user.id}).then((res)=>{
       if (res.msg == msg.SUCCESS){
         self.setState({
           totalDonatedAmount:res.sum||0,
-          totalCauese:res.cn || 0
+          totalCauese:res.cn || 0,
+          donatedItems:res.causes
         });
       }
+      self.setState({loadingCharities:false});
     });
   }
-
+  getMatchedCauses(){
+    const {user} = this.props;
+    const self = this;
+    this.setState({loadingCharities:true});
+    const causes = getMatchedCauses({
+      userId:user.id,
+      start:this.state.start,
+      limit:10
+    });
+    causes.then(function(res){
+      if (res.msg == msg.SUCCESS){
+        self.setState({charities:res.causes});
+      }
+      self.setState({loadingCharities:false});
+    })
+  }
   handleChange = prop => event => {
     
   };
   handleCarouselDir= dir => event =>{
+    if (this.state.charities.length==0) return;
     const itemsEl = ReactDom.findDOMNode(this.refs.carouselSection),
           containerEl = ReactDom.findDOMNode(this.refs.carouselContainer),
           step = 100;
+    if(!itemsEl) return;
     const ws = itemsEl.getBoundingClientRect().width, 
           wc = containerEl.getBoundingClientRect().width;
     var v = this.state.sliderLeft-dir*step;
@@ -135,7 +169,7 @@ export class GiverDashboard extends PureComponent {
     const {classes, user} = this.props;
     const self = this;
     var username = user.fullName||user.familyName||user.givenName;
-    var {totalDonatedAmount, percentile, totalCauese} = this.state;
+    var {totalDonatedAmount, percentile, totalCauese, donatedItems,charities} = this.state;
     const posts =[{
       imageUrl:avatar,
       name:"InYaSchool",
@@ -145,44 +179,7 @@ export class GiverDashboard extends PureComponent {
       name:"Allthenature",
       type:"photo"
     }];
-    const donatedItems =[{
-      imageUrl:avatar,
-      videoUrl:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      name:"InYaSchool",
-      desc:"dsfkjsirrjkerjnd sdkfsdlfkjoi rkjsldkfjosdf sdfksldfjsiodofhdsf"
-    },{
-      imageUrl:avatar,
-      videoUrl:"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1",
-      name:"InYaSchool",
-      desc:"dsfkjsirrjkerjnd sdkfsdlfkjoi rkjsldkfjosdf sdfksldfjsiodofhdsf"
-    },{
-      imageUrl:avatar,
-      videoUrl:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      name:"InYaSchool",
-      desc:"dsfkjsirrjkerjnd sdkfsdlfkjoi rkjsldkfjosdf sdfksldfjsiodofhdsf"
-    },{
-      imageUrl:avatar,
-      videoUrl:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      name:"InYaSchool",
-      desc:"dsfkjsirrjkerjnd sdkfsdlfkjoi rkjsldkfjosdf sdfksldfjsiodofhdsf"
-    }]
-    const charities =[
-      {
-        imageUrl:noImage,
-        name:"",
-        website:""
-      },
-      {
-        imageUrl:noImage,
-        name:"",
-        website:""
-      },
-      {
-        imageUrl:noImage,
-        name:"",
-        website:""
-      }
-    ]
+    
     return (
       <div className="main-container">
         <div className={classes.fbFriends} >
@@ -278,27 +275,28 @@ export class GiverDashboard extends PureComponent {
               </IconButton>
             </div>
             <div className={classes.carouselContainer} ref="carouselContainer">
-              <div className={classes.carouselItemsSection} ref="carouselSection" style={{left:this.state.sliderLeft}}>
-                {donatedItems.map((item, id)=>{
+              {this.state.loadingCharities? <CircularProgress style={{marginTop:20}}/> :charities.length==0?
+                <Typography variant="display1" align="left">No items to show you</Typography>:(<div className={classes.carouselItemsSection} ref="carouselSection" style={{left:this.state.sliderLeft}}>
+                {charities.map((item, id)=>{
                   return (
                     <div key={id} className = {classes.carouselItem}>
                       <div style={{textAlign:"center"}}>
                         <div className='inline-flex'>
                           <UserAvatar 
                             size="48" 
-                            name={item.name} 
+                            name={item.name || "Charity Name"} 
                             src={item.imageURL} 
                             colors={['#BDBDBD']} 
                           />
-                          <Typography className={classes.postDesc}>
-                            {item.name}
+                          <Typography className={classes.postDesc} >
+                            {item.name|| "Charity Name"}
                           </Typography>
                         </div>
                       </div>
                       <div style={{marginTop:20}}>
                         <VideoPlayer
                             playsinline
-                            url={item.videoUrl}
+                            url={item.primaryVideoLink}
                             controls
                             width ={"100%"}
                             height ={"100%"}
@@ -306,36 +304,37 @@ export class GiverDashboard extends PureComponent {
                       </div>
                       <div>
                         <p className={classes.videoDesc}>
-                          {item.desc.length>60?(item.desc.substr(0,60)+"..."):item.desc}&nbsp;&nbsp;&nbsp;
-                          {item.desc.length>60 && <Button variant="outlined" size="small"> Read More</Button>}
+                          {item.description.length>60?(item.description.substr(0,60)+"..."):item.description}&nbsp;&nbsp;&nbsp;
+                          {item.description.length>60 && <Button variant="outlined" size="small"> Read More</Button>}
                         </p>
                       </div>
                     </div>
                   )
                 })}
-              </div>
+              </div>)}
             </div>
         </div>    
         <div className={classes.section}>
             <Typography variant="display1" align="center" style={{marginBottom:15}}>
               Who you've donated to:
             </Typography>
-            <Grid container spacing={40}>
-            { charities.map((item,id)=>{
-              return (
-                <Grid item xs={12} sm={4} key={id}>
-                  <Paper className={classes.paper}>
-                     <img src={item.imageUrl} width={"100%"} height={200}/>
-                     <Typography variant="subheading" gutterBottom>{(!item.name||item.name.length==0)?"Charity Name":item.name}</Typography>
-                     <Typography variant="subheading" gutterBottom>{(!item.website||item.website.length==0)?"Charitewebsite.com":item.website}</Typography>
-                  </Paper>
-                </Grid>
-              )
-            })
-
-            }
-              
-            </Grid>
+            {this.state.loadingDonationInfo?<CircularProgress style={{marginTop:20}}/>:donatedItems.length>0?(
+              <Grid container spacing={40}>
+                { donatedItems.map((item,id)=>{
+                  return (
+                    <Grid item xs={12} sm={4} key={id}>
+                      <Paper className={classes.paper}>
+                        <img src={item.photoLinks[0]||noImage} width={"100%"} height={200}/>
+                        <Typography variant="subheading" gutterBottom align="left">{(!item.name||item.name.length==0)?"Charity Name":item.name}</Typography>
+                        <Typography variant="subheading" gutterBottom align="left">{(!item.webLink||item.webLink.length==0)?"Charitewebsite.com":item.webLink}</Typography>
+                      </Paper>
+                    </Grid>
+                  )
+                })
+                }
+              </Grid>
+            ):<Typography variant="display1" align="left">No items to show you</Typography>}
+            
         </div>
       </div>
     );
