@@ -57,12 +57,14 @@ module.exports.setup = function(app) {
     app.post("/api/getcause", causes.getCause);
     app.post("/api/fileupload", upload.single('file'), uploader.fileUploader);
     app.post("/api/saveuserinfo", user.saveUserInfo);
+    //For causes
+    app.post("/api/getcausestatus", causes.getCauseStatus);
     app.post("/api/get-mathced-causes", causes.getMatchedCauses);
     app.post("/api/get-causes-for-acception", causes.getCausesForAcception);
     app.post("/api/getcausesbytag", causes.getCausesByTags);
-    //For causes
-    app.post("/api/getcausestatus", causes.getCauseStatus);
-    
+    app.post("/api/getcausesbyownerid", causes.getCausesByOwnerId);
+    app.post("/api/getcausebyid", causes.getCauseById);
+    app.post("/api/deletecauses", causes.deleteCauses);
     //For donations
     app.post("/api/givedonation", donation.giveDonation);
     // For admin users

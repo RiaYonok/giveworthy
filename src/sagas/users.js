@@ -179,6 +179,7 @@ function* sagaSaveCause(action) {
       );
     }else{
       if(res.newCause){
+        action.payload={};
         action.payload.id = res.id;
         yield put(
           addCause(Cause.fromJS(action.payload))

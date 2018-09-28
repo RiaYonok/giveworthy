@@ -165,3 +165,91 @@ module.exports.getCausesByTags = function(req, res){
         res.send(resJSON);
     }).limit(limit);
 }
+
+module.exports.getCausesByOwnerId = function(req, res){
+    var params = req.body.params,
+        ownerId = params.ownerId ;
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:"",
+        causes:[]
+    };
+    var query = {ownerId:ownerId};
+    Cause.find(query, function(err, docs){
+        if (err){
+            console.log(err);
+            resJSON.desc=msg.DB_ERROR;
+        }else{
+            resJSON.msg = msg.SUCCESS;
+            resJSON.causes = docs.map((doc)=>{
+                return {
+                    id:doc.id,
+                    name:doc.name,
+                    status:doc.status,
+                    created_at:doc.created_at
+                }
+            })
+        }
+        res.send(resJSON);
+    });
+}
+
+module.exports.deleteCauses = function(req, res){
+    var causeIds = req.body.params.causeIds;
+    var resJSON = {
+        msg:msg.FAIL
+    };
+    if (!causeIds)
+        res.send(resJSON);
+    else{
+        var count = 0;
+        causeIds.forEach((causeId=>{
+            Cause.find({'id':causeId}, function(err, docs){
+                if (err){
+                    console.log(err);
+                }else{
+                    const doc = docs[0];
+                    if (doc){
+                        doc.remove();
+                        if ( doc.financialDocLink && doc.financialDocLink.length>0){
+                            var path = __dirname + "/../.." ;
+                            var financialDocFilePath = path + doc.financialDocLink.replace(process.env.HOST,"");
+                            if (fs.existsSync(financialDocFilePath))
+                                fs.unlinkSync(financialDocFilePath);
+                        }
+                    }
+                }
+                if (count == causeIds.length-1){
+                    resJSON.msg = msg.SUCCESS;
+                    res.send(resJSON);
+                }else{
+                    count++;
+                }
+            });
+        }));
+        
+    }
+}
+
+
+module.exports.getCauseById = function(req, res){
+    var params = req.body.params,
+        id = params.id ;
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:""
+    };
+    var query = {id:id};
+    Cause.find(query, function(err, docs){
+        if (err){
+            console.log(err);
+            resJSON.desc=msg.DB_ERROR;
+        }else{
+            if (docs[0]){
+                resJSON.msg = msg.SUCCESS;
+                resJSON.cause = docs[0];
+            }
+        }
+        res.send(resJSON);
+    });
+}

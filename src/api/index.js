@@ -112,6 +112,25 @@ async function deleteUsers(params){
     throw new Error(`delete seleted users list status failed with status: ${result.status}`);
   return result.data;
 }
+async function getCausesByOwnerID(params){
+  const result = await axios.post(`${url}/getcausesbyownerid`, {params});
+  if (result.status !== 200)
+    throw new Error(`get causes list by ownerId status failed with status: ${result.status}`);
+  return result.data;
+}
+
+async function getCauseByID(params){
+  const result = await axios.post(`${url}/getcausebyid`, {params});
+  if (result.status !== 200)
+    throw new Error(`get cause by ID status failed with status: ${result.status}`);
+  return result.data;
+}
+async function deleteCauses(params){
+  const result = await axios.post(`${url}/deletecauses`, {params});
+  if (result.status !== 200)
+    throw new Error(`delete seleted causes list status failed with status: ${result.status}`);
+  return result.data;
+}
 export {
   url,
   login,
@@ -126,5 +145,8 @@ export {
   getCauseStatus,
   giveDonation,
   getAllUsers,
-  deleteUsers
+  deleteUsers,
+  getCausesByOwnerID,
+  getCauseByID,
+  deleteCauses
 };

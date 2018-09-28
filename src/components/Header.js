@@ -113,8 +113,8 @@ export class Header extends PureComponent {
                 <Button style={styles.button} onClick={this.changePath}>Dashboard </Button>
               </Link>)}
               {auth&&type=='charity'&&(
-              <Link to="/addcause"  className="link-button" style={this.checkPath("addcause")?{...styles.active, ...styles.anchor}:styles.anchor} >
-                <Button style={styles.button} onClick={this.changePath}>Add a Cause </Button>
+              <Link to="/causes"  className="link-button" style={this.checkPath("causes")?{...styles.active, ...styles.anchor}:styles.anchor} >
+                <Button style={styles.button} onClick={this.changePath}>Causes</Button>
               </Link>)}  
               {auth&&type=='admin'&&(
               <Link to="/users"  className="link-button" style={this.checkPath("users")?{...styles.active, ...styles.anchor}:styles.anchor} >

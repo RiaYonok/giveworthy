@@ -90,7 +90,7 @@ export class QuestionnarieComponent extends PureComponent {
       ...this.state
     });
     //nextPage();
-    this.props.history.push('/charity-profile'); 
+    this.props.history.push('/editcause'); 
   }
   handleBack(){
     const { prevPage } = this.props;

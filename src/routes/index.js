@@ -25,7 +25,8 @@ import CharityQuestionnariesStep5 from '@components/Questionnaries/charity/Quest
 import CharitiesGrid from '@components/CharitiesGrid';
 import CharityProfile from "@components/Profile/Charity"
 import ChooseAccountType from '@components/ChooseAccountType';
-import AddCause from '@components/AddCause';
+import CausesMng from '@components/Charity/CausesMng';
+import EditCause from '@components/Charity/EditCause';
 import UsersMng from '@components/Admin/UsersMng';
 class Routes extends Component {
   render() {
@@ -56,8 +57,9 @@ class Routes extends Component {
           <AuthenticatedRoute exact path='/charity-questionnarie-step-5' component={CharityQuestionnariesStep5} />
           <AuthenticatedRoute exact path='/charity-profile' component={CharityProfile} />
           <AuthenticatedRoute exact path='/charities-grid' component={CharitiesGrid} />
-          <AuthenticatedRoute exact path='/addcause' component={AddCause} />
+          <AuthenticatedRoute exact path='/causes' component={CausesMng} />
           <AuthenticatedRoute exact path='/users' component={UsersMng} />
+          <AuthenticatedRoute exact path='/editcause' component={EditCause} />
         </Switch>
       </div>
     );
