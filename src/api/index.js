@@ -138,6 +138,20 @@ async function getDontionSumByUserId(params){
   return result.data;
 }
 
+async function updatePostInfoForCause(params){
+  const result = await axios.post(`${url}/logpostcause`, {params});
+  if (result.status !== 200)
+    throw new Error(`update cause post failed with status: ${result.status}`);
+  return result.data;
+}
+
+async function getPostInfoForCause(){
+  const result = await axios.post(`${url}/getpostcauseinfo`, {});
+  if (result.status !== 200)
+    throw new Error(`update cause post failed with status: ${result.status}`);
+  return result.data;
+}
+
 export {
   url,
   login,
@@ -156,5 +170,7 @@ export {
   getCausesByOwnerID,
   getCauseByID,
   deleteCauses,
-  getDontionSumByUserId
+  getDontionSumByUserId,
+  updatePostInfoForCause,
+  getPostInfoForCause
 };

@@ -65,6 +65,8 @@ module.exports.setup = function(app) {
     app.post("/api/getcausesbyownerid", causes.getCausesByOwnerId);
     app.post("/api/getcausebyid", causes.getCauseById);
     app.post("/api/deletecauses", causes.deleteCauses);
+    app.post("/api/logpostcause", causes.updatePostInfoForCause);
+    app.post("/api/getpostcauseinfo", causes.getPostInfoForCause);
     //For donations
     app.post("/api/givedonation", donation.giveDonation);
     app.post("/api/getdontionsumbyuserid", donation.getDonationsSumByUserID);

@@ -6,6 +6,8 @@ require('rootpath')();
 const msg = require('assets/i18n/en');
 const User = require("backend/models/user");
 const Cause = require("backend/models/cause");
+const LogHistory = require("backend/models/loghistory");
+const uuid = require('uuid/v1');
 
 module.exports.getCauseStatus = function(req, res){
     var params = req.body.params,
@@ -252,4 +254,46 @@ module.exports.getCauseById = function(req, res){
         }
         res.send(resJSON);
     });
+}
+
+module.exports.updatePostInfoForCause = function(req, res){
+    var params = req.body.params,
+        userId = params.userId,
+        causeId = params.causeId,
+        postType = params.postType,
+        content = params.content;
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:""
+    };
+    if (!userId || !causeId|| !postType ||!content){
+        res.send(resJSON); 
+        return;
+    }
+    var lh = new LogHistory({
+        id:uuid(),
+        userId:userId,
+        causeId:causeId,
+        postType:postType,
+        content:content
+    });
+    lh.save();
+    resJSON.msg = msg.SUCCESS;
+    res.send(resJSON);
+}
+
+module.exports.getPostInfoForCause = function(req, res){
+    var resJSON = {
+        msg:msg.FAIL,
+        desc:""
+    };
+    LogHistory.find({},function(err, docs){
+        if(err){
+            console.log(err)
+        }else{
+            resJSON.msg = msg.SUCCESS;
+            resJSON.items = docs;
+            res.send(resJSON);
+        }
+    }).sort({created_at:-1}).limit(5);
 }
