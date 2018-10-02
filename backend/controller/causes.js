@@ -292,8 +292,29 @@ module.exports.getPostInfoForCause = function(req, res){
             console.log(err)
         }else{
             resJSON.msg = msg.SUCCESS;
-            resJSON.items = docs;
-            res.send(resJSON);
+            resJSON.items = [];
+            var cn = 0;
+            docs.forEach(function(doc){
+                Cause.find({id:doc.causeId}, function(err, causes){
+                    if (err){
+                        console.log(err);
+                    }else{
+                        const cause = causes[0];
+                        if (cause){
+                            resJSON.items.push({
+                                name: cause.name || "Charity Name",
+                                content:doc.content,
+                                imageURL:null
+                            });
+                        }
+                    }
+                    cn++;
+                    if (cn==docs.length){
+                        res.send(resJSON);
+                    }
+                })
+            });
+            
         }
     }).sort({created_at:-1}).limit(5);
 }

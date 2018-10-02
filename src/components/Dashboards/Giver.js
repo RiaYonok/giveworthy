@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import VideoPlayer from 'react-player';
 import Paper from '@material-ui/core/Paper';
 import noImage from '@assets/images/no-image.png';
-import {getDontionSumByUserId, getMatchedCauses} from '@api';
+import {getDontionSumByUserId, getMatchedCauses, getPostInfoForCause} from '@api';
 
 const styles= theme => ({
   fbFriends:{
@@ -105,6 +105,7 @@ export class GiverDashboard extends PureComponent {
       percentile:0,
       donatedItems:[],
       charities:[],
+      posts:[],
       loadingCharities:false,
       loadingDonationInfo:false
     };
@@ -112,11 +113,13 @@ export class GiverDashboard extends PureComponent {
     this.handleCarouselDir = this.handleCarouselDir.bind(this);
     this.getDonationSum = this.getDonationSum.bind(this);
     this.getMatchedCauses = this.getMatchedCauses.bind(this);
+    this.getPostsInfo = this.getPostsInfo.bind(this);
   }
 
   componentDidMount(){
     this.getDonationSum();
     this.getMatchedCauses();
+    this.getPostsInfo();
   }
   getDonationSum(){
     const {user} = this.props;
@@ -149,6 +152,14 @@ export class GiverDashboard extends PureComponent {
       self.setState({loadingCharities:false});
     })
   }
+  getPostsInfo(){
+    const self = this;
+    getPostInfoForCause().then((res)=>{
+      if (res.msg == msg.SUCCESS){
+        self.setState({posts:res.items});
+      }
+    });
+  }
   handleChange = prop => event => {
     
   };
@@ -169,17 +180,8 @@ export class GiverDashboard extends PureComponent {
     const {classes, user} = this.props;
     const self = this;
     var username = user.fullName||user.familyName||user.givenName;
-    var {totalDonatedAmount, percentile, totalCauese, donatedItems,charities} = this.state;
-    const posts =[{
-      imageUrl:avatar,
-      name:"InYaSchool",
-      type:"video"
-    },{
-      imageUrl:avatar,
-      name:"Allthenature",
-      type:"photo"
-    }];
-    
+    var {totalDonatedAmount, percentile, totalCauese, donatedItems,charities, posts} = this.state;
+        
     return (
       <div className="main-container">
         <div className={classes.fbFriends} >
@@ -248,7 +250,7 @@ export class GiverDashboard extends PureComponent {
                       colors={['#BDBDBD']} 
                     />
                     <Typography className={classes.postDesc}>
-                      {item.name + (item.type=='video'?' Just posted a thank you video':' crerated a new album')}
+                      {item.content}
                     </Typography>
                   </div>
                 </div>
@@ -278,6 +280,7 @@ export class GiverDashboard extends PureComponent {
               {this.state.loadingCharities? <CircularProgress style={{marginTop:20}}/> :charities.length==0?
                 <Typography variant="display1" align="left">No items to show you</Typography>:(<div className={classes.carouselItemsSection} ref="carouselSection" style={{left:this.state.sliderLeft}}>
                 {charities.map((item, id)=>{
+                  if (item.primaryVideoLink)
                   return (
                     <div key={id} className = {classes.carouselItem}>
                       <div style={{textAlign:"center"}}>

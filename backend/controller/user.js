@@ -13,6 +13,7 @@ const msg = require('assets/i18n/en');
 const uuid = require('uuid/v1');
 const User = require("backend/models/user");
 const Cause = require("backend/models/cause");
+const LogHistory = require("backend/models/loghistory");
 const secertKey = process.env.SECRET_KEY;
 const StripeHelper = require("backend/utils/StripeHelper");
 const fs = require("fs");
@@ -247,6 +248,26 @@ module.exports.saveCause = function(req, res){
                         if (fs.existsSync(financialDocFilePath))
                             fs.unlinkSync(financialDocFilePath);
                     }
+                    if(doc.status=="approve"&&params.primaryVideoLink&&params.primaryVideoLink.trim().length>0&&params.primaryVideoLink!=doc.primaryVideoLink){
+                        const postLog = new LogHistory({
+                            id:uuid(),
+                            userId:doc.ownerId,
+                            causeId:doc.id,
+                            postType:"video",
+                            content:(doc.name||"CharityName") + " Just posted a video"
+                        });
+                        postLog.save();
+                    }
+                    if(doc.status=="approve"&&params.photoLinks&&params.photoLinks.length>0&&(!params.photoLinks.equals(doc.photoLinks))){
+                        const postLog = new LogHistory({
+                            id:uuid(),
+                            userId:doc.ownerId,
+                            causeId:doc.id,
+                            postType:"photo",
+                            content:(doc.name||"CharityName") + " Just " + (doc.photoLinks.length==0?"created a num album":"updated his album")
+                        });
+                        postLog.save();
+                    }
                     Object.keys(params).forEach(function(key){
                         doc[key] = params[key];
                     });
@@ -254,6 +275,7 @@ module.exports.saveCause = function(req, res){
                         doc.status = "reviewing";
                     };
                     resJSON.status = doc.status;
+                    
                     doc.save(function(err, savedDoc){
                         if(err)
                             console.log(err);
@@ -346,3 +368,34 @@ module.exports.deleteUsers = function(req, res){
         });
     }
 }
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }else if(this[i] instanceof Object && array[i] instanceof Object){
+            var b = true, self = this; 
+            Object.keys(this[i]).forEach(function(key){
+                if(self[i][key]!=array[i][key]) b=false;
+            });
+            return b;
+        }else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});
