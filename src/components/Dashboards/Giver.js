@@ -280,7 +280,6 @@ export class GiverDashboard extends PureComponent {
               {this.state.loadingCharities? <CircularProgress style={{marginTop:20}}/> :charities.length==0?
                 <Typography variant="display1" align="left">No items to show you</Typography>:(<div className={classes.carouselItemsSection} ref="carouselSection" style={{left:this.state.sliderLeft}}>
                 {charities.map((item, id)=>{
-                  if (item.primaryVideoLink)
                   return (
                     <div key={id} className = {classes.carouselItem}>
                       <div style={{textAlign:"center"}}>
@@ -297,13 +296,13 @@ export class GiverDashboard extends PureComponent {
                         </div>
                       </div>
                       <div style={{marginTop:20}}>
-                        <VideoPlayer
+                        {item.primaryVideoLink&&item.primaryVideoLink.length>0&&<VideoPlayer
                             playsinline
                             url={item.primaryVideoLink}
                             controls
                             width ={"100%"}
                             height ={"100%"}
-                        />
+                        />}
                       </div>
                       <div>
                         <p className={classes.videoDesc}>
