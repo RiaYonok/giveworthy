@@ -94,6 +94,6 @@ export const saveUserInfo = (payload, redirectUrl) => ({
   payload,
   redirectUrl
 });
- export const logOut = ()=>({
-   type:LOG_OUT
- });
+export const logOut = ()=>({
+  type:LOG_OUT
+});

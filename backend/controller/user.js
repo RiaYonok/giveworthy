@@ -14,7 +14,7 @@ const uuid = require('uuid/v1');
 const User = require("backend/models/user");
 const Cause = require("backend/models/cause");
 const LogHistory = require("backend/models/loghistory");
-const secertKey = process.env.SECRET_KEY;
+const secertKey = process.env.;
 const StripeHelper = require("backend/utils/StripeHelper");
 const fs = require("fs");
 /**

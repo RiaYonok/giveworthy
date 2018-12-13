@@ -31,8 +31,7 @@ export class Login extends PureComponent {
       givenName:guser.given_name||"",
       email:guser.email,
       googleID:guser.sub,
-      imageURL:guser.picture
-    }
+      imageURL:guser.picture}
     this.socialLogin(user);
   }
   onFacebookLogin(facebookUser){
@@ -69,8 +68,7 @@ export class Login extends PureComponent {
           clientId={googleID}
           autoLoad={false}
           onSuccess={this.onGoogleSignIn}
-          onFailure={this.onGoogleSignIn}
-          />
+          onFailure={this.onGoogleSignIn}/>
       
         <FacebookLogin
           cssClass="login-button facebook-signin-button"
